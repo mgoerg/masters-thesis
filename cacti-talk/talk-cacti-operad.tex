@@ -1,0 +1,540 @@
+% Document
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Math 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage{BOONDOX-calo}
+\usepackage{stmaryrd}
+
+
+
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{trees}
+\usetikzlibrary{cd}
+
+
+% Bibliography
+\bibliographystyle{alpha}
+
+
+
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem*}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{proposition*}[theorem*]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{definition*}[theorem*]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{hypothesis*}[theorem*]{Hypothesis}
+\newtheorem{construction}[theorem]{Construction}
+
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\renewcommand{\emptyset}{\varnothing}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\subset}{\subseteq}
+\renewcommand{\supset}{\supseteq}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\holim}{holim}
+%\DeclareMathOperator{\lim}{lim}
+\DeclareMathOperator{\hocolim}{hocolim}
+\DeclareMathOperator{\colim}{colim}
+
+\DeclareMathOperator*{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+
+\newcommand{\iHom}{\underline{\operatorname{Hom}}}
+
+%\newcommand{\Coprod}{\coprod}
+\renewcommand{\coprod}{\amalg}
+\newcommand{\Prod}{\prod}
+
+\newcommand{\realization}[1]{\left\lvert#1\right\rvert}
+\newcommand{\totalization}[1]{\left\lVert#1\right\rVert}
+
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\blank}{-}
+\newcommand{\comp}{\circ}
+
+\newcommand{\grVec}{\mathrm{gr{-}Vec}}
+
+
+
+\title{The Cacti Operad and its action on the free loop space}
+\date{June/July 2023}
+\author{Matthias Görg}
+
+
+
+\begin{document}
+
+
+
+\maketitle
+
+The cacti operad provides a systematic way to define string operations on the homology of the free loop space $H_{*-n}(LM)$ with multiple inputs and a single output, generalizing the Chas-Sullivan loop product and loop bracket on $LM$. A cactus is a diagram which specifies how multiple loops may intersect and how one can compose such loops into a single loop. One can arrange cacti into topological spaces and compute the homology of the resulting operad using the little framed disks operad. As a result, one can show that there is a BV algebra structure on $H_{*-n}(LM)$ and that the operations that can be constructed from cacti are precisely the compositions of the BV operations. 
+
+We begin by recalling the definition of operads, their algebras and the Lie, Gerstenhaber and BV operads. In section 2 we compute the homology of the framed little disks operad. In section 3 we define the cacti operad and show that it is homotopy equivalent to the framed little disks operad. Then we outline the action of cacti on the free loop space and the corresponding maps in homology.
+
+\tableofcontents
+
+\section{Operads}
+Let $C$ be a symmetric monoidal category $C$ with tensor product $\boxtimes$ and tensor unit $I$, for example one of the categories of topological spaces $\mathrm{Top}$, chain complexes $\mathrm{Ch_*}$ and graded vector spaces $\grVec$.
+
+Operads formalize collections of operations with multiple inputs and a single output. Algebras of an operad are objects $A\in C$ on which the operations of the operad act as concrete morphisms $A^{\boxtimes n} \to A$. Common algebraic structures may be interpreted as algebras of operads, for example Lie algebras are naturally identified with algebras of the Lie operad, similarly for Gerstenhaber and BV algebras. In this section we largely follow~\cite{Maz}. 
+
+
+\begin{definition}
+    \begin{enumerate}[(1)]
+    \item Let $S_n$ be the $n$-th symmetric group and let $S = {\{S_n\}}_{n\in \N}$. An \emph{$S$-module} $P$ in $C$ is a collection of objects $P = \{P_n\in {C}\}_{n\in \N}$ together with a right action of $S_n$ on $P_n$ i.e.\ a map $S_n^{op} \to \Aut(P_n)$
+    \item A \emph{symmetric operad} $\mathcal P$ in $C$ is an $S$-module $\mathcal P$ with the following data:
+    \begin{enumerate}[(i)]
+        \item For each $k\geq 1$ and $i_1, \dots, i_k \geq 0$ a morphism 
+        \begin{align*} 
+            \gamma_{i_1, \dots, i_k} \colon \mathcal P(k) \boxtimes \mathcal P(i_1) \boxtimes \dots \boxtimes \mathcal P(i_k) \to \mathcal P(i_1 + \cdots + i_k),
+        \end{align*} called a \emph{composition morphism}.
+        \item A morphism $\eta \colon I \to \mathcal P(1)$ called the unit.
+    \end{enumerate}
+    Satisfying the following properties which we only state informally (see~\cite[Def. 1.7]{Maz} for details):
+    \begin{enumerate}[(a)]
+        \item Composition and $S_n$-action are compatible
+        \item Composition is associative
+        \item $\eta$ behaves as an identity operation for composition. 
+    \end{enumerate}
+\end{enumerate}
+\end{definition}
+
+Operations with $k$ inputs and one output are depicted graphically as ``corollas'', which are trees with one internal node, one output leaf and $k$ input leaves, see~\ref{operad_corolla}. Composition of such operations is depicted by connecting output leaves to input leaves. 
+
+The $S_n$-action is seen as permutation of the inputs. For example in $C=\mathrm{Set}$ an operation $\mu\in \mathcal P(2)$ is commutative if $\mu = \mu (12)$ and associative if $\gamma(\mu; \mu, \eta) = \gamma(\mu; \eta, \mu)$.
+
+\begin{figure}[ht]
+\centering
+\begin{subfigure}[b]{0.25\textwidth}
+    \centering
+    \includesvg[width=\textwidth]{sketch01}
+    \caption{An operation with $k$ arguments}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.7\textwidth}
+    \centering
+    \includesvg[width=\textwidth]{sketch02}
+    \caption{Composition of operations. }
+\end{subfigure}
+\caption{Graphical depiction of operations in an operad. }\label{operad_corolla}
+\end{figure}
+
+
+\begin{definition}The \emph{partial operadic composition operation} $\comp_i \colon \mathcal P(k) \boxtimes \mathcal P(j) \to \mathcal P(k+j-1)$ for $i \leq k$ places the $j$-ary operation into the $i$-th input of the $k$-ary operation, leaving the other inputs unchanged. It is defined as the following composition:  
+\begin{align*}
+    \comp_i\colon &\mathcal P(k) \boxtimes \mathcal P(j) \cong \mathcal P(k) \boxtimes I\boxtimes\dots\boxtimes \mathcal P(j) \boxtimes \dots\boxtimes I \\ &\xrightarrow{\eta\boxtimes \dots \mathrm{id} \boxtimes\dots\boxtimes \eta} \mathcal P(k) \boxtimes \mathcal P(1)\boxtimes\dots\boxtimes \mathcal P(j) \boxtimes \dots\boxtimes \mathcal P(1) \xrightarrow{\gamma} \mathcal P(k+j-1)
+\end{align*}
+\end{definition}
+Note that the partial composition maps $\comp_i$ determine the composition maps $\gamma$ uniquely, hence to define an operad we will occasionally only define the $\partial_i$. We omit the index $i$ if $k=1$ or in a composition of associative operations. 
+
+We now assume that $C$ is closed symmetric monoidal, i.e.\ in addition to $C$ being symmetric monoidal there exists an internal hom functor $\iHom \colon C \times C^{op} \to C$ such that there is a bijection
+\begin{align*}
+    \Hom(a, \iHom(b, c)) \cong \Hom(a \boxtimes b, c)
+\end{align*}
+natural in $a, b, c \in C$
+
+\begin{definition}[Algebra of an operad]
+    \begin{enumerate}[(1)]
+        \item A \emph{morphism of operads} $\mathcal P \to \mathcal Q$ is a sequence of maps $\mathcal P(n) \to \mathcal Q(n)$ which commutes with the $S_n$-action, composition maps and the unit.
+
+        \item
+        The \emph{Endomorphism operad} of $A\in C$ is given by the collection of objects $\End_A(n) \coloneqq \iHom(A^{\boxtimes n}, A)$. The $S_n$-action is defined by permuting the inputs via compositions of braidings. The unit is $id_A$ and the composition is 
+        \begin{align*}
+            \gamma(g; f_1, \dots, f_k) = g \circ (f_1 \boxtimes \dots \boxtimes f_k)
+        \end{align*}
+        \item Let $\mathcal P$ be an operad. A \emph{$\mathcal P$-algebra} on $A\in C$ is defined to be a morphism of operads $\mathcal P \to \End_A$.
+    \end{enumerate}
+\end{definition}
+Thus in a $\mathcal P$-algebra, the $n$-ary operations of $P_n$ are assigned to maps $A^{\boxtimes n} \to A$.
+
+\begin{remark}\label{rmk_operad_functor}
+Let $D$ be another symmetric monoidal category $D$ and let $F\colon C\to D$ be a lax monoidal functor. Given an operad $\mathcal P$ in $C$ one can construct an operad $F\mathcal P$ in $D$ with composition map 
+\begin{align*}
+    F(\mathcal P(k)) \boxtimes F(\mathcal P(\mathbf i)) \to F(\mathcal P(k) \boxtimes \mathcal P(\mathbf i)) \to F(\mathcal P(\abs{i})).
+\end{align*}
+For example, the singular chain complex functor $C_*\colon \mathrm{Top}\to\mathrm{Ch}_*$ is lax monoidal via the Eilenberg-Zilber map. Given a field $k$, the homology functor $H_* = H_*(\blank, k) \colon \mathrm{Top}\to\mathrm{gr{-}Vec_k}$ with coefficients in $k$ is lax monoidal via the Künneth isomorphism. Thus given an operad $\mathcal P$ in $\mathrm {Top}$, one can obtain operads $C_*\mathcal P$ and $H_*\mathcal P$.
+\end{remark}
+
+\subsection*{The Gerstenhaber and BV Operads}
+Similarly to a presentation of groups via generators and relations, one can present operads in e.g.\ in vector spaces or graded vector spaces via generators and relations. One can define this via a universal property, similar to group presentations. These operads can be constructed via free operads and quotients by ideals of operads, see~\cite{Maz} for details. 
+
+\paragraph{The Lie Operad} The Lie operad is the operad $\mathcal{Lie}$ of vector spaces with a single generating operation $b\in \mathcal{Lie}(2)$ and the relations \begin{itemize}
+    \item antisymmetry $b = -b(12)$ (recall that the permutation $(12)\in S_2$ corresponds to the permutation of the input arguments) and 
+    \item the Jacobi equation $b \comp_2 b + (b \comp_2 b)(123) + (b \comp_2 b)(321) = 0$ (corresponding to the Jacobi equation in the form $[x, [y, z]] + [y, [z, x]] + [z, [x, y]] = 0$).
+\end{itemize}
+
+\paragraph{The Gerstenhaber Operad} The Gerstenhaber operad is the operad $\mathcal {Gers}$ of graded vector spaces with two generators $\mu\in\mathcal{Gers}^{(0)}(2)$ and $b\in\mathcal{Gers}^{(1)}(2)$ representing the multiplication of degree $0$ and bracket of degree $1$. $\mu$ is required to be associative and (graded) commutative, $b$ is (graded) anticommutative and satisfies the Jacobi identity and the operations are related by the Poisson identity $b\comp_2 \mu = \mu\comp_1 b + (\mu\comp_2 b)(12)$ (we also write $\mu$ as a multiplication and $b$ as a bracket $[\dot, \dot]$, the equation then corresponds to the identity $[a, bc] = [a,b]c + b[a,c]$).
+
+\begin{figure}[ht]\label{gers_operad_relation}
+\centering
+\includesvg[width=0.8\textwidth]{sketch03}
+\caption{Relation between $\mu$ and $b$ in a Gerstenhaber algebra. }
+\end{figure}
+
+
+\paragraph{Graded commutativity and operads} Note that in the graded setting, by definition of the symmetric monoidal structure, the permutation of arguments automatically carries a sign, for example the permutation $(12)$ acts on $A^{\otimes 2}$ via $a\otimes b\mapsto {(-1)}^{|a||b|}b\otimes a$. Thus the equation $\mu = \mu (12)$ encodes graded commutativity of the operation $\mu$.
+
+\paragraph{The Batalin-Vilkovisky Operad} The Batalin–Vilkovisky operad is the operad $\mathcal {BV}$ of graded vector spaces with two generators $\mu\in\mathcal{BV}^{(0)}(2)$ and $\Delta\in\mathcal{BV}^{(1)}(1)$ such that $\mu$ is associative and (graded) commutative, $\Delta^2=0$ and the BV relation
+\begin{align*}
+    \Delta \comp (\mu\comp\mu) = &(\mu\comp_1(\Delta\comp\mu)) + (\mu\comp_1(\Delta\comp\mu)) (123) + (\mu\comp_1(\Delta\comp\mu)) (321) \\
+    &- \mu \comp \mu \comp_1 \Delta - (\mu \comp \mu \comp_1 \Delta){(123)} - (\mu \comp \mu \comp_1 \Delta){(321)}
+\end{align*}
+which is equivalent to the equation 
+\begin{align*}
+    \Delta(abc)=&\Delta(ab)c+\Delta(a)bc-{(-1)}^{|a|}a\Delta(bc)-{(-1)}^{(|a|+1)|b|}b\Delta(ac)+\\&+{(-1)}^{|a|}a\Delta(b)c+{(-1)}^{|a|+|b|}ab\Delta(c).
+\end{align*}
+
+
+\section{Little Disks Operad}
+Let $\mathds D^2$ be the closed unit disk around the origin in $\R^2$.
+\begin{definition}
+    \begin{enumerate}[(1)]
+    \item
+    The \emph{little disks operad} $\mathcal D = \mathcal D_2 = {\{\mathcal D(n)\}}_{n\geq 1}$ is the operad in $\mathrm{Top}$ defined as follows:
+    \begin{itemize}
+        \item $\mathcal D(n)$ is the space of $n$-tuples of embeddings $\mathds D^2 \to \mathds D^2$ by translation and dilation with disjoint interior
+        \item The right action of $S_n$ is defined by action on the $n$-tuples. The partial composition of two tuples $f = (f_1, \dots, f_k)\in\mathcal D(k), g = (g_1, \dots, g_k)\in\mathcal D(j)$ is defined as $f\comp_i g = (f_1, \dots, f_{i-1}, f_i \comp g_1, \dots, f_i \comp g_j, \dots, f_k)$.
+    \end{itemize}
+    \item The \emph{framed little disks operad} $\mathcal{fD}$ is the operad in $\mathrm{Top}$ defined as follows:
+    \begin{itemize}
+        \item $\mathcal {fD}(n)$ is the space of $n$-tuples of embeddings $\mathds D^2 \to \mathds D^2$ by translation, dilation and rotation with disjoint interior
+        \item The $S_n$-action and composition are defined as in the (unframed) little disks operad.
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includesvg[width=\textwidth]{sketch04}
+        \caption{A little $3$-disk}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.7\textwidth}
+        \centering
+        \includesvg[width=\textwidth]{sketch05}
+        \caption{Composition of little disks. The right disk configuration is inserted in the second disk of the left disk configuration, then the disks are renumbered. }
+    \end{subfigure} \\[5mm]
+    \begin{subfigure}[b]{0.7\textwidth}
+        \centering
+        \includesvg[width=\textwidth]{sketch06}
+        \caption{Composition of framed little disks. }
+    \end{subfigure} \\
+    \caption{Little disks and framed little disks operad. }\label{little_disks}
+\end{figure}
+
+We may represent elements of the little disks operad by diagrams of circles, see~\ref{little_disks}. In the pictures of the framed little disks operad, we represent the rotation of each circle by a marked point on the boundary, which we understand to be the image of a fixed point on $S^1$ after rotation. The marked point on the exterior disk indicates the rotation of the entire configuration, it is usually drawn at a fixed position as indicated. 
+
+\begin{remark}
+One may give a similar definition for the little $k$-disks operad $\mathcal D_k$, by replacing disks in $\R^2$ with disks in $\R^k$. The little $k$-disks operad was originally introduced in the study of $k$-fold loop spaces. The $k$-fold based loop space $\Omega^k_b X$ of a pointed space $(X,b)$ can be identified with the space of maps $\mathds (D^k, S^{k-1} \to (X, b)$. It is not difficult to see that $\Omega^k_b X$ has the structure of a $\mathcal D_k$-algebra. 
+\end{remark}
+\begin{theorem}
+    If a connected pointed space $X$ is an algebra over $\mathcal D_k$ then there exists a pointed topological space $X_k$ such that $X$ is homotopy equivalent to $\Omega^k X_k$.
+\end{theorem}
+
+
+\subsection*{The Homology of the little disks operad}
+By remark~\ref{rmk_operad_functor} the homology (with field coefficients) of $\mathcal D$ resp. $\mathcal {fD}$ has itself an operad structure in the category of graded vector spaces. The goal of this subsection is to show that these operads are the Gerstenhaber operad resp.\ the BV operad. In particular, equipping a space with the structure of an algebra of the little disks operad yields the structure of a Gerstenhaber algebra in homology, similarly for the framed little disks. 
+
+\paragraph{Relation to configuration spaces} The $n$-th (ordered) configuration space $\mathrm{Conf}_n(X)$ of a topological space $X$ is the topological space 
+\begin{align*}
+    \mathrm{Conf}_n(X) = \{(x_1, \dots, x_n) \in X^n \mid x_i \neq x_j \ \text{for all }\ i\neq j\} \subset X^n.
+\end{align*} 
+Then there is a homotopy equivalence $\mathcal D(n) \to \mathrm{Conf}_n(\mathds{D}^2)$ which is given by the projection to the center. Similarly, there is a framed version of the configuration spaces, and a homotopy equivalence to the spaces that form the framed disks operad. The cohomology algebra of the configuration spaces is known by a computation of Arnol'd (\cite{arnold2014cohomology}), but one still has to translate to homology and determine the operad structure. 
+
+\paragraph{Generators of the homology} The space $\mathcal D(2)$ is homotopy equivalent to $S^1$, denote by $\mu\in H_0(\mathcal D(2))$ and $b\in H_1(\mathcal D(2))$ generators, where $m$ corresponds to a point and $b$ corresponds to rotating two circles around each other, see~\ref{gerstenhaber-generator}. Similarly in $\mathcal{fD}$, note that $\mathcal {fD}(1)$ is homotopy equivalent to $S^1$, denote by $\Delta\in H_1(\mathcal{fD}(1))$ a class representing the fundamental class in $H_1(S^1) \cong H_1(\mathcal{fD}(1))$. Similarly, the space $\mathcal{fD}(2)$ is path connected and we denote by $\mu\in H_0(\mathcal{fD}(2))$ a class representing a point.
+
+\begin{figure}[ht]
+    \centering
+    \includesvg[width=0.3\textwidth]{sketch07}
+    \hfill
+    \includesvg[width=0.5\textwidth]{sketch08}
+    \caption{Generators $\mu \in H_0(\mathcal D(2))$ and $b\in H_1(\mathcal D(2))$. Passing to the configuration space $\mathrm{Conf}_2(\mathds{D}^2)$ gives a braid diagram which represents $b$.}\label{gerstenhaber-generator}
+\end{figure}
+
+\begin{proposition}
+\begin{enumerate}[(1)]
+    \item $m$ and $b$ in $\mathcal{D}$ satisfy the Gerstenhaber relations.
+    \item $m$ and $\Delta$ in $\mathcal{fD}$ satisfy the BV relations.
+\end{enumerate}
+In particular, there are morphisms of operads $F\colon \mathcal{Gers} \to H_*\mathcal D$ and $fF\colon \mathcal{BV} \to H_*\mathcal {fD}$. 
+\end{proposition}
+\begin{proof}
+    (1) is shown in detail in~\cite{sinha2010homology}.
+    (2) is stated in~\cite{cohen2006string}
+
+    We show a different method than the one in~\cite{sinha2010homology}: In $\mathcal D$, the relations in degree $1$ may be verified via computations of braid diagrams. By first passing to $\mathrm{Conf}_n(\mathds{D}^2)$, a map $[0,1]\to \mathrm{Conf}_k(\mathds{D}^2)$ which represents a $1$-cycle, yields a braid diagram. We demonstrate this for the Poisson identity $[a, bc] = [a,b]c \pm b[a,c]$ in figure~\ref{gerstenhaber-braid-diagram}. A computation shows that the braids representing the right hand side terms compose to give the braid representing the first term. This corresponds to an isotopy of braids and hence a $2$-simplex in the configuration space which witnesses the required identity in homology.
+
+    \begin{figure}[ht!]
+        \centering
+        \begin{subfigure}[b]{0.6\textwidth}
+            \centering
+            \includesvg[width=\textwidth]{sketch09}
+            \caption{Braids corresponding to the three terms in the equation $[a, bc] = [a,b]c \pm b[a,c]$. }
+        \end{subfigure} \\[0.5cm]
+        \begin{subfigure}[b]{0.6\textwidth}
+            \centering
+            \includesvg[width=\textwidth]{sketch10}
+            \caption{The braids corresponding to $[a,b]c$ and $b[a,c]$ compose to the braid which corresponds to $[a, bc]$}
+        \end{subfigure}
+        \caption{Braid proof of the compatibility of $b$ and $\mu$ in $\mathcal D$. }\label{gerstenhaber-braid-diagram}
+    \end{figure}
+    
+    The Jacobi identity is more involved, we refer to~\cite{sinha2010homology} for a detailed proof. We again give the idea of a different proof, which uses the Fulton-MacPherson compactification of the configuration spaces, see~\cite{sinha2004manifold}. The Fulton-MacPherson compactification $FM_2(k)$ of the configuration space $\mathrm{Conf}_2(k)$ is a compact $(2(k-1)-1)$-dimensional manifold with boundary and corners, homotopy equivalent to the original configuration space\footnote{The original configuration space does not embed into the compactification, rather there is a canonical map into the compactification with $3$-dimensional contractible fibers, which is a homotopy equivalence. }. The boundary $\partial (FM_2(3))$ is the disjoint union of three copies of $S^1\times S^1$. By Poincaré duality, there is a fundamental class $[FM_2(3)]\in H_3(FM_2(3), \partial (FM_2(3)))$. The exact sequence $H_3(FM_2(3), \partial (FM_2(3))) \to H_2(\partial (FM_2(3))) \to H_2(FM_2(3))$ maps this fundamental class first to a fundamental class of the boundary, then to $0$. The boundary has an explicit description via the stratification of the Fulton-MacPherson compactification in \cite{sinha2010homology}, from which one can conclude that the  fundamental class of the boundary represents the Jacobi identity. 
+    
+    In $\mathcal {fD}$, one can give a similar braid argument as above, using ribbon braids instead of braids, to verify the degree one relations. The relation $\Delta\comp \Delta = 0$ follows from the fact that any $2$-cycle in $\mathcal {fD}(1) \cong S^1$ is homologous to $0$.
+\end{proof}
+
+
+\begin{theorem}\label{foobar}
+    The morphisms $F\colon \mathcal{Gers} \to H_*\mathcal D$ and $fF\colon \mathcal{BV} \to H_*\mathcal {fD}$ are isomorphisms of operads of graded vector spaces. 
+\end{theorem}
+\begin{proof}
+    It suffices to show that the morphisms of operads consist of isomorphisms of graded vector spaces. 
+
+    For $\mathcal D$: The cohomology algebra of the configuration spaces is known in terms of generators and relations by a classical computation of Arnol'd \cite{arnold2014cohomology} (see also \cite{sinha2010homology}). 
+    Thus what is left for us is to to translate between homology and cohomology. In~\cite{sinha2010homology}, a dual version $\mathcal{Gers}^*$ of the Gerstenhaber operad is constructed\footnote{In~\cite{sinha2010homology}, the operad $\mathcal D_d$ of little disks of dimension $d$ is considered, consequently they obtain an operad for each $d$, which is denoted by $\mathcal {Pois}^d$, and their duals $\mathcal {Siop}^d$}, 
+    and a nondegenerate pairing $\mathcal {Gers}^*(n) \otimes \mathcal {Gers}(n) \to k$. Using a graph theoretic interpretation of the operad and cooperad, they exhibit maps $\mathcal {Gers}(n)\to H_*(\mathrm{Conf}_n(\mathds D^2))$ and $ \mathcal {Gers^*(n)}\to H^*(\mathrm{Conf}_n(\mathds D^2))$ which translate the pairing of the operads into the pairing between homology and cohomology of the configuration spaces. By the computation of Arnol'd, the map in cohomology is an isomorphism. Due to the pairings, the same holds in homology.
+
+    For $\mathcal fD$: This is again stated without proof in~\cite{cohen2006string}. Note that as spaces, $\mathcal fD(n) \cong \mathcal D(n) \times {(S^1)}^{\times n}$, hence by the Künneth theorem, $H_*\mathcal fD(n) \cong H_*\mathcal D(n) \times {(H_*(S^1))}^{\otimes n}$. A similar isomorphisms exists for the BV operad, which we state in the following lemma. Since $F$ is an isomorphisms, we can conclude that $fF$ is an isomorphism. 
+\end{proof}
+Let $k[\Delta]$ be the operad in graded vector spaces generated by a single generator $\Delta\in k{[\Delta]}^{(1)}(1)$ with the relation $\Delta \comp \Delta = 0$. It is isomorphic to the homology of $S^1$.
+\begin{lemma} As graded vector spaces, $\mathcal{BV}(n) \cong \mathcal{Gers}(n) \otimes k{[\Delta]}^{\otimes n}$. Moreover, under these identifications, $fF$ is the map $\mathcal{Gers}(n) \otimes k{[\Delta]}^{\otimes n} \to H_*\mathcal D(n) \times (H_*(S^1))^{\otimes n}$ which is given on the factors by $F$ and the isomorphism $k[\Delta](1) \cong H_*(S^1)$.
+\end{lemma}
+
+The proof of this is perhaps more detail than necessary. 
+
+\begin{proof}[Proof of the lemma]
+    There is an inclusion of operads $\mathcal {Gers}\to\mathcal {BV}$ by mapping $b$ to $\Delta\comp \mu - \mu\comp_1\Delta - \mu\comp_2\Delta$. Similarly, there is an inclusion $k[\Delta]\to\mathcal{BV}$. We define the isomorphism of the lemma as follows: \begin{align*}\mathcal{Gers}(n) \otimes {(k[\Delta])}^{\otimes n} \to \mathcal{BV}(n) \otimes \mathcal{BV}(1) \otimes \dots \otimes \mathcal{BV}(1) \to \mathcal{BV}(n)\end{align*} where the first map is from the inclusions and the second is the composition in $\mathcal{BV}$. An element $p\in\mathcal{BV(n)}$ that is a composition of multiple copies of $\mu$ and $\Delta$ can be written as $p = q(\Delta^{\epsilon_1}\blank, \dots, \Delta^{\epsilon_n}\blank)$ for some $q\in\mathcal{Gers}(n)$ and $\epsilon_i\in\{0, 1\}$. This is due to the relations $\Delta\comp \mu = \mu\comp_1\Delta + \mu\comp_2\Delta - b$ and $\Delta \comp b = b \comp_1 \Delta + b \comp_2 \Delta$. Since elements of the form of $p$ are generators, the map is surjective. A more thorough inspection shows that $p$ determines $q$ uniquely and thus the map is also injective. 
+    
+    For the compatibility between $F$ and $fF$: on the level of spaces, the homeomorphism $\mathcal D(n) \times {(\mathcal fD(1))}^{\times n} \cong \mathcal D(n) \times {(S^1)}^{\times n} \cong \mathcal fD(n)$ 
+    factors through the sequence 
+    \begin{align*}
+        \mathcal D(n) \times {(\mathcal {fD}(1))}^{\times n} \to \mathcal {fD}(n) \times {}\mathcal{fD}{(1)}^{\times n} \to \mathcal{fD}(n),
+    \end{align*} 
+    where the first map comes from the embedding $\mathcal D \to \mathcal{fD}$ via fixed rotation, and the second map is the composition in $\mathcal{fD}$. The conclusion now follows from 1) the fact that $F$ and $fF$ translate the inclusion $\mathcal {Gers}\to\mathcal {BV}$ to the inclusion $H_*\mathcal{D} \to H_*\mathcal{fD}$ and 2) that $F$ preserves operadic composition. This concludes the proof of the lemma. 
+\end{proof}
+
+
+
+\section{Cacti Operad}
+
+\begin{definition}
+    The cacti operad $\mathcal C$ is an operad of topological spaces. A cactus $c\in \mathcal C(k)$ is described as follows: $c$ is a collection of $k$ parametrized circles called lobes, which intersect at specified points, such that the total configuration is tree-like. The lobes are labelled from $1$ to $k$. There is a cyclic order of the circles at each intersection point, which is independent of the lobe labels. There is a marked point on each lobe, as well as a global marked point on one of the circles. Each circle has a positive radius\footnote{The circles are interpreted as abstract circles, thus for example the data of an intersection point is formally encoded as times $t_i\in S^1$ for each circle involved in the intersection. } . See figure~\ref{cactus} for an example.
+
+    \paragraph{Topology:} The space $\mathcal C(k)$ of all cacti with $k$ lobes can be given a topology. For cacti with the same combinatorial structure, the topology is given by an appropriate product of copies of $\R$ and $S^1$ describing the various parameters in the definition. Cacti with different combinatorial structures i.e. different intersection points are glued such that the following holds: given a sequence of cacti where the length of a connection between two intersection points converges to zero, the limit is the cactus in which the edge is collapsed and the two intersection points are identified, under the condition that this limit cactus still has $k$ lobes. See~\cite{cohen2006string} for a more detailed account. 
+
+    \paragraph{Operad Structure:} One may interpret a cactus $c$ as a topological space, which shall be denoted also by $c$. There is a continuous map $\iota_i \colon S^1 \to c$ for each $i\leq k$ which traces out the $i$-th lobe, starting at the marked point on this lobe. There is also a map $\lambda\colon S^1\to c$ which traces out the entire cactus, starting at the global marked point, following the cyclic order at the intersection points. The operadic composition of two cacti $c \comp_i c'$ glues $c$ into the $i$-th lobe of $c$, along the maps $\lambda$ of $c'$ and $\iota_i$ of $c$. See figure~\ref{cactus-composition} for an example.
+
+    \begin{figure}[ht!]
+        \centering
+        \centering
+        \includesvg[width=0.4\textwidth]{sketch12}
+        \caption{A cactus with eight lobes. The marked points at each lobe are displayed with a single spine, the global marked point at lobe $5$ is marked with a double spine. The order at the intersection points is omitted from the picture. Implicitly, one may use the order given by going counterclockwise in the diagram. }\label{cactus}
+    \end{figure}
+    \begin{figure}[ht!]
+        \centering
+        \includesvg[width=\textwidth]{sketch13}
+        \caption{Partial composition of cacti. The lobe marked $2$ in the first cactus has been replaced with a rescaled and rotated version of the second cactus. }\label{cactus-composition}
+    \end{figure}
+\end{definition}
+
+\begin{theorem}
+    The cacti operad $\mathcal C$ is homotopy equivalent to $\mathcal {fD} = \mathcal {fD}_2$
+\end{theorem}
+By homotopy equivalent we mean here that the operads are connected by a zig-zag of morphisms of operads which are homotopy equivalences. 
+\begin{proof}
+    This is shown using recognition principle of $\mathcal{fD}$ of Salvatore-Wahl, see~\cite[2.2]{cohen2006string} and~\cite{salvatore2003framed}. This recognition principle gives sufficient conditions such that an operad of topological spaces is equivalent to $\mathcal{fD}$. 
+    
+    The idea of the recognition principle is as follows:     $\mathcal{fD}(k)$ has contractible universal covering $\overline {\mathcal{fD}}_2$, in fact $\mathcal{fD}_2(k)$ is an Eilenberg-MacLane space $K(PRB_k, 1)$ of the pure ribbon braid group $PRB_k = \ker(RB_k \to S_k)$. 
+    The universal coverings $\overline {\mathcal{fD}}$ have the structure of an $RB$-operad. Further, the $RB$-action is free and each space is contractible. The recognition principle provides sufficient conditions such that other symmetric operads also have contractible universal cover operads with a free $RB$-actions. This property makes the $RB$-operad structure unique up to homotopy. Quotienting by $PRB_k$, one obtains a zig-zag of homotopy equivalences of symmetric operads. 
+
+    One then verifies that the sufficient conditions of the recognition principle are true for the cacti operad, this involves again a computation of the homotopy groups. For details on this, see~\cite[2.2]{cohen2006string}.
+\end{proof}
+
+
+\subsection*{Action on the Loop Space}
+The cacti operad acts on the loop space and its homology. We follow mostly \cite{cohen2002homotopy} (and occasionally~\cite{cohen2006string}) in this subsection. Let $M$ be a closed, orientable manifold of dimension $d$. We first describe the action of a single cactus on $LM$, then the action of families of cacti. The general idea as follows. A map from the total space of $c$ to $M$ can be interpreted as a collection of $k$ loops which intersect in a certain way and which can be concatenated to a single loop (in fact the data in the definition of cacti is exactly such that this is possible). If one thinks of a homology class in $LM^k$ as a family of $k$-tuples of loops, one may ask that these loops should intersect at the points prescribed by $c$. Restricting the family of loop tuples to those that intersect as prescribed yields a smaller family of loop tuples with tree-like intersection, which can then be concatenated as prescribed by the cactus. Since an intersection of two points in a $d$-dimensional manifold $M$ is a constraint of codimension $d$, we expect an operation that reduces the homological degree by $(k-1)d$. More generally, one may allow $c$ to vary as well, thus we consider families in $LM^k \times \mathcal C(k)$ and apply the same idea as before. 
+
+The operations that we construct will be of the form
+\begin{align*}
+    H_*(\mathcal C(k)) \otimes H_*(LM)^k \to H_*(\mathcal C(k) \times LM^k) \to H_{*-(k-1)d}(L_kM) \to H_{*-(k-1)d}(LM)
+\end{align*}
+The first map is the Künneth isomorphism (recall that we use field coefficients throughout). The space $L_kM$ is a subspace of $\mathcal C(k)\times LM^k$ such that an element $(c, f)$ represents a configuration of loops that intersect as prescribed by $c$; this will be defined in detail later. The second map is an umkehr map which formalizes the idea of restricting a homology class of loop tuples to loops that intersect as prescribed by a cactus; we construct this via a Pontrjagin-Thom collapse map, lifted along the fibration $LM \to M$. The third map is concatenation of loops.
+
+\paragraph{String Operation of a fixed Cactus} Fix $c\in \mathcal C(k)$. Let $L_c M = \mathrm{Top}(c, M)$ be the space of continuous maps from the space $c$ to $M$. This consists of loops in $M$ which intersect at specified points. There are two natural maps 
+\begin{align*}
+    (LM)^k \xleftarrow{\overline\Delta_c} L_c M \xrightarrow{\gamma_c} LM
+\end{align*}
+$\overline\Delta_c$ assigns to a map $c\to M$ the tuple of maps $S^1 \xrightarrow{\iota_{i}} c \to M$, tracing out each lobe of the cactus. $\gamma_c$ assigns to a map $c\to M$ the map $S^1\xrightarrow{\lambda} c\to M$, tracing out the entire cactus. 
+
+Let $P_c$ be the set of intersection points (i.e. the vertices) in $c$ and $Q_c$ the set of pairs $(p, i)$ where $p\in P_c$ and $i$ is an index of one of the lobes that intersect at $p$. The obvious map $\rho\colon Q_c\to P_c$ induces a map $\Delta_c \colon M^{P_c} \to M^{Q_c}$. Since the cactus is tree-like, one can show $\abs{Q_c} = \abs{P_c} + (k-1)$.
+
+Thus we obtain the following diagram, where the vertical maps are evaluation of the loops at the intersection points of $c$. 
+
+\begin{equation}\label{LcM-diagram}
+\begin{tikzcd}
+    LM^k \arrow[d]
+    & L_cM \arrow[l, swap, "\overline\Delta_c"]\arrow[d] \arrow[r, "\gamma_c"] & LM \\
+    M^{Q_c} & M^{P_c} \arrow [l, swap, "\Delta_c"] & 
+\end{tikzcd}
+\end{equation}
+
+Using e.g. Poincare duality, one can construct an umkehr map in homology $\Delta_c^!\colon H_*(M^{Q_c}) \to H_{*-(k-1)d}(M^{P_c})$. This lifts to a map on the loop space homologies $\overline{\Delta}_c^!\colon H_*(LM^k) \to H_{*-(k-1)d}(L_c M)$ e.g.\ using a Pontrjagin-Thom construction. We will describe this more explicitly later in the setting where $c$ is allowed to vary. In this way we obtain a string operation from a single cactus $c$ via the composition $H_*(LM^k) \to H_{*-(k-1)d}(L_c M) \to H_*(LM^k)$. Intuitively, if we think of a homology class in $LM^k$ as a family of loops in $LM^k$, we restrict the index set such that the loops intersect at the points that the cactus prescribes, then compose them to a single loop via $\lambda_c$.
+
+\paragraph{String Operations with varying cacti} We now allow $c$ to vary. Let $L_k M =\{(c, f) \mid c\in \mathcal C(k), f\in L_c M\}$. The topology on this can be described via the embedding $L_kM \hookrightarrow LM\times\mathcal{C}(k)$. We obtain a similar diagram as above
+\begin{align}
+    \mathcal C(k) \times {(LM)}^k \xleftarrow{\overline\Delta_k} L_k M \xrightarrow{\gamma_k} LM \label{cactus_loop_action}
+\end{align}
+with $\overline{\Delta}_k(c, f) = (c, \overline{\Delta}_c(f))$ and $\gamma_k(c,f) = \gamma_c(f)$. One can construct spaces as in the lower line of diagram~\ref{LcM-diagram} by constructing fiber bundles with fiber $M^{P_c}$ resp. $M^{Q_c}$ over $\mathcal C(k)$, however this yields stratified spaces which are not even manifolds with corners in general and~\cite{cohen2002homotopy} instead give the Pontrjagin-Thom collapse map on the level of loop spaces directly. 
+
+\paragraph{The Pontrjagin-Thom construction for $\overline{\Delta}_k$} In the following, a map in homology is assigned to the map $L_k M \to \mathcal C(k) \times {(LM)}^k$. For this we need to construct two vector bundles; $\xi_k$ will be the normal bundle of this embedding on $L_kM$; it satisfies a tubular neighborhood theorem which expresses that this embedding has finite codimension. $\overline\theta_k$ is a bundle on $\mathcal C(k) \times {(LM)}^k$ such that over $L_kM$, the bundle $\overline\Delta_k^*\overline \theta_k \oplus\xi_k$ is a trivial bundle. 
+
+The normal bundle $\nu(\Delta_c)$ of the product of diagonal embeddings $\Delta_c \colon M^{P_c}\to M^{Q_c}$ is 
+\begin{align*}
+    \nu(\Delta_c) = \bigoplus_{p\in P_c} (\mu(p)-1) TM.
+\end{align*}
+where the multiplication denotes direct sum (Whitney sum) of vector bundles. 
+
+By the tubular neighborhood theorem, the image of $\Delta_c$ has an open neighborhood homeomorphic to the total space of $\nu(\Delta_c)$. 
+
+Denote by $\xi_k$ the $d(k-1)$ dimensional vector bundle over $L_kM$ whose fiber over $(c,f)$ is the sum of tangent spaces 
+\begin{align*}
+    (\xi_k)|_{(c, f)} = \bigoplus_{p\in P_c} ((\mu(p)-1) T_{f(p)}M), 
+\end{align*}
+where $\mu(p) = \abs{\rho^{-1}(p)}$ is the multiplicity of the intersection point. 
+
+\begin{lemma}
+    The image of the embedding $\overline\Delta_c\colon L_cM\to(LM)^k$ has an open neighborhood homeomorphic to the total space of the pullback $ev^*\nu(\Delta_c)$. 
+
+    The image of $\overline\Delta_k\colon L_kM\to\mathcal C(k)\times (LM)^k$ has an open neighborhood which is homeomorphic to the total space of $\xi_k$. 
+\end{lemma}
+
+Now let $M$ be embedded $M\hookrightarrow \R^{d+L}$, with normal bundle $\eta$ of dimension $L$; this represents the virtual bundle $[d+L]-TM$, where $[d+L]$ is the trivial bundle of dimension $d+L$. Define the vector bundle $\overline\theta$ over $\mathcal C(k) \times (LM)^k$ of dimension $L(k-1)$ whose fiber at $(c, f_1, \dots, f_k)$ is 
+\begin{align*}
+    \overline{\theta_k}|_{(c, f_1, \dots, f_k)} = \bigoplus_{p\in P_c} (\mu(p)-1)\eta_{f_{i_{q_p}}(q_{p})} 
+\end{align*}
+where $q_p\in Q_c$ is the element of $\rho^{-1}(p)$ with the lowest lobe index and $i_q$ denotes the number of the lobe of $q = (p, i_q)$. These fibers indeed fit together into a vector bundle over $\mathcal C(k)\times LM^k$. 
+
+The Pontrjagin-Thom collapse map of the embedding $L_kM\hookrightarrow LM^k\times \mathcal C(k)$ with respect to the bundle $\tilde\theta_k$ on $LM^k\times \mathcal C(k)$ and the normal bundle $\xi_k$ is a map between the Thom spaces $\tau_k \colon (\mathcal C(k) \times LM^k)^{\overline\theta_k} \to (L_kM)^{\overline\Delta_k^*(\overline\theta_k)\oplus \xi_k}$. 
+
+Now since $TM\oplus\eta$ is trivial, $\overline\Delta_k^*(\overline\theta_k) \oplus \xi_k\cong \eta\oplus \R^{(d+L)(k-1)}$. Hence the Pontrjagin-Thom collapse map is identified with 
+\begin{align*}
+    \tau_k \colon (\mathcal C(k) \times LM^k)^{\overline\theta_k} \to (L_kM)^{\R^{(d+L)(k-1)}} = \Sigma^{(d+L)(k-1)}(L_kM_+).
+\end{align*}
+where $\Sigma$ is the suspension of a pointed space and $L_kM_+$ is $L_kM$ with an additional point. 
+
+Hence we obtain a map on homology
+\begin{align*}
+    \overline{\Delta}_{k}^! \colon H_q(\mathcal C(k)\times LM^k) \cong \tilde H_{q+L(k-1)}((\mathcal C(k)\times LM^k)^{\tilde\theta_k}) \to H_{q-d(k-1)}(L_kM)
+\end{align*}
+where the first map is the Thom isomorphism. 
+
+\paragraph{Action on the level of Spaces} We would like to treat the zig-zag~\eqref{cactus_loop_action} as a single morphism going from left to right. We consider the category of correspondences $\mathrm{Corr}_\mathrm{Top}$: objects are topological spaces, morphisms from $X$ to $Y$ are diagrams $X \leftarrow X' \rightarrow Y$ (modulo isomorphism). One composes two correspondences $X \leftarrow X' \rightarrow Y$ and $Y \leftarrow Y' \rightarrow Z$ by taking the pullback 
+\begin{center}
+\begin{tikzcd}
+    X' \times_Y Y' \arrow[r]\arrow[d] & Y' \arrow[d]\\
+    X' \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+to obtain the correspondence $X \leftarrow X' \leftarrow X'\times_Y Y' \to Y' \to Y$. 
+
+The backwards map $X\leftarrow X'$ in the correspondences that we consider will always be an embedding of finite codimension in the sense that there is a finite dimensional vector bundle over $X'$ which is homotopy equivalent to a neighborhood of the image of $X'$ in $X$. These maps usually arise as maps between finite dimensional stratified spaces constructed from $M$, which are then in some sense pulled back along the fibration $LM\to M$. 
+
+\begin{theorem}
+    \begin{enumerate}[(1)]
+        \item The morphism~\eqref{cactus_loop_action}, considered as a morphism $\mathcal C(k) \times LM^k \to LM$ in $\mathrm{Corr}_{\mathrm{Top}}$, defines a $\mathcal C$-algebra on $LM$.
+        \item This induces a $H_*(\mathcal C)$-algebra structure on $H_{*+d}(LM)$, i.e. a BV-algebra.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    See the proof of Theorem 2.3.1 in~\cite{cohen2006string}. 
+
+    Part (1) is an elementary computation on the level of topological spaces. One has to prove that the following diagram of correspondences commutes. 
+
+    \begin{center}
+    \begin{tikzcd}
+        \mathcal C(k) \times \mathcal C(l) \times LM^{k+l-1} \arrow[r, "\comp_i\times \mathrm{id}"]\arrow[d] & \mathcal C(k+l-1)\times LM^{k+l-1} \arrow[d] \\
+        \mathcal C(k)\times LM^k \arrow[r] & LM
+    \end{tikzcd}
+    \end{center}
+    
+    To see this, one verifies that both are isomorphic to the following correspondence
+    \begin{align*}
+        \mathcal C(k) \times \mathcal C(l)\times LM^{k+l-1} \leftarrow \mathcal C(k)\comp_i \mathcal C(l)M \to LM
+    \end{align*}
+    where $\mathcal C(k)\comp_i \mathcal C(l)M = \{(c_1, c_2, f) \mid c_1\in \mathcal C(k), c_2\in\mathcal C(l), f\colon c_1\comp_i c_2 \to M\}$. This arises from the pullback diagram of topological spaces
+    \begin{center}
+    \begin{tikzcd}
+        \mathcal C(k) \comp_i\mathcal C(l) M \arrow[r, "\gamma_l"] \arrow[d, "\tilde{\Delta}_{k}"] & L_kM \arrow[d, "\overline{\Delta}_{k}"] \\
+        \mathcal C(k)\times L_lM \arrow[r, "\mathrm{id}\otimes \gamma_l"]  & \mathcal C(k)\times LM 
+    \end{tikzcd}
+    \end{center}
+
+
+    For part (2), we assign to the correspondence $\mathcal C(k) \times {(LM)}^k \xleftarrow{\overline\Delta_k} L_k M \xrightarrow{\gamma_k} LM$ the map 
+    \begin{align*}
+        H_*(\mathcal C(k)) \otimes H_*(LM^k) \xrightarrow{\overline \Delta_{k}^!} H_*(L_kM) \xrightarrow{\gamma_{k*}} H_*(LM)
+    \end{align*}
+    where we have implicitly used the Künneth isomorphism, as we are working with field coefficients. 
+
+    One has to prove that the construction of the above map is compatible with composition in $\mathrm{Corr}_{Top}$. For example, one has to show that the following diagram commutes:
+    \begin{center}
+    \begin{tikzcd}
+        H_*(\mathcal C(k) \comp_i\mathcal C(l) M) \arrow[r, "\gamma_l"] & H_*(L_kM) \\
+        H_*(\mathcal C(k)\times L_lM) \arrow[r, "\mathrm{id}\otimes \gamma_l"] \arrow[u, "\tilde{\Delta}_{k}^!"] & H_*(\mathcal C(k)\times LM) \arrow[u, "\overline{\Delta}_{k}^!"]
+    \end{tikzcd}
+    \end{center}
+    This follows from naturality properties of the Thom collapse map with respect to embeddings of finite codimension. 
+\end{proof}
+
+\nocite{*}
+\bibliography{bibliography}
+
+
+\end{document}
