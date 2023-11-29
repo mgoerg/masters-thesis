@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{tabu}
 
 % Math 
 \usepackage{amsmath}
@@ -15,10 +16,10 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{dsfont}
-\usepackage{BOONDOX-calo}
+%\usepackage{BOONDOX-calo}
 \usepackage{stmaryrd}
 \usepackage{wasysym} % for \ocircle
-
+\usepackage{dsfont}
 
 % Graphics
 \usepackage{graphicx}
@@ -27,6 +28,11 @@
 \usepackage{tikz-cd}
 \usetikzlibrary{trees}
 \usetikzlibrary{cd}
+
+
+
+\let\emph\relax
+\DeclareTextFontCommand{\emph}{\bfseries}
 
 
 \theoremstyle{plain}
@@ -50,13 +56,17 @@
 \newtheorem{hypothesis*}[theorem*]{Hypothesis}
 \newtheorem{construction}[theorem]{Construction}
 
-
+% Algebra
 \newcommand{\A}{\mathbb A}
 \newcommand{\C}{\mathbb C}
 \newcommand{\N}{\mathbb N}
 \newcommand{\R}{\mathbb R}
 \newcommand{\Q}{\mathbb Q}
 \newcommand{\Z}{\mathbb Z}
+
+\DeclareMathOperator{\Ch}{Ch}
+
+\newcommand{\cat}[1]{\mathcal{#1}}
 
 % Analysis
 \renewcommand{\epsilon}{\varepsilon}
@@ -75,15 +85,23 @@
 % Algebraic Topology
 \newcommand{\capp}{\mathbin{\frown}}
 \newcommand{\cupp}{\mathbin{\smile}}
+\newcommand{\slant}{\mathbin{/}}
+
+\def\dsqcup{\sqcup\mathchoice{\mkern-7mu}{\mkern-7mu}{\mkern-3.2mu}{\mkern-3.8mu}\sqcup}
+\newcommand{\shuffle}{\mathbin{\sqcup}}
 
 
-% Categories and Homotopy
+% Category Theory
 \newcommand{\hteq}{\simeq}
 \newcommand{\iso}{\cong}
 \newcommand{\defeq}{\coloneqq}
 \newcommand{\from}{\leftarrow}
 \let\xto\xrightarrow
 \let\xfrom\xleftarrow
+
+\newcommand{\nto}{\Rightarrow}
+\newcommand{\xnto}{\xRightarrow}
+\newcommand{\nfrom}{\Leftarrow}
 
 \newcommand{\injto}{\hookrightarrow}
 \newcommand{\surjto}{\twoheadrightarrow}
@@ -93,16 +111,21 @@
 
 \DeclareMathOperator{\Map}{Map}
 \DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\holim}{holim}
 %\DeclareMathOperator{\lim}{lim}
-\DeclareMathOperator{\hocolim}{hocolim}
 \DeclareMathOperator{\colim}{colim}
 
 \renewcommand{\coprod}{\mathbin{\amalg}}
 \newcommand{\Prod}{\prod}
 
+\DeclareMathOperator{\Ran}{Ran}
+
+
+% Homotopy Theory
 \newcommand{\realization}[1]{\left\lvert#1\right\rvert}
 \newcommand{\totalization}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\Ho}{Ho}
+\DeclareMathOperator{\holim}{holim}
+\DeclareMathOperator{\hocolim}{hocolim}
 
 
 % Geometry
@@ -115,6 +138,9 @@
 \DeclareMathOperator{\coGraphs}{{}^*Graphs}
 \DeclareMathOperator{\Graphs}{Graphs}
 
+% Combinatorics
+\DeclareMathOperator{\Sh}{Sh}
+\DeclareMathOperator{\sgn}{sgn}
 
 %\newcommand{\Coprod}{\coprod}
 
@@ -123,7 +149,7 @@
 \newcommand{\iHom}{\underline{\operatorname{Hom}}}
 
 \newcommand{\blank}{-}
-\newcommand{\comp}{\circ}
+\newcommand{\comp}{\mathbin{\circ}}
 
 \newcommand{\grVec}{\mathrm{gr{-}Vec}}
 
@@ -134,41 +160,6 @@
 
 \begin{document}
 \tableofcontents
-
-% \section{Pullback-Pushout Lemma}
-% Consider the following pullback of topological spaces:
-% \begin{center}
-% \begin{tikzcd}
-%     E\times_B X \arrow[d] \arrow[r] & E \arrow[d]{p} \\
-%     X \arrow[r] & B
-% \end{tikzcd}
-% \end{center}
-
-% We are interested in describing the chain complex of $E\times_B X$ using the chain complexes of the span $X \to B \leftarrow E$. Since homology is a homotopy invariant, it makes sense to consider this as a homotopy pullback; this is the case for example if the vertical arrows are fibrations. The general statement that one might hope for here is that the homotopy pullback commutes with the chain complex functor. This is wrong in general, however it is true under certain connectedness assumptions on the involved spaces. 
-
-% We first state the version of the statement from~\cite{felix2012rational}
-% \begin{theorem}
-% Assume $p$ is a Serre fibration, $E$ is path connected and $X$ and $B$ are simply connected. Let $A_X \leftarrow A_B \rightarrow A_E$ be a rational dgca model for the lower right zigzag in the diagram. Then the homotopy pushout $A_X \otimes_{A_B}^h A_E$ is a dgca model for the pullback $E\times_B X$.  
-% \end{theorem}
-% For the proof they reference~\cite[Proposition 15.8]{naef2022string}, where this is shown in the case that $A_X$, $A_E$ and $A_B$ are Sullivan models. By homotopy invariance of the homotopy pushout, this then also holds for dgca models. Note that field coefficients are used here. 
-
-% Homotopy limits take a bit of time to describe and we do not go in-depth here. The basic problem is that homotopy equivalent diagrams of e.g.\ spaces or chain complexes generally don't yield homotopy equivalent limits resp.\ colimits. One also cannot work in the homotopy category, where homotopic maps are identified, as this category is known to not have many limits resp.\ colimits. 
-
-% There are two basic ideas to computing homotopy limits. The first is to replace the diagram with a homotopy equivalent version that is somehow general enough that the usual limit construction gives the correct homotopy pushout. An investigation of the properties that make this work leads to the notion of model categories, which are categories equipped with distinguished classes of morphisms, namely weak equivalences, cofibrations and fibrations. See for example~\cite{dwyer1995homotopy} (TODO other references).
-
-% The second idea is to make homotopies between maps, and higher homotopies part of the structure of the category, which leads to the notion of $\infty$-categories~\cite{lurie2009higher},\ \cite{lurie2017higher} (TODO other references) (also known as quasicategories or $(\infty, 1)$-categories). In an $\infty$-category, composition of morphisms is only defined up to homotopy. Much of the language and theorems of regular categories translate to $\infty$-categories. A notion of limits and colimits in $\infty$-categories exists and it agrees with homotopy limits resp.~colimits in the examples. We briefly unpack what this means for pullbacks. Recall that in a normal pullback, to every cone, the pullback assigns a universal arrow to the pullback cone, which makes certain triangles commute. In homotopy, these triangles commute only up to homotopy and we consider homotopies part of the data. Hence a cone consists not only of natural morphisms, but also of explicit homotopies that make the relevant triangles commute up to homotopy. The pullback is a universal cone and the universal property assigns to each cone not only a universal arrow, but also homotopies which make the relevant diagrams commute. As this assignment depends on the cone, it depends not only on the morphisms of the cone, but also on the homotopies. This assignment is no longer unique, instead one requires that the space of suitable data is contractible, which is where higher homotopies appear. 
-
-% There is a homology version of the theorem, this is the Eilenberg-Moore spectral sequence~\cite{eilenberg1966homology}. 
-
-% Note that there is an equivalent pullback diagram
-% \begin{center}
-% \begin{tikzcd}
-%     E\times_B X \arrow[d] \arrow[r] & B \arrow[d] \\
-%     E\times X \arrow[r] & B \times B
-% \end{tikzcd}
-% \end{center}
-% which identifies the homotopy fiber of the vertical maps, hence there is a homotopy fiber sequence $\Omega B \to E\times_B X \to E\times X$, i.e. the homotopy fiber of $E\times_B X \to E\times X$ is the loop space $\Omega B$.
-
 
 \section{Configuration Spaces}
 
@@ -279,7 +270,7 @@ For the $m=2$ case one can alternatively apply a recognition principle by Fiedor
 
 \subsection{Graph Complex of Configuration Spaces}
 
-\subsubsection{The case $M=\R^m$}
+\subsubsection[The euclidean case]{The case $M=\R^m$}
 
 \paragraph{Homology} We first exhibit a homological complex construction; this is ad-hoc, not following any reference. Recall from earlier that the homology is given as an operad generated by a multiplication $\mu$ and a bracket operation $b$. To a rooted binary tree with labeled vertices one can assign an element of $H_*(\Conf_m(n))$ by putting $b$ at each of the inner vertices. To a collection of such rooted trees (a forest), one can assign an element of $H_*(\Conf_m(n))$ by multiplying the previous elements up. These elements generate the homology as a module. 
 
@@ -344,7 +335,7 @@ This intuition the definition of the boundary operator and the product structure
 
 Note that the projection $\cConf_m(n+\ell) \to \cConf_m(n)$ becomes an umkehr map in cohomology due to Poincare duality. Thus one can use fiber integration to represent this. The construction ``configuration space integral'' quasi-isomorphism $Graphs_m \to \Omega_{PA}(\cConf_m)$ essentially works as described above. The construction of the umkehr map is difficult, as the fiber is not a manifold, hence one uses PA forms here. 
 
-\subsubsection{The case $M$ manifold}
+\subsubsection{The manifold case}
 
 Following \cite{campos2016model}. 
 
@@ -441,7 +432,7 @@ and they are in fact versions of the Thom space $DM / UTM$ (where $DM$ is the un
 This follows from Mather's cube theorem, where diagram~\ref{M_pushout} is the bottom face of the cube, diagram~\ref{E_pushout} is the top face, and the side faces are pullbacks by construction. %TODO reference here
 
 
-\subsection{Intersection Map in $M$ via Configuration Spaces}\label{subsec:intersection-in-M-via-conf}
+\subsection[Intersection Map via Configuration Spaces]{Intersection Map in $M$ via Configuration Spaces}\label{subsec:intersection-in-M-via-conf}
 
 We want to construct the intersection product map $H_*(M) \otimes H_*(M) \to H_{*-n}(M)$. In cohomology, this corresponds to a map $H^*(M) \otimes H^*(M) \from H^{*-n}(M)$. For a review of the intersection product, see section \ref{sec:intersection_product}.
 
@@ -641,7 +632,356 @@ The splitting / reparametrization map is obtained via the same formula as before
 
 
 
+\section{Cochain Complex Models}
+\subsection{Differential Forms on Path Spaces}
 
+We quickly recall how one can define differential forms on spaces such as $PM$ and $LM$. We first equip a space $X$ with a structure that measure smoothness via maps from finite dimensional euclidean spaces.
+
+\begin{definition}
+    Let $X$ be a nonempt set, a \emph{diffeology} $\mathcal D=\mathcal D_X$ on $X$ is a set of so called \emph{plots} $P\colon U\to X$ defined on open $U\subset \R^n$, where $n$ is not fixed, such that 
+    \begin{enumerate}
+        \item every constant map $U\to \{x\}\subset X$ is a plot,
+        \item for every map $P\colon U\to X$, if for every point $r\in U$ there exists an open neighborhood $V$ of $r$ such that $P|_V$ is a plot, then $P$ is also a plot,
+        \item For every plot $P\colon U\to X$ and every smooth $F\colon V\to U$, the pullback $P\comp F\colon V\to X$ is a plot.
+    \end{enumerate}
+    A set together with a specified diffeology is called a \emph{diffeological space}. 
+\end{definition}
+
+There is a related notion of a differentiable space, coined by Chen, where one uses convex sets instead of open sets. 
+
+\begin{example}\begin{enumerate}[(i)]
+    \item Any topological space can be equipped with its topological diffeology, in which the plots are all continuous maps $U\to X$.
+    \item Any smooth manifold $M$ is a diffeological space, where the plots are the smooth maps $U\to M$.
+    \item Given two diffeological spaces $X, Y$, the cartesian product $X\times Y$ is a diffeological space, where a map $P\colon U\to X\times Y$ is a plot if and only if the projections $\pi_X \comp P \colon U\to X$ and $\pi_Y\comp P\colon U\to Y$ are plots of $X$ resp.\ $Y$.
+    \item Given a diffeological space $X$ and a subset $A$, one can define the diffeology on $A$ by taking plots of $A$ to be those plots of $X$ which map into $A$.
+\end{enumerate}\end{example}
+\begin{definition}
+    Let $X$ and $X'$ be two diffeological spaces. A map $f\colon X\to X'$ is said to be smooth, if for each plot $P$ of $X$, $f\comp P$ is a plot of $X'$. The set of smooth maps from $X$ to $X'$ is denoted $C^\infty(X, X')$ or $\mathcal D(X, X')$.
+\end{definition}
+\begin{proposition}
+    There is a diffeology on $\mathcal D(X, X')$ in which a map $P\colon U\to \mathcal D(X, X')$ is a diffeology if and only if for every plot $Q\colon V\to X$, the parametrization $U\times V\to X', (r,s)\mapsto P(r)(Q(s))$ is a plot of $X'$. 
+    
+    Using this diffeology, the evaluation map $ev\colon X\times C^\infty(X, X') \to X'$ and composition map $\mathcal D(X, X')\times \mathcal D(X', X'')\to \mathcal D(X, X'')$ are smooth.
+\end{proposition}
+
+\begin{definition}
+    A differential $k$-form on a diffeological space $(X,\mathcal D)$ is a $\mathcal D$-indexed collection $\alpha_P$ of differential forms $\alpha_P\in \Omega^k(U_P)$ for each plot $P\colon U\to X$, such that for every smooth map $f\colon U\to V$ of euclidean open sets, $f^*\alpha_P = \alpha_{fP}$. The collection of all differential $k$-forms on $X$ is denoted $\Omega^*(X)$.
+\end{definition}
+If $M$ is a smooth manifold with its smooth diffeology, the $k$-forms according to this definition are just the regular $k$-forms. 
+
+One can define the usual operations on differential forms such as pullback along smooth maps, exterior derivative and wedge product.
+
+TODO: Maybe remove this
+\begin{definition}
+    The \emph{topology of a diffeological space} $X$ is the coarsest topology such that all plots $P\colon U\to X$ are continuous. 
+\end{definition}
+
+\begin{remark}[Application to Path Spaces] We can define a diffeology on $PM$, and $LM$ by calling a map $U\to PM$ resp.\ $U\to LM$ a plot if its adjoint $I\times U\to M$ resp.\ $S^1\times U\to M$ is a map of smooth manifolds. The space $\Omega M\subset LM$ is equipped with the subspace diffeology. Thus we have definitions of $\Omega^*(PM)$, $\Omega^*(LM)$ and $\Omega^*(\Omega M)$. Note that we have to use the space of smooth paths resp.\ loops here. 
+\end{remark}
+
+\paragraph{Singular and Smooth Homology} A topological diffeological space $X$ is a space which has both a topology and a diffeology, such that all the maps in the diffeology are continuous. There are two simplicial sets associated to such $X$: its singular simplicial set $S(X)$ which consists of all continuous maps $\Delta^n\to X$ for all $X$, and the smooth simplicial set $S^\infty(X)$ which consists of all smooth maps $\Delta^n\to X$ for all $n$; Denote by $C_*(X)$ resp.\ $C_*^\infty(X)$ the corresponding chain complexes (and similarly $C^*_\infty(X)$ the associated cochain complex). The following lemma gives a sufficient condition for the smooth and continuous homology to be identical.
+\begin{lemma}
+    Let $X$ be a topological diffeological space such that for every continuous simplex $\sigma\colon \Delta^n\to M$ with smooth $(n-1)$-faces, $n\geq 1$, there exists a continuous homotopy $h\colon \Delta^n\times I\to X$ relative to the boundary $\partial\Delta^n$ from $\sigma$ to a smooth $n$-simplex of $X$. Then the canonical map $S^\infty(X) \to S(X)$ is a chain homotopy equivalence. 
+\end{lemma}
+See \cite{chen1977iterated} or \cite{parkproof}. This is a standard argument: one constructs a converse map $S(X)\to S^\infty(X)$ inductively by mapping each continuous simplex with a fixed smooth approximation, such that the approximations are compatible at the boundary. 
+
+For smooth manifolds the hypothesis of the lemma is satisfied by Whitney's Approximation theorem, see \cite[Theorem 6.26]{lee2003introduction}
+\begin{theorem}
+    Let $X$ be a smooth manifold with or without boundary, $Y$ a smooth manifold without boundary, and let $f\colon X\to Y$ be a continuous map, smooth on a closed (possibly empty) subset $A\subset X$. Then $f$ is homotopic relative to $A$ to a smooth map $X\to Y$.
+\end{theorem}
+
+\paragraph{Homotopy Invariance}
+\begin{theorem}
+    Let $f_0, f_1\colon M'\to M$ be smooth maps of diffeological spaces. Then every smooth homotopy $F\colon I\times M'\to M$ from $f_0$ to $f_1$ induces a chain homotopy $\int_F\colon \Omega^*(M)\to \Omega^*(M')$ such that 
+    \begin{align*}
+        d\int_F + \int_F d = f_1^* - f_0^*
+    \end{align*}
+\end{theorem}
+This is \cite[Lemma 1.4.1]{chen1977iterated}. In particular if $M$ is smoothly contractible, then the cohomology of $\Omega^*(M)$ is isomorphic to that of a point.
+
+Let $\mathcal U$ be an open cover of $X$ and let $C_n^{\infty,\mathcal U}(X)$ be the subgroup of $C_n^\infty(X)$ generated by smooth simplices with image contained entirely in some set in the cover $\mathcal U$. This is again a chain complex.
+\begin{theorem}
+    The inclusion $\iota\colon C_n^{\infty,\mathcal U}(X) \to C_n^{\mathcal U}(X)$ is a chain homotopy equivalence.
+\end{theorem}
+This is well known for singular homology, and the proof in \cite{hatcher2002algebraic} by barycentric subdivision works in the diffeological setting too, as all the maps involved in the subdivision are smooth.
+
+\begin{theorem}
+    If $X$ is a paracompact locally smoothly contractible diffeological space, then the de Rham map $\int\colon \Omega^*(X)\to C^*_\infty(X)$ is a quasi-isomorphism. 
+\end{theorem}
+\begin{proof}
+    First consider the case that $X$ is (globally) smoothly contractible. There is a commutative diagram
+    \begin{center}
+    \begin{tikzcd}
+        \Omega^*(X) \rar["\int"] & C^*_{\infty}(X)\\
+        \Omega^*(*) \uar\rar["\int"] & C^*_{\infty}(*) \uar 
+    \end{tikzcd}
+    \end{center}
+    where $*$ is the one point space. By homotopy invariance, the vertical maps are quasi-isomorphisms, the lower horizontal map is a quasi-isomorphism and hence the upper de Rham map is also a quasi-isomorphism.
+
+    For an open set $U$, let $\underline\R(U)$ be the locally constant functions $U\to \R$. Since $X$ is locally contractible, connectedness is equivalent to path connectedness and each connected component of $U$ is open. We have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            \underline\R(U) \ar[rd]\rar& \Omega^0(U)\dar["\int"] \\
+            & C^0_\infty(U)
+        \end{tikzcd}
+    \end{center}
+    and hence a commutative diagram of complexes of sheaves
+    \begin{center}
+        \begin{tikzcd}
+        \underline{\R} \rar\ar[rd] & \Omega^*\dar["\int"] \\
+        & \hat C^*_\infty
+        \end{tikzcd}
+    \end{center}
+    Here $\underline{\R}$ is the sheaf of locally constant functions on $X$, which is identified with the complex of sheaves $\dots\to 0\to\underline\R\to 0\to\dots$ and $\hat C^*_\infty$ is the complex of sheafifications of the complex of presheaves $C^*_\infty$.
+    % \begin{tikzcd}
+    %     \Omega^*(X) \rar 
+    %     \Omega^*(U) \rar C^*_{\infty}(U)
+    % \end{tikzcd}
+\end{proof}
+
+
+
+\subsection{Model for Path Spaces}
+
+Let $M$ be a (compact simply connected) manifold. We write $A=\Omega^*(M)$. 
+
+Denote by $B = B(A, A, A)$ the two sided bar construction
+\begin{align*}
+    B(A, A, A) = B\otimes T(A[1]) \otimes A = \sum_{n\geq 0} A\otimes A[1]^{\otimes n} \otimes A
+\end{align*}
+Its differential is given by $d_B = d_0 + d_1$ where $d_0$ is given by the differential on $A$:
+\begin{align*}
+    &d_0(\omega_0[\omega_1|\dots|\omega_n]\omega_{n+1}) = - d\omega_0[\omega_1|\dots|\omega_n]\omega_{n+1} - \\
+    &\quad \sum_{i=0}^n (-1)^{\varepsilon_{i-1}} \omega_0[\omega_1|\dots|d\omega_i|\dots|\omega_n]\omega_{n+1} - (-1)^{\varepsilon_{n}} \omega_0[\omega_1|\dots|\omega_n]d\omega_{n+1}
+\end{align*}
+with $\varepsilon_i = \deg\omega_0+\dots\omega_i - (i-1)$. The differential $d_1$ is defined via the multiplication on $A$:
+\begin{align*}
+    &d_1(\omega_0[\omega_1|\dots|\omega_n]\omega_{n+1}) = -(-1)^{\varepsilon_0}\omega_0\omega_1[\omega_2|\dots|\omega_n]\omega_{n+1} - \\&\quad\sum_{i=1}^{n-1} (-1)^{\varepsilon_i}\omega_0[\omega_1|\dots|\omega_i|\omega_{i+1}\omega_n]\omega_{n+1} - (-1)^{\varepsilon_{n}}\omega_0[\omega_1|\dots|\omega_{n-1}]\omega_{n}\omega_{n+1}
+\end{align*}
+
+For properties of the bar construction, see \ref{subseq:bar_construction}. 
+
+The standard $n$-simplex $\Delta^n$ is the set $\{0\leq t_1\leq t_2\leq \dots\leq t_n\leq 1\} \subset \R^n$. Let 
+\begin{align*}
+    ev_n\colon\qquad\Delta^n\times PM \to & M\times M^n\times M \\
+    ((t_1,\dots, t_n), \gamma)\mapsto &(\gamma(0), \gamma(t_1), \dots, \gamma(t_n), \gamma(1))
+\end{align*}
+In \ref{subsec:fiber_integration} we introduce a fiber integral map which we apply to the map $\Delta^n\times PM \to PM$: 
+$$\int_{\Delta^n}\colon \Omega^*(\Delta^n\times PM) \to \Omega^{*-n}(PM).$$
+
+\paragraph{De Rham Iterated Integral Map} The iterated integral map is the map 
+\begin{align*}
+    \int&\colon B(\Omega^*(M), \Omega^*(M), \Omega^*(M)) \to \Omega^*(PM) \\
+    \int&= \sum_{n\geq 0} \int_{\Delta^n}\phantom{|} \comp ev_n^*
+\end{align*}
+which acts on each summand as 
+\begin{align*}
+    \Omega^*(M)\otimes\Omega^*(M)[1]^n\otimes\Omega^*(M)\to \Omega^{*+n}(M^{n+2})\xto{ev^*}\Omega^{*+n}(\Delta^n\times PM) \xto{\int_{\Delta^n}} \Omega^{*}(PM)
+\end{align*}
+
+Following \cite{getzler1991differential} and \cite{chen1976reduced} we introduce the following normalization of the bar complex $B$. For $f\in C^\infty(M)$, let $$S_i(f)\left(\omega_0[\omega_1| \dots| \omega_k]\omega_{k+1}\right) = \omega_0[\omega_1| \dots |\omega_{i-1}| f | \omega_i| \dots| \omega_k]\omega_{k+1}\in B$$ and $R_i(F) = d S_i(f) - S_i(f) d$ where $d$ is the differential of $B$. Let $D$ be the subspace of $B$ generated by $S_i(f)$ and $R_i(f)$.
+\begin{lemma}
+    The iterated integral is a chain map $B\to \Omega^*(PM)$. $D$ is a sub-chain complex of $C$. The iterated integral vanishes on $D$ and hence descends to a map $B/D\to\Omega^*(PM)$.
+\end{lemma}
+\begin{proof}
+    Recall the Stokes' theorem for the fiber integral: $d\int_{F} \omega = \int_{F}d\omega + (-1)^{\deg \omega - \dim F} \int_{\partial F}\omega$. Thus
+    \begin{align*}
+        % d\left(\int \omega_0\otimes\dots\otimes\omega_{n+1}\right) =& \int_{\Delta^n} ev^*\left(d\left((\pi^*\omega_0)\wedge\dots\wedge(\pi^*\omega_{n+1})\right)\right) \\&+ (-1)^{d-n} \int_{\partial\Delta^n} ev^*(\pi^*\omega_0)\wedge\dots\wedge(\pi^*\omega_{n+1}) \\
+        % =& \sum_{i=0}^{n+1} (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
+        % &+(-1)^{d-n}\sum_{i=0}^n (-1)^i\int_{\Delta^{n-1}} ev^*((\pi^*\omega_0)\dots(\pi^*(\omega_{i}\wedge\omega_{i+1}))\dots(\pi^*\omega_{n+1})) \\
+        % =& \sum_{i=0}^{n+1} (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
+        % &+(-1)^{d-n}\sum_{i=0}^n (-1)^i\int\omega_0\otimes\dots\otimes \omega_i\wedge\omega_{i+1}\otimes\dots\omega_{n+1}
+        d\left(\int \omega_0\otimes\dots\otimes\omega_{n+1}\right) =& \int_{\Delta^n} ev^*\left(d\left((\pi_0^*\omega_0)\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1})\right)\right) \\&\pm \int_{\partial\Delta^n} ev^*(\pi_0^*\omega_0)\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1}) 
+        \intertext{On the $i$-th face $\partial_i\Delta^n$, we have $t_i=t_{i+1}$ (with $t_0=0, t_{n+1}=1$) so $(\dots\times\pi_i\times\dots)\comp ev=(\dots\times\pi_{i+1}\times\dots)\comp ev$.}
+        =& \sum_{i=0}^{n+1} \pm \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
+        &\pm\sum_{i=0}^n \int_{\partial_i\Delta^n} ev^*((\pi_0^*\omega_0)\dots(\pi_i^*(\omega_{i}\wedge\omega_{i+1}))\dots(\pi_{n+1}^*\omega_{n+1})) 
+        \intertext{Reparametrization through the maps $\Delta^{n-1}\to\partial_i\Delta^n$ yields:}
+        =& \sum_{i=0}^{n+1} \pm \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
+        &\pm\sum_{i=0}^n \pm\int\omega_0\otimes\dots\otimes \omega_i\wedge\omega_{i+1}\otimes\dots\omega_{n+1}
+    \end{align*}
+    TODO: Nail down signs.
+
+    It is easy to check that $D$ is a sub-chain complex of $B$. 
+
+    We need to check that the iterated integral maps $D$ to $0$. Since only the $i+1$-th factor of the image of $ev_n$ depends on $t_i$, the pullback $ev^*(\omega_0\times\dots\times\omega_{n+1})$ can not contain the factor $dt_i$ if $\omega_{i+1}$ is a $0$-form. Hence any image of $S_i(f)$ is mapped to $0$ by the iterated integral. For $R_i(f)$, one can compute that  
+    \begin{align*}
+        &R_i(f)(\omega_0[\omega_1|\dots|\hat\omega_i|\dots|\omega_{n}]\omega_{n+1}) = \pm \left( (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \omega_0[\omega_1|\dots| \omega_{i-1}| df| \omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} \right.\\&\quad\left. + \omega_0[\omega_1|\dots|(\omega_{i-1}f)|\omega_{i+1}|\dots\omega_n]\omega_{n+1} - \omega_0[\omega_1|\dots|(\omega_{i-1})|f\omega_{i+1}|\dots\omega_n]\omega_{n+1} \right)
+    \end{align*}
+    The iterated integral of the first summand is 
+    \begin{align*}
+        &\int \omega_0[\omega_1|\dots| \omega_{i-1}| df| \omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} = \int_{\Delta^{n-1}}\int_{t_i}^{t_{i+1}} ev_{n}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1} \\
+        &\quad= (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}}\int_{\Delta^{n-1}}\left(\int_{t_{i-1}}^{t_{i+1}} ev_{\{i\}}^*df\right) \wedge ev_{n-1}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1}) \\
+        &\quad= (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}}\int_{\Delta^{n-1}}\left(f(ev_{\{i-1\}})-f(ev_{\{i+1\}})\right) ev_{n-1}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1}) \\
+        &\quad= (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int \omega_0[\omega_1|\dots|\omega_{i-1} f|\omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} \\
+        &\quad\hphantom{= }-(-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int \omega_0[\omega_1|\dots|\omega_{i-1} |f\omega_{i+1}|\dots|\omega_{n}]\omega_{n+1}
+    \end{align*}
+    where $ev_{\{i\}}\colon \Delta^n\times PM\to M, \left((t_1, \dots, t_n), \gamma\right)\mapsto \gamma(i)$,
+\end{proof}
+
+\paragraph{Singular Iterated Integral Map} In singular cochains, one can use
+\begin{align*}
+    \int&\colon B(C^*(M), C^*(M), C^*(M)) \to C^*(PM) \\
+    \int&= \sum_{n\geq 0} (\blank \slant [\Delta^n]) \comp ev_n^*
+\end{align*}
+which is a direct sum of the maps 
+\begin{align*}
+    C^*(M)\otimes C^*(M)[1]^{\otimes n} \otimes C^{*+n}(M) \xto{ev^*} C^{*+n}(\Delta^n\times PM) \xto{\blank / [\Delta^n]} C^{*}(PM)
+\end{align*}
+By the remarks in \ref{subsec:fiber_integration}, this map is identified with the previous map through the De Rham isomorphism.
+
+\begin{remark}
+    This map descends to a map $NB(C^*(M), C^*(M), C^*(M)) \to NC^*(M)$, where $NC^*(M)$ is the normalized singular cochain complex, i.e. the quotient by the images of the degeneracy maps $s_i$ and  $NB(C^*(M), C^*(M), C^*(M)) = \bigoplus C^*(M)\otimes \bar C^*(M)^{\otimes n}\otimes C^*(M)$ is the normalization of the bar complex, where $\bar C^*(M)$ is the complex with $\bar C^0(M) / 1$ and $\bar C^k(M) = C^k(M)$ for $k\neq 0$. To show this, consider the diagram
+
+    \begin{tikzcd}
+        C^*(PM) & \lar["/\Delta^n"] C^{*+n}(PM\times \Delta^n) &\lar C^*(M)^{\otimes n} \\
+        C^*(PM) \uar["="] & \lar["/s_i"] C^{*+n}(PM\times\Delta^{n-1})\uar["(\id\times s_i)^*"] & \lar C^*(M)^{\otimes (n-1)}\uar["\pi_{\hat i}"]
+    \end{tikzcd}
+
+    where $s_i\colon\Delta^n\to\Delta^{n-1}$ and $\pi_{\hat i}\colon M^{n}\to M^{n-1}$ both forget the $i$-th component. The slant product with a degenerate simplex yields a degenerate cochain: $\langle u / s_i\alpha, \beta\rangle = \langle u,s_i\times\beta\rangle$ and one can show that the cross product of a degenerate simplex with another chain is a sum of degenerate chains, so the slant product $u/s_i$ is a sum of degenerate cochains. 
+\end{remark}
+
+We also exhibit the homology version
+\begin{align*}
+    C_*(PM) \xto{\times [\Delta^n]} C_{*+n}(PM\times \Delta^n) \xto{ev_*} C_{*+n}(M\times M^n\times M)\to C_*(M)\otimes C_{*}(M)[1]^{\otimes n}\otimes C_*(M),
+\end{align*}
+but the natural target of this map is the direct product of the right hand side complexes, so the iterated integral map in on the bar complex is not on the nose the dual of a map in a homological chain complex.
+
+
+\begin{theorem}\label{thm:path_models_1}
+    Let $A=\Omega^*(M)$. The iterated integral map $$\int\colon B(A, A, A)\to \Omega^*(PM)$$ is a quasi-isomorphism of algebras. Further consider the following maps: constant path inclusion $M\to PM$, evaluation at the start and end point $PM\to M\times M$ and composition of paths $PM\times_M PM\to PM$. The following diagrams commute:
+
+    \begin{center}
+    \begin{tikzcd}
+        B \rar \dar & \Omega^*(PM) \dar \\
+        A \rar & \Omega^*(M)
+    \end{tikzcd}
+    \qquad\qquad\qquad
+    \begin{tikzcd}
+        B \rar & \Omega^*(PM) \\
+        \uar A\otimes A \rar & \Omega^*(M\times M) \uar
+    \end{tikzcd}
+    \\
+    \begin{tikzcd}
+        B \rar \dar & \Omega^*(PM) \dar \\
+        B \otimes_A B \rar & \Omega(PM\times_M PM)
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        B\otimes B\dar \rar["\int\otimes\int"]&\Omega^*(PM)\otimes\Omega^*(PM) \dar["\wedge"]\\
+        B \rar["\int"] & \Omega^*(PM)
+    \end{tikzcd}
+    \end{center}
+    and each of the horizontal maps is a quasi-isomorphism.
+\end{theorem}
+
+The map $B\to A$ in the first diagram is induced by the multiplication $A\otimes A\to A$ and the zero map on the higher summands in $B$. The map $A\otimes A\to B$ is the inclusion into the direct sum.
+
+The lower horizontal map in the third diagram is the map 
+\begin{align*}
+    B\otimes_A B\xto{\int\otimes_A\int} \Omega^*(PM)\otimes_{\Omega^*(M)}\Omega^*(PM) \to \Omega^*(PM\times_M PM)
+\end{align*}
+and the left vertical map is induced by deconcatenation maps $A\otimes \bar A[1]^{\otimes n} \to A\otimes \bar A[1]^{\otimes k} \otimes A \otimes \bar A[1]^{\otimes l} \otimes A$ which act on elements as: $a(a_1|\dots|a_n)a'\mapsto \sum_{k+l=n} a(a_1|\dots|a_k) 1 (a_{k+1}|\dots|a_{k+l}) a'$.
+
+The left vertical map in the fourth diagram is the map 
+\begin{proof}
+For the commutativity of the first diagram, consider the following diagram:
+\begin{center}
+\begin{tikzcd}
+    \Omega^*(M) & \lar["\int_{\Delta^n}"] \Omega^{*+n}(M\times \Delta^n) & \lar["p_M"] \Omega^{*+n}(M) \\
+    \Omega^*(PM) \uar["const^*"] &\lar["\int_{\Delta^n}"] \Omega^*(PM\times\Delta^n) \uar["const^*\otimes\id"] & \lar{ev^*}\Omega^*(M) \otimes \Omega^{*+n}(M^n) \otimes \Omega^{*+n}(M) \uar["\Delta^*"]
+\end{tikzcd}
+\end{center}
+The upper row is $0$ unless $n=0$, as a pullback of a form on the base space vanishes on all vectors tangent to the fiber direction and hence the fiber integral vanishes.
+
+The first diagram can be used to show that the iterated integral map is a quasi isomorphism: the bottom and right arrows are quasi-isomorphisms and it is known that the left arrow is also a quasi-isomorphism (see \ref{thm:bar_resolution}). The statement that this is a quasi-isomorphism is also a special case of theorem 2 in \cite{patras2003cochain}. 
+
+For the fourth diagram, let $a_0[a_1|\dots|a_n]a_{n+1} \in A\otimes A[1]^{\otimes n}\otimes A$ and $b_0[b_1|\dots|b_m]b_{m+1} \in A\otimes A[1]^{\otimes n}\otimes A$. This gets mapped through the upper right path to 
+\begin{align*}
+    &\int_{\Delta^n}ev_n^*(\pi_0^*a_0\dots\pi_{n+1}a_{n+1}) \wedge \int_{\Delta^m} ev_m^*(\pi_0^*b_0\dots\pi_{m+1}b_{m+1}) \\
+    = & \int_{\Delta^{n}\times\Delta^m} ev^*_{n,m}(\pi^*_0 a_0 \dots \pi_{n+1}^*a_{n+1}\pi^*_{n+2}b_0\dots\pi^*_{m+n+2}b_{m+1})
+    \intertext{Here $ev_{n,m}\colon \Delta^n\times\Delta^m\times PM\to M^{n+m+4}$, so we've pulled back along the diagonal $PM\to PM\times PM$. Now by an Eilenberg Zilber argument, $\Delta^{n}\times\Delta^m$ splits into the (smooth singular) simplices $s_{\nu}(\Delta^n) \times s_{\mu}(\Delta^m)$ with orientation sign $\sgn(\mu,\nu)$, where $(\mu,\nu)\in \Sh(n,m)$ are the shuffle permutations of $m+n$ elements and $s_{\mu}\times s_{\nu}\colon \Delta^n\times\Delta^m\to\Delta^{n+m}$.}
+    =& \sum_{(\mu,\nu)\in\Sh(n,m)} \sgn(\mu,\nu) \int_{s_{\mu}\times s_{\nu}} \dots \\
+    =& \sum_{(\mu,\nu)\in\Sh(n,m)} \sgn(\mu,\nu) \int_{\Delta^{n+m}} (s_{\mu}\times s_{\nu})^*ev^*_{n,m} \dots \\
+    =& \sum_{(\mu,\nu)\in\Sh(n,m)} \sgn(\mu,\nu) \int_{\Delta^{n+m}} ev^*_{n+m}\left(\pi^*_0(a_0)\pi_1^*(a_{\mu(1)})\dots \pi_n^*(a_{\mu(n)})\pi_{n+1}^*(a_{n+1}) \right.\\ & \left. \pi_{n+1+1}^*(b_{0}) \pi_{n+3}^*(b_{\nu(1)})\dots\pi_{n+m+3}^*(b_m)\pi_{n+m+4}^*(b_{m+1})\right) \\
+    =& \pm \sum_{(\mu,\nu)\in\Sh(n,m)} \int (a_0 b_0) [a_{\mu(1)}|\dots|a_{\mu(n)}|b_{\nu(1)}|\dots|b_{\nu(m)}](a_n b_m)
+\end{align*}
+
+TODO: Check diagram 3 and quasi-iso in diagram 3.
+\end{proof}
+
+Let $A^e=A^{op}\otimes A$. 
+
+\begin{theorem}
+    The following maps are quasi-isomorphisms if $M$ is connected and simply connected.
+    \begin{center}
+    \begin{tikzcd}[row sep=.27em, column sep=2cm]
+        B\otimes_{A^e} A\rar["\int\otimes\id_A"]& \Omega^*(LM)\\
+        (B\otimes_A B)\otimes_{A^e} A \rar["(\int\otimes_A\int)\otimes\id_A"] &\Omega^*(\Map(\ocircle_2, M))\\
+        B\otimes_{A^e\otimes A^e} B \rar["\int\otimes \int"] &\Omega^*(\Map(8, M))
+    \end{tikzcd}
+\end{center}
+
+\end{theorem}
+\begin{proof}
+    This follows from the Pullback Pushout lemma, see \ref{subsec:eilenberg_moore}. For example for the first statement, $LM$ is the homotopy pullback of the cospan $M\xto{\Delta} M\times M\from PM$ - as the projection $PM\to M$ is a fibration, the ordinary pullback coincides with the homotopy pullback. The loop space is modeled as cochain algebras by the span $A\from A\otimes A \to B$. TODO: Show that the homotopy pushout in this case is just the pushout.
+\end{proof}
+
+The simplicial analog of this is a consequence of theorem 2 in \cite{patras2003cochain}: All the spaces on the right are mapping spaces $\Map(|K|, M)$ for some simplicial set $K$ of dimension $1$ (i.e.\ the maximal degree of nondegenerate simplices is $1$) and $M$ is simply connected. In \cite{patras2003cochain} a general construction for an iterated integral map is given in this setting. 
+
+
+\paragraph{Model for the concatenation and splitting map} Consider the concatenation of loops map $LM\times_M LM\to LM$ and the splitting map $s\colon I\times LM\to \Map(\ocircle_2, M)$. The concatenation is induced by the map on paths $PM\times_M PM \to PM$ as in theorem \ref{thm:path_models_1}. The splitting map is induced by a map on paths $I\times PM \to PM\times_M PM$.
+
+Before we model these maps on chain complexes, we introduce a model of the interval $\mathcal I = \R (1-t) \oplus \R t \oplus \R dt\subset \Omega^*(I)$, the space of Whitney forms on the interval. There is a projection 
+\begin{align*}
+    \Omega^*(I) &\to \mathcal I\\
+    f&\mapsto f(0)(1-t) + f(1) t + \left(\int_I f\right) dt
+\end{align*}
+which is a quasi-isomorphism with quasi-inverse given by the inclusion $\mathcal I \subset \Omega^*(I)$. 
+
+
+\begin{theorem}
+    The following diagrams commute:
+
+    \begin{tikzcd}
+        (B\otimes B)\otimes_{A^e\otimes A^e} A\rar &\Omega^*(LM\times_M LM) \\
+        B\otimes_{A^e}A \uar\rar & \Omega^*(LM) \uar
+    \end{tikzcd}
+
+    \begin{tikzcd}
+        \mathcal I \otimes B \rar &\Omega^*(I\times PM) \\
+        B\otimes_A B \rar \uar &\Omega^*(PM\times_M PM) \uar["s^*"]
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        \mathcal I \otimes (B\otimes_{A^e} A) \rar & \Omega^*(I\times LM) \\
+        (B\otimes_A B)\otimes_{A^e} A \rar \uar & \Omega^*(\Map(\ocircle_2, M))\uar
+    \end{tikzcd}
+    
+    The left vertical map in the first diagram is induced by the deconcatenation map $B\to B\otimes_A B$ from \ref{thm:path_models_1}. The left vertical map in the second diagram is given by 
+    \begin{align*}
+        a_1(\gamma_1)a_2(\gamma_2)a_3 \mapsto &(1-t)\otimes \varepsilon(a_1(\gamma_1)a_2)(\gamma_2)a_3 \\&+ t\otimes a_1(\gamma_1)\varepsilon(a_2(\gamma_2)a_3) \\&+ dt\otimes (-1)^{\abs{a_1\gamma_1a_2}}a_1(\gamma_1|a_2|\gamma_2)a_3
+    \end{align*}
+\end{theorem}
+
+TODO: Proof
+
+\begin{theorem}
+    %Consider the maps $\Map(8, M)\to LM$ and $\Map(8, M)\to LM\times LM$. The following diagrams commute:
+    Consider the map $\Map(8, M)\to LM\times LM$. The following diagram commutes:
+
+    \begin{center}
+    % \begin{tikzcd}
+    %     (B\otimes B)\otimes_{A^{\otimes 4}} A \rar &\Omega^*(\Map(8)) \\
+    %     \uar \rar B\otimes_{A^e} A & \uar \Omega^*(LM)
+    % \end{tikzcd} 
+    \begin{tikzcd}
+        (B\otimes B)\otimes_{A^{\otimes 4}} A \rar & \Omega^*(\Map(8)) \\
+        (B\otimes_{A^e}A) \otimes (B\otimes_{A^e} A)\uar \rar & \Omega^*(LM\times LM) \uar
+    \end{tikzcd}
+    \end{center}
+\end{theorem}
+
+TODO: Proof
 
 
 
@@ -786,6 +1126,8 @@ Let $M$ be a smooth closed orientable $m$-dimensional manifold. Then the interse
 There is also a cohomology version is a map $H^*(M) \otimes H^*(M) \from H^{*-m}(M)$. We define the product using Poincaré duality and show that there is an equivalent definition via the Thom isomorphism. In the investigation of the intersection product we use umkehr maps: to a map $f\colon M\to N$ between poincaré duality spaces one can assign an umkehr map $f^!\colon H_*(N)\to H_{*+m-n}(M)$ in homology. The intersection product can be interpreted as the umkehr map associated to the diagonal $M\to M\times M$. 
 
 \subsection{Intersection Product via Poincaré Duality} \label{subsec:intersection_product_via_pd}
+
+TODO: Maybe use different notation for intersection product vs cap product
 \begin{definition}
 The intersection product is the Poincaré dual of the cup product. Thus it is the upper map in the following commutative square, where the vertical maps are given by Poincaré duality and the lower map is the cup product.
 \begin{equation}
@@ -929,7 +1271,107 @@ The second map is an excision isomorphism and the last map is the Thom isomorphi
 %\paragraph{Definition using Configuration Spaces} This definition is used in 
 
 
+\section{Slant Product and Fiber Integration}
 
+    \subsection{Cohomology Slant Product}
+    This version of the slant product is not currently used in the main part of the thesis and is just here for completeness. (TODO)
+
+    The \emph{cohomology slant product} is a product operation on homology and cohomology. The slant product relates to the cap product similarly to how the cross product relates to the cup product. Let $X$ and $Y$ be topological spaces. The (cohomological) slant product is an operation 
+    \begin{align*}
+        \backslash \colon C^i(X) \otimes C_n(X\times Y) \to C_{n-i}(Y)
+    \end{align*}
+    Let $\varepsilon \colon C_*(X; R) \otimes C^*(X; R) \to R$ be the standard evaluation map. The slant product is given as 
+    \begin{align*}
+        C^i(X) \otimes C_n(X\times Y) \to C^i(X) \otimes C_k(X)\otimes C_{n-k}(Y) \to C_{n-i}(Y)
+    \end{align*}
+    This yields a map in homology
+    \begin{align*}
+        H^i(X)\otimes H_n(X\times Y) \to H_{n-i}(Y)
+    \end{align*}
+
+    \begin{remark}
+    Equivalently, one can define the slant product using the cap product as the following map
+    \begin{align*}
+        C^i(X)\otimes C_n(X\times Y) \xto{p_X^*} C^i(X\times Y) \otimes C_n(X\times Y) \xto{\capp} C_{n-i}(X\times Y) \xto{p_{Y*}} C_{n-i}(Y)
+    \end{align*}
+    which is analogous to the relation between the cup product and cross product on cohomology $a\times b = p_X^*a \cupp p_Y^* b$. The slant product satisfies analogous properties as the cap product, for example naturality, associativity wrt.\ the cross product, duality ($\langle x\times y, \eta\rangle = \langle x, y\backslash\eta \rangle$). See \cite[VII.11]{dold2012lectures}.
+    \end{remark}
+
+    There is a relative version for pairs $(X, A)$ and $(Y, B)$:
+    \begin{align*}
+        H^i(X, A)\otimes H_n(X\times Y, A\times Y\union X\times B) \to H_{n-i}(Y, B)
+    \end{align*}
+
+    \subsection{Homology Slant Product}
+    There is another version of the slant product, which is denoted $/$ and is called the \emph{homology slant product}. We follow \cite[chapter 6.1]{spanier1989algebraic}, see there for proofs and details. This slant product is a map
+    \begin{align*}
+        \slant\colon H^n(X\times Y) \otimes H_i(X) \to H^{n-i}(Y)
+    \end{align*}
+    This is defined via the composition
+    \begin{align*}
+        C^n(X\times Y) \otimes C_i(X) \xto{EZ_i} C^{i}(X)\otimes C^{n-i}(Y)\otimes C_i(X) \xto{\varepsilon\otimes \id} C^{n-i}(Y)
+    \end{align*}
+    It satisfies the following characteristic relation $(c\times c')\slant\alpha = c\langle c', \alpha \rangle$ for $c\in H^*(X), c'\in H^*(Y), \alpha\in H_*(Y)$.
+
+    Again there is a duality relation $$\langle z\slant\xi, \eta\rangle = \langle z, \xi\times \eta\rangle$$ where $z\in H^*(X\times Y), \xi\in H_i(X), \eta\in H_*(Y)$. 
+
+    Given $f\colon X\to X', g\colon Y\to Y'$ and $u\in H^n(X'\times Y'), z\in H_q(Y)$, then in $H^{n-q}(X)$, one has $$((f\times g)^*u)/z = f^*(u/g_*(z)).$$
+
+    There is a relative version 
+    \begin{align*}
+        \slant\colon H^n((X,A)\times (Y,B))\otimes H_i(X, A) \to H^{n-i}(Y, B)
+    \end{align*}
+
+    In a de Rham setting the slant product is given via fiber integration, as is shown in the following subsection. 
+
+    \subsection{Fiber Integration}\label{subsec:fiber_integration}
+    
+    \paragraph{Fiber integration for vector bundles} Let $p\colon E\to S$ be a smooth rank $r$ oriented vector bundle over a manifold. There is an integration along the fiber map $p_*\colon \Omega^*_{cv}(E) \to \Omega^{*-r}(S)$ of de Rham forms \cite[I.6]{bott1982differential}. Here the first is the space of forms with compact vertical support, one can show that its cohomology $H^*_{cv}(E)$ is isomorphic to the cohomology $H^*(E, E_0)$ where $E_0 = E\setminus S$ is $E$ minus the zero section.
+
+    \paragraph{Fiber integration for bundles with compact fibers} Similarly one can define a fiber integration map for oriented fiber bundles with compact fiber to obtain a map $\pi_*\colon \Omega^*(E) \to \Omega^{*-r}(S)$, where $r$ is the dimension of the fiber. This again descends to a fiber integration map in cohomology 
+    \begin{align*}
+        \pi_*\colon H^n(E; \R) \to H^{n-r}(S; \R)
+    \end{align*}
+    
+    \paragraph{Fiber integration for cartesian products} In the special case of a cartesian product $B\times F$ of smooth manifolds with orientable fiber, instead of integrating over the entire fiber, one can integrate over a smooth singular chain in the fiber. This yields a fiber integration map 
+    \begin{align*}
+        \int_{M\times Z_q / M} \colon \Omega^*(B\times F) \to \Omega^{*-q}(B)
+    \end{align*}
+    The notation is from \cite{hopkins2005quadratic}. TODO: Check for different notation?
+    
+    We adapt the definition from \cite{bott1982differential} to this context. Let $\sigma\colon \Delta^n\to F$ be a singular simplex. Let $\omega_F$ be an orientation form of the fiber. Then any form on $E$ is locally a sum of two types of forms: those which contain $\pi_F^*(\omega_F)$ as a factor and those that don't. Define the fiber integral as follows
+    \begin{align*}
+        \int_{M\times\sigma / M} \colon \begin{array}{llll}
+             (1) & (\pi_B^*(\phi)) (\pi_F^*(\psi)) h(x, f)  &\mapsto 0, & \psi\in \Omega^k(F), k<\dim F \\
+             (2) & (\pi_B^*(\phi)) (\pi_F^*(\omega_F)) h(x, f)  &\mapsto \phi \int_{\Delta^n} \sigma^*(h(x, f) \omega_F) &
+        \end{array}
+    \end{align*}
+    For a general smooth singular chains in place of $\sigma$, one takes a linear combination of these. 
+
+    TODO: Fubini's theorem, Relation to Gysin sequence, Projection Formula, Stokes thm
+
+    Fiber integration and the slant product are related, the following lemma makes this explicit.
+    \begin{lemma}
+        Let $B, F$ be smooth manifolds and assume that $F$ is closed and oriented. Suppose that $\omega\in \Omega^{p+q}(B\times F)$ is a differential $p+q$-form, which can be regarded as a smooth cochain denoted also by $\omega$. Suppose that $Z_q$ is a smooth $q$-chain in $F$ respectively. Then 
+        \begin{align*}
+            \omega/[F] = p_{F*}\omega
+        \end{align*}
+        and more generally
+        \begin{align*}
+            \omega/Z_q = \int_{B\times Z_q / B} \omega
+        \end{align*}
+        % \begin{align*}
+        %     \langle \omega/Z_q, Z_p \rangle = \langle \omega, Z_q\times Z_p\rangle = \int_{Z_p\times Z_q} = \langle pi_{M*}\omega, Z_q\rangle \omega, \qquad \omega/Z_p = p_{M*} \omega
+        % \end{align*}
+    \end{lemma}
+    \begin{proof}
+        Let $Z_p$ be a smooth $p$-chain in $B$. By the de Rham isomorphism and the properties of fiber integration and the slant product,
+    \begin{align*}
+        \langle \omega/Z_q, Z_p \rangle = \langle \omega, Z_q\times Z_p\rangle = \int_{Z_p\times Z_q}\omega = \int_{Z_p} \int_{M\times Z_q / M} \omega = \left\langle \int_{M\times Z_q / M}\omega, Z_p\right\rangle
+    \end{align*}
+    \end{proof}
+
+    TODO: Similar statement for diffeological spaces like $PM, LM$.
 
 
 
@@ -1042,6 +1484,10 @@ In homology, the umkehr map $\pi^!\colon H^{*+1}(LM)\to H^{*+2}_{S^1}(LM)$ can b
 \begin{align*}
     \bar H_{S^1}^*(LM) \xto{\pi^*} \bar H^*(LM)\to (\bar H^*(LM) \otimes \bar H^*(LM))[n] \xto{\pi_!\otimes\pi_!} (\bar H^*_{S^1}(LM)\otimes\bar H^*_{S^1}(LM))[n-2]
 \end{align*}
+% The \emph{string cobracket} is defined (up to sign) as the composition
+% \begin{align*}
+%     \bar H_{S^n}
+% \end{align*}
 \end{construction}
 % \begin{align*}
 %     \bar H^*_{S^1}(LM)\otimes \bar H^*_{S^1}(LM) \xrightarrow{\pi^*\otimes\pi^*} \bar H^*(LM) \otimes \bar H^*(LM) \to 
@@ -1049,7 +1495,94 @@ In homology, the umkehr map $\pi^!\colon H^{*+1}(LM)\to H^{*+2}_{S^1}(LM)$ can b
 
 
 
+\section{Elements of Homological Algebra}
 
+\subsection{Pullback-Pushout Lemma / Eilenberg Moore Spectral Sequence}\label{subsec:eilenberg_moore}
+Consider the following pullback of topological spaces:
+\begin{center}
+\begin{tikzcd}
+    E\times_B X \arrow[d] \arrow[r] & E \arrow[d]{p} \\
+    X \arrow[r] & B
+\end{tikzcd}
+\end{center}
+
+The following theorem is stated in \cite{felix2012rational}.
+\begin{theorem}
+Assume $p$ is a Serre fibration, $E$ is path connected and $X$ and $B$ are simply connected. Let $A_X \leftarrow A_B \rightarrow A_E$ be a rational dgca model for the lower right span in the diagram. Then the homotopy pushout $A_X \otimes_{A_B}^h A_E$ is a dgca model for the pullback $E\times_B X$.
+\end{theorem}
+For the proof they reference~\cite[Proposition 15.8]{naef2022string}, where this is shown in the case that $A_X$, $A_E$ and $A_B$ are Sullivan models. By homotopy invariance of the homotopy pushout, this then also holds for general dgca models. Note that field coefficients are used here. In \cite{hatcher2004spectral} there is the additional assumption that the cohomology of $E, B, X$ are finitely generated in each dimension. In \cite{ramzi_eilenberg} both the simply connectedness and the vanishing fundamental group are replaced with more general hypotheses.
+
+
+% We are interested in describing the chain complex of $E\times_B X$ using the chain complexes of the span $X \to B \leftarrow E$. Since homology is a homotopy invariant, it makes sense to consider this as a homotopy pullback; this is the case for example if the vertical arrows are fibrations. The general statement that one might hope for here is that the homotopy pullback commutes with the chain complex functor. This is wrong in general, however it is true under certain connectedness assumptions on the involved spaces. 
+
+% Homotopy limits take a bit of time to describe and we do not go in-depth here. The basic problem is that homotopy equivalent diagrams of e.g.\ spaces or chain complexes generally don't yield homotopy equivalent limits resp.\ colimits. One also cannot work in the homotopy category, where homotopic maps are identified, as this category is known to not have many limits resp.\ colimits. 
+
+% There are two basic ideas to computing homotopy limits. The first is to replace the diagram with a homotopy equivalent version that is somehow general enough that the usual limit construction gives the correct homotopy pushout. An investigation of the properties that make this work leads to the notion of model categories, which are categories equipped with distinguished classes of morphisms, namely weak equivalences, cofibrations and fibrations. See for example~\cite{dwyer1995homotopy} (TODO other references).
+
+% The second idea is to make homotopies between maps, and higher homotopies part of the structure of the category, which leads to the notion of $\infty$-categories~\cite{lurie2009higher},\ \cite{lurie2017higher} (TODO other references) (also known as quasicategories or $(\infty, 1)$-categories). In an $\infty$-category, composition of morphisms is only defined up to homotopy. Much of the language and theorems of regular categories translate to $\infty$-categories. A notion of limits and colimits in $\infty$-categories exists and it agrees with homotopy limits resp.~colimits in the examples. We briefly unpack what this means for pullbacks. Recall that in a normal pullback, to every cone, the pullback assigns a universal arrow to the pullback cone, which makes certain triangles commute. In homotopy, these triangles commute only up to homotopy and we consider homotopies part of the data. Hence a cone consists not only of natural morphisms, but also of explicit homotopies that make the relevant triangles commute up to homotopy. The pullback is a universal cone and the universal property assigns to each cone not only a universal arrow, but also homotopies which make the relevant diagrams commute. As this assignment depends on the cone, it depends not only on the morphisms of the cone, but also on the homotopies. This assignment is no longer unique, instead one requires that the space of suitable data is contractible, which is where higher homotopies appear. 
+
+There is a homology version of the theorem, this is the Eilenberg-Moore spectral sequence~\cite{eilenberg1966homology} of homology. Here any space should have the homotopy type of a cw complex.
+
+\begin{theorem}
+    Consider a pullback of topological spaces as above, again with $p$ a fibration, $B$ pathwise connected and simply connected. Then for any commutative ring $K$, the natural map
+    \begin{align*}
+        C_*(E)\boxtimes_{C_*(B)}^h C_*(X) \to C_*(E\times_B X)
+    \end{align*}
+    is a quasi-isomorphism.
+\end{theorem}
+
+% Note that there is an equivalent pullback diagram
+% \begin{center}
+% \begin{tikzcd}
+%     E\times_B X \arrow[d] \arrow[r] & B \arrow[d] \\
+%     E\times X \arrow[r] & B \times B
+% \end{tikzcd}
+% \end{center}
+% which identifies the homotopy fiber of the vertical maps, hence there is a homotopy fiber sequence $\Omega B \to E\times_B X \to E\times X$, i.e. the homotopy fiber of $E\times_B X \to E\times X$ is the loop space $\Omega B$.
+
+\subsection{Two sided Bar Construction}\label{subseq:bar_construction}
+Let $A$ be a differential graded algebra, $M$ a right dg $A$ module and $N$ a left $A$ dg module. Denote by $B(M, A, N)$ the two sided bar construction, namely 
+\begin{align*}
+    B(M, A, N) = \bigoplus_{n\geq 0} M\otimes A[1]^{\otimes n} \otimes N
+\end{align*}
+We write $[a_1|\dots|a_n]\in A[1]^{\otimes n}$ for a homogeneous element of the tensor algebra and accordingly $m[a_1|\dots|a_n]n$ for a generator of $M\otimes \bar A[1]^{\otimes n}\otimes N$.
+
+
+$B(M, A, N)$ is a chain complex with differential 
+\begin{align*}d(m[a_1|\dots|a_n]n) =& m [a_1|\dots|a_n]n \pm \sum_i m[a_1|\dots|a_i a_{i+1}| \dots|a_n]n \pm m[a_1|\dots|a_n] n\\& + dm[a_1|\dots|a_n]m \pm \sum_i m[a_1|\dots|a_n]n \pm m[a_1|\dots|d a_n]n \pm m[a_1|\dots|a_n]dn.
+\end{align*}
+TODO: Look up signs
+
+
+There is a normalized version of the two sided bar construction:
+\begin{align*}
+    B'(M, A, N) = \bigoplus_{n\geq 0} M\otimes \bar A[1]^{\otimes n}\otimes N
+\end{align*}
+where $\bar A$ is given by $\bar A_0 = A_0/(1)$. This is equipped with a differential using the same formula as above.
+
+Note: Chen uses a different definition of $\bar A$, there $A_0 = 0$ and $A_1 = A_1 / d(A_0)$.
+
+\begin{lemma}
+    The canonical map $B(M, A, N)\to B'(M, A, N)$ induces a quasi-isomorphism of chain complexes.
+\end{lemma}
+TODO Proof.
+
+\begin{lemma}\label{thm:bar_resolution}
+    The canonical map $B(A, A, A)\to A$ given by the product map $A\otimes A\to A$ for $n=0$ and $0$ otherwise, is a a quasi-isomorphism of chain complexes.
+
+    More generally, the map $B(M,A,N)\to M\otimes_A N$ is a quasi-isomorphism of chain complexes under certain conditions.
+\end{lemma}
+TODO: Proof or reference
+
+If $A$ is (graded) commutative, then $B(A, A, A)$ is a (graded) commutative dg algebra with the shuffle product (TODO: details. see \cite[4.1]{chen1973iterated}). Up to signs, this is defined as
+
+\begin{align*}
+    a[a_1|\dots|a_n]a' \shuffle b[a_{n+1}|\dots|a_{n+m}]b' = \sum_{\sigma\in\mathrm{Sh}(n, m)}
+\end{align*}
+
+There is also a deconcatenation coproduct in the category of $A$-bimodules on $B(A, A, A)$, i.e. a map $B(A, A, A)\to B(A, A, A)\to B(A, A, A)\otimes_A B(A, A, A)$. This can be defined as 
+$$\alpha = \alpha(\alpha_1|\dots|\alpha_n)\alpha' \mapsto \sum_i\alpha(\alpha_1|\dots|\alpha_i) 1 (\alpha_{i+1}|\dots|\alpha_n)\alpha'$$
+This comultiplication has a counit given by the multiplication map $\varepsilon \colon B(A, A, A)\to A$. This counit map is a quasi-isomorphism (TODO: Citation needed).
 
 
 
@@ -1059,6 +1592,9 @@ In homology, the umkehr map $\pi^!\colon H^{*+1}(LM)\to H^{*+2}_{S^1}(LM)$ can b
 
 \section{Homotopy Pushouts of Topological Spaces}
 
+TODO: Talk about defs of Fibrations, Cofibrations in Top.
+
+In this section we follow \cite[1.2]{may2011more}
 \begin{definition}
     Let $X\xleftarrow{f}W\xrightarrow{g}Y$ be given. The double mapping cylinder of $f, g$ is the quotient space
     \begin{align*}
@@ -1075,7 +1611,7 @@ In homology, the umkehr map $\pi^!\colon H^{*+1}(LM)\to H^{*+2}_{S^1}(LM)$ can b
     We will call this square the standard homotopy pushout of $f$ and $g$.
 \end{definition}
 
-The standard homotopy pushout satisfies a universal property, which we now explain. Suppose we are given another square with homotopy
+Suppose we are given another square with homotopy
 \begin{equation}\label{diag:square_with_homotopy}
     \begin{tikzcd}[column sep=.2cm, row sep=.2cm]
         W \arrow[rr,"g"]\arrow[dd,"f"] && Y \arrow[dd, "k"] \\
@@ -1102,7 +1638,6 @@ and we have the following equations
 \end{align*}
 Note that the first equation is an equation of homotopies and is not pictured in the diagram. 
 
-TODO: Definition of homotopy pushout
 % \begin{definition}
 %     A \emph{homotopy pushout} of topological spaces $X\xleftarrow{f}W\xrightarrow{g}Y$ is a square with homotopy 
 %     \begin{equation}
@@ -1119,31 +1654,42 @@ TODO: Definition of homotopy pushout
 % If one unwraps the standard definition of pushouts of $(\infty, 1)$-categories in the $(\infty, 1)$-category of topological spaces, one obtains a slightly different universal property, notably the equations are required to hold only up to homotopy. The version of the definition given above is slightly friendlier for explicit computation. In the following we show that our definition is computed by the standard homotopy pushout and that it is homotopy invariant, which shows that it is the right notion. 
 % \end{remark}
 
-\begin{definition}
-    Define Homotopy Pushout.
-\end{definition}
+% \begin{theorem}
+%     \begin{enumerate}
+%     \item 
+%     \item Any two homotopy pushouts over $X\xleftarrow{f}W\xrightarrow{g}Y$ are canonically homotopy equivalent.
+%     \item In particular, a square with homotopy as in \ref{diag:square_with_homotopy} is a homotopy pushout if and only if the natural map $\theta_F\colon F\to Z$ is a homotopy equivalence. 
+%     \end{enumerate}
+% \end{theorem}
+
 
 \begin{theorem}
+    Consider the diagram
+
+    \begin{center}
+        \begin{tikzcd}
+        X \dar& \lar["f"] \dar A \rar["g"] & Y\dar \\
+        X' & \lar["f'"] A' \rar["g'"] & Y'
+        \end{tikzcd}
+    \end{center}
+
     \begin{enumerate}
-    \item The standard homotopy pushout is a homotopy pushout.
-    \item Any two homotopy pushouts over $X\xleftarrow{f}W\xrightarrow{g}Y$ are canonically homotopy equivalent.
-    \item In particular, a square with homotopy as in \ref{diag:square_with_homotopy} is a homotopy pushout if and only if the natural map $\theta_F\colon F\to Z$ is a homotopy equivalence. 
+    \item Assume that in the diagram 
+    both $f$ and $f'$ are cofibrations. If all the vertical maps are homotopy equivalences, then so is the induced map of their pushouts (as topological spaces) $X\coprod_A Y \to X'\coprod_{A'} Y'$.
+    \item If $f$ is a cofibration, then the natural quotient map $M(f,g)\to X\coprod_A Y$ is a homotopy equivalence.
+    \item If in the diagram, the vertical maps are homotopy equivalences, then $M(f, g)$ and $M(f', g')$ are homotopy equivalent through the induced map.
     \end{enumerate}
 \end{theorem}
+This is 2.1.3 and 2.1.4 in May-Ponto. The second part follows from the first by noting that $M(f, g)$ is the pushout of the maps $A\to Mf$ and $A\to Y$ and we have a homotopy equivalence $Mf \to X$. The third follows from the second.
 
-\begin{theorem}
-    The homotopy pushout is homotopy invariant: given a diagram of pushout data 
+A dual version of the theorem holds for homotopy pullbacks with fibrations instead of cofibrations.
 
-    \begin{tikzcd}
-        A \dar & \lar B \dar\rar &\dar C \\
-        D & \lar E \rar & F
-    \end{tikzcd}
+\begin{remark}
+    The homotopy pushout of a map $f\colon A\to B$ together with the canonical map $A\to *$ where $*$ is the one point space is called the homotopy cofiber of $f$. By the preceding theorem, if $f$ is a cofibration, then the cofiber is homotopy equivalent to the quotient $B/A$.
+\end{remark}
 
-    such that the vertical maps are part of homotopy equivalences, then the natural map $A\coprod_B C \to D\coprod_E F$ is naturally a homotopy equivalence.
-\end{theorem}
-\begin{theorem}
-    If $D$ is the pushout (of topological spaces) of $A\from B\xrightarrow{f}C$ and $f$ is a cofibration, the diagram is in fact a homotopy pushout. If $A\injto B$ is a cofibration, then the homotopy cofiber is $B/A$.
-\end{theorem}
+
+TODO: This entire remaining section.
 
 \begin{theorem}[Pasting Lemma]
     \begin{enumerate}
@@ -1165,6 +1711,437 @@ TODO: Definition of homotopy pushout
 \begin{theorem}
     Mather's cube theorem for regular and for homotopy pullbacks and pushouts. 
 \end{theorem}
+
+\section{Elements of Model Categories}
+\subsection{Homotopy Pushouts}
+We follow \cite[A.2.4]{lurie2009higher}. 
+Let $\cat M$ be a model category.
+
+Consider diagrams in $\cat M$ of the form $X \xfrom{f} A \xto{g} Y$. The pushout $X\coprod_A Y$ of such a diagram is in general poorly behaved in the sense that a map of such diagrams 
+
+\begin{center}
+    \begin{tikzcd}
+    X \dar& \lar["f"] \dar A \rar["g"] & Y\dar \\
+    X' & \lar["f'"] A' \rar["g'"] & Y'
+    \end{tikzcd}
+\end{center}
+
+need not induce a weak equivalence $X\coprod_A Y \to X'\coprod_{A'} Y'$ even if the vertical maps individually are weak equivalences. To correct this, it is convenient to introduce the left derived functor of the pushout. 
+\begin{definition}
+    \begin{enumerate}[(1)]
+    \item A diagram 
+    $$X \xfrom{f} A \xto{g} Y$$
+    is called cofibrant if $A$ is cofibrant and $f$ and $g$ are cofibrations (and hence $X$ and $Y$ are also cofibrant). 
+    \item A \emph{cofibrant replacement} of $X \xfrom{f} A \xto{g} Y$ is a diagram of the form 
+    \begin{center}
+        \begin{tikzcd}
+        X' \dar& \lar["f'"] \dar A' \rar["g'"] & Y'\dar \\
+        X & \lar["f"] A \rar["g"] & Y
+        \end{tikzcd}
+    \end{center}
+    where the upper row is cofibrant and the vertical arrows are weak equivalences.
+
+    \item The \emph{homotopy pushout} of the diagram 
+    $$X \xfrom{f} A \xto{g} Y$$
+    is defined to be the pushout $X'\coprod_{A'} Y'$ where we have chosen a cofibrant replacement of $X \xfrom{f} A \xto{g} Y$.
+    \item More generally, a diagram
+    \begin{center}
+        \begin{tikzcd}
+            A \dar \rar & X \dar \\
+            Y \rar & M
+        \end{tikzcd}
+    \end{center}
+    is called a homotopy pushout square if the composite $X'\coprod_{A'} Y' \to X\coprod_A Y\to M$ is a weak equivalence for some cofibrant replacement.
+\end{enumerate}
+\end{definition}
+
+We write $X\coprod^h_A Y$ for a homotopy pushout $M$ as in (4).
+One can show that a cofibrant replacement as required in (2) always exists and that the pushout depends on the choice of diagram only up to weak equivalence. Similarly one can show that the condition in (3) is independent of the choice of cofibrant replacement.
+
+In practice, one can use weaker conditions than in the definition of the cofibrant replacement:
+
+\begin{theorem}\label{thm:homotopy_pushout_sufficient}
+    Consider a pushout diagram in $\cat M$
+    
+    \begin{center}
+        \begin{tikzcd}
+            A \dar["i"] \rar["j"] & X \dar \\
+            Y \rar & M
+        \end{tikzcd}
+    \end{center}
+
+    This diagram is also a homotopy pushout if either of the following conditions is satisfied:
+    \begin{enumerate}
+        \item The objects $Y$ and $A$ are cofibrant and $j$ is a cofibration.
+        \item The map $j$ is a cofibration and $\cat M$ is left proper.
+    \end{enumerate}
+\end{theorem}
+
+We recall basic facts of left and right proper model categories in the following section. Most of the model categories we work with are proper. TODO: Link to subsecs
+
+\begin{remark}
+The theory of homotopy pullbacks is completely analogous, where one uses fibrant replacements instead of cofibrant replacements. 
+\end{remark}
+
+% \begin{remark}
+%     There is a more general theory for homotopy limits and colimits of diagrams indexed by a more general category $I$. For this, one attempts to equip the functor category $\cat M^I$ with the structure of a model category and define derived functors between model categories. The homotopy colimit functor is then the derived functor of the functor $\colim \cat M^I\to \cat M$ and it can again be computed via cofibrant replacement in the model category $\cat M^I$. 
+%     In the presentation above, the definitions have been unwrapped for the special case $I=*\from *\to *$.
+% \end{remark}
+
+\subsection{Left and right proper model categories}
+We are interested in left and right proper model categories due to \ref{thm:homotopy_pushout_sufficient}. We state results from \cite[15.4]{may2011more}.
+
+\begin{definition}
+    A model category $\cat M$ is left proper if the pushout of a weak equivalence along a cofibration is a weak equivalence. $\cat M$ is right proper if the pullback of a weak equivalence along a fibration is again a weak equivalence. $\cat M$ is proper if it is both left and right proper.
+\end{definition}
+
+For example, the projective model structure on connective chain complexes is a proper model category. TODO: More examples, references.
+
+\begin{proposition}
+    If every object of $\cat M$ is cofibrant then $\cat M$ is left proper. If every object of $\cat M$ is fibrant then $\cat M$ is right proper.
+\end{proposition}
+
+\begin{theorem}
+    $\cat M$ is left proper if and only if the left gluing lemma holds: For any diagram as below, if $f$ and $f'$ are cofibrations and the vertical maps are weak equivalences, then the induced map of pushouts $X\coprod_A Y\to X'\coprod_{A'} Y'$ is a weak equivalence.
+
+    \begin{center}
+        \begin{tikzcd}
+        X \dar& \lar["f"] \dar A \rar["g"] & Y\dar \\
+        X' & \lar["f'"] A' \rar["g'"] & Y
+        \end{tikzcd}
+    \end{center}
+
+
+    $\cat M$ is right proper if and only if the right gluing lemma holds, which is stated dually.
+\end{theorem}
+
+% \subsection{Derived Functors}
+% Let $\cat M$ be a model category, $\cat C$ a category and $\phi\colon\cat M\to\cat C$ a functor. 
+% \begin{definition}\label{def:left_derived}
+%     A \emph{left derived} functor of $\phi$ is a functor $\mathds L\phi \colon \Ho\cat M\to \cat C$ together with a natural transformation $\varepsilon\colon\mathds L \phi  \comp \gamma\nto \phi \colon \cat M\to \cat C$ such that the pair $(\mathds L, \phi)$ is universal wrt.\ such pairs, in the sense that for any other pair $(G, \zeta)$ where $G\colon \Ho\cat M\to\cat C$ is a functor and $\zeta\colon G\gamma \to \phi$ is a natural transformation, there exists a unique natural transformation $\theta\colon G\nto \mathds L \phi\colon \cat M\to \cat C$ such that $\zeta = \varepsilon(\theta\comp\gamma)$. 
+    
+%     A \emph{right derived} functor $\mathds R\phi$ of $\phi$ is defined dually in the sense that now $\varepsilon$ is a natural transformation $\phi\nto\mathds \phi\comp\gamma\colon \cat M\to \cat C$.
+% \end{definition}
+
+% \begin{definition}
+%     Let $\cat M$ be a model category. A cofibrant approximation of an object $X$ in $\cat M$ is a weak equivalence $\tilde X\to X$ such that $\tilde X$ is cofibrant.
+%     A cofibrant approximation of a morphism $f\colon X\to Y$ in $\cat M$ is a morphism $\tilde g\colon \tilde X\to\tilde Y$ where $i_X\colon \tilde X\to X$ is a cofibrant approximation of $X$, $i_Y\colon \tilde Y\to Y$ is a cofibrant approximation of $Y$ and $i_Y\tilde g = gi_X$.
+% \end{definition}
+
+% \begin{theorem}
+%     If $\phi$ takes trivial cofibrations between cofibrant objects in $\cat M$ to isomorphisms in $\cat C$ then the left derived functor $\mathds L\phi$ exists. Moreover, for any cofibrant object of $\cat M$, the natural map $\mathds L \phi X \to FX$ is an isomorphism.
+% \end{theorem}
+
+% Consider the situation where $\cat M$ and $\cat N$ are model categories and $\phi\colon \cat M \to \cat N$ is a functor.
+% \begin{definition}\label{def:total_left_derived}
+%     A \emph{total left derived functor} of $\phi$ is a left derived functor of the composition $\cat M\to\cat N\to\Ho\cat N$. Thus a total left derived functor is a functor $\cat L\phi\colon \Ho\cat M\to\Ho\cat N$ together with a natural transformation $\varepsilon\colon\mathds L \phi\comp \gamma_{\cat M}\nto \gamma_{\cat N} \comp \phi\colon \Ho \cat M\to \cat N$, such that the pair $(\mathds L, \varepsilon)$ is universal as in \ref{def:left_derived}.
+% \end{definition}
+% \begin{theorem}
+%     If $\phi$ takes trivial cofibrations between cofibrant objects in $\cat M$ to weak equivalences in $\cat N$, then the total left derived functor $\mathds L\phi\colon\Ho \cat M\to\cat N$ exists. 
+% \end{theorem}
+
+
+\subsection{Homotopical Categories}
+
+To define a homotopy colimit functor, one would like to equip the category $\cat M^I$ with a model structure, for any model category $\cat M$ and an arbitrary category $I$. This is not possible in general, though it is possible for example by adding the requirement that $\cat M$ is a combinatorial model category or that $I$ is a Reedy category. The notion of homotopical category is weaker than model categories, but it allows a theory of derived functors. We follow \cite[2.1 and 2.2]{riehl_2014}.
+
+\begin{definition}
+    A homotopical category $\cat M$ is a category with a distinguished set $\cat W$ of maps (called \emph{weak equivalences}) such that 
+    \begin{enumerate}
+        \item $\cat W$ contains all the identity maps in $\cat M$
+        \item $\cat W$ has the two out of six property that, for any three composable maps $r, s, t$ in $\cat M$, for which the compositions $sr$ and $ts$ exist and are in $\cat W$, the four maps $r, s, t$ and $tsr$ are also in $\cat W$
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+The definition implies that \begin{enumerate}\item $\cat W$ contains all isomorphisms in $\cat M$ and that \item $\cat W$ has the two out of three property: for any composable maps $r$ and $s$ in $\cat M$, if any of the two morphisms $r$, $s$ and $sr$ is in $\cat W$, then so is the third.
+\end{enumerate}
+\end{remark}
+\begin{remark}
+Any model category gives rise to a homotopical category with the same weak equivalences. Any category has the structure of a homotopical category by taking only the isomorphisms as the weak equivalences. If no other homotopical category structure is canonically available, we use this. 
+\end{remark}
+
+\begin{definition}
+Given two homotopical categories $\cat M, \cat N$:
+\begin{enumerate}
+    \item A functor $\cat M\to\cat N$ is called \emph{homotopical} if it preserves weak equivalences
+    \item A natural transformation between two functors $\cat M\to \cat N$ is called a \emph{natural weak equivalence} if each morphism is a weak equivalence in $\cat N$
+    \item Two functors $\cat M\to \cat N$ are called \emph{naturally weakly equivalent} if they can be connected by a zigzag of natural weak equivalences.
+    \item A homotopical functor $f\colon\cat M\to \cat N$ is called a homotopical equivalence of homotopical categories if there exists a homotopical functor $f'\colon\cat N\to\cat M$ such that the compositions $ff'$ and $f'f$ are naturally weakly equivalent to the identity functors $\id_{\cat M}$ resp.\ $\id_{\cat N}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+    The homotopy category $\Ho\cat M$ is the formal localization of $\cat M$ at the weak equivalences $\cat W$. Hence it is a category $\Ho\cat M$ together with a functor $\gamma_{\cat M}\colon \cat M\to \Ho \cat M$ which maps the weak equivalences to isomorphisms, such that for any other functor $F\colon\cat M\to \cat D$ which maps weak equivalences to isomorphisms, there exists a unique functor $\bar F\colon \Ho\cat M\to \cat D$ such that $ \bar F \gamma_{\cat M} = F$. 
+\end{definition}
+\begin{theorem}
+    The homotopy category of a homotopical category can be constructed as follows: The objects are the same as the objects of $\cat M$, the hom-set $\Ho\cat M(X, Y)$ consists of equivalence classes of zigzags in $\cat M$ from $X$ to $Y$ in which backwards maps are weak equivalences, by the weakest equivalence relation which makes the following identifications
+    \begin{enumerate}[(i)]
+        \item identity maps can be omitted
+        \item adjacent maps can be replaced by their composition
+        \item two adjacent maps which are identical but going in opposite directions may be omitted.
+    \end{enumerate}
+\end{theorem}
+
+\begin{remark}
+    One can often find a description of the localization where the zigzags of arbitrary length can be replaced by zigzags of fixed length. For a commutative square 
+
+    \begin{center}
+        \begin{tikzcd}
+            X \dar\rar &Y \dar\\
+            Z \rar & W
+        \end{tikzcd}
+    \end{center}
+
+    where the vertical maps are weak equivalences, one can replace $Z \to Y\from Y$ with $Z\from W\to X$ inside a zigzag. Thus if one can always find such squares then one can iteratively shorten any zigzag. An example of this is 3-arrow calculus \cite[Section 36]{dwyer2004homotopy}. 
+\end{remark}
+
+\subsection{Derived Functors of homotopical categories}
+
+\begin{definition}
+    A \emph{total left derived functor} $\mathbf LF$ of a functor $F\colon\cat M\to\cat N$ between homotopical categories $\cat M$ and $\cat N$ is a right Kan extension $\Ran_{\gamma_{\cat M}}\gamma_{\cat N} F$
+    
+    \begin{center}
+        \begin{tikzcd}
+            \cat M\dar["\gamma_{\cat M}"] \rar["F"] \drar[phantom, "\nto"] &\cat N \dar["\gamma_{\cat N}"]\\
+            \Ho\cat M\rar["\mathbf LF"] & \Ho\cat N
+        \end{tikzcd}
+    \end{center}
+
+    This means the left derived functor is a pair $(\mathbf LF, \epsilon)$ of a functor $\mathbf LF \colon\Ho \cat M\to \Ho\cat N$ and a natural transformation $\epsilon\colon \mathbf LF\gamma_{\cat M}\nto \gamma_{\cat N} F\colon \cat M\to \Ho\cat N$, such for any other pair $(G, \phi)$ of a functor $G\colon \cat M\to\Ho\cat N$ and $\phi\colon G\gamma_{\cat M} \nto \gamma_{\cat N} F \colon \cat M\to \Ho\cat N$, there exists a unique natural transformation $\theta\colon G\nto\mathbf LF$ such that $\phi = \epsilon(\theta\comp\gamma_{\cat M})$.
+\end{definition}
+
+By the universal property of $\Ho\cat M$, the left derived functor $\mathbf LF$ is equivalently a homotopical functor $\cat M\to \Ho \cat N$, which is often called the left derived functor of $F$. Here this terminology is reserved for a lift of $\mathbf LF$ along $\gamma_{\cat N}$.
+
+\begin{definition}
+    A \emph{left derived functor} of $F\colon\cat M\to\cat N$ is a homotopical functor $\mathds LF\colon \cat M\to\cat N$ equipped with a natural transformation $\lambda\colon \mathds LF\nto F$ such that $(\gamma_{\cat N} \mathbf LM, \gamma_{\cat N} \lambda)$ is a total left derived functor of $F$ (where $\gamma_{\cat N}\lambda\colon\gamma_{\cat N}\mathds LF\nto \gamma_{\cat N} F$). 
+\end{definition}
+
+\subsection{Derived Functors via Deformations}
+
+\begin{definition} A \emph{left deformation} of a homotopical category $\cat M$ is a pair $(Q, q)$ of a homotopical functor $Q\colon \cat M\to \cat M$ and a natural weak equivalence $q\colon Q\to \id_{\cat M}$. 
+    
+A \emph{left deformation} of a functor $\cat M\to \cat N$ of homotopical categories consists of a left deformation $(Q, q)$ for $\cat M$ together with a category $\cat M_Q$ which is a full subcategory of $\cat M$ containing the image of $Q$, such that $F$ is homotopical on $M_Q$. $M_Q$ is called the category of cofibrant objects. If $F$ admits a left deformation, we say that $F$ is \emph{left deformable}.
+\end{definition}
+
+\begin{lemma}[Ken Brown's Lemma]
+    Let $\cat M$ and $\cat N$ be model categories. Then any left Quillen functor $F\colon \cat M\to \cat N$ (i.e.\ a left adjoint functor that preserves cofibrations and trivial cofibrations) preserves weak equivalences between cofibrant objects.
+\end{lemma}
+This means that if $\cat M$ admits a functorial cofibrant replacement, then $F$ is left deformable with respect to the subcategory of cofibrant objects of $\cat M$.
+
+\begin{theorem}
+    If $F\colon \cat M\to\cat N$ has a left deformation $q\colon Q\nto \id$, then $\mathds LF = FQ$ is a left derived functor of $F$.
+\end{theorem}
+
+
+\begin{theorem}
+    Let $F\colon \cat M\to\cat N$ and $G\colon \cat N\to\cat P$ be functors of homotopical categories with specified left deformations $(Q, q)$ and $(Q', q')$ and subcategories of cofibrant objects $\cat M_{Q}$, $\cat N_{Q'}$, such that $F$ restricts to a homotopical functor $\cat M_F\to\cat N_G$. Then there are natural weak equivalences
+\begin{align*}
+    \mathds LG \mathds LF = GQ' FQ \xnto{Gq'} GFQ = \mathds L(GF)\qquad \mathds L\id_{\cat M} = Q \xnto{q} \id_{\cat M}
+\end{align*}
+that descend to natural isomorphisms $\mathbf LG \mathbf LF\iso\mathbf L(GF)$ and $\mathbf L \id_{\cat M} \iso \id_{\Ho\cat M}$. 
+\end{theorem}
+
+\subsection{Cofibrantly generated model categories and the projective model structure}
+We follow \cite[Chapter 11]{hirschhorn2003model}.
+A cofibrantly generated model category is a category that has two sets of cofibrations and trivial cofibrations that satisfy two conditions: they are in some sense small, and they generate all cofibrations resp. trivial cofibrations via lifting properties. 
+
+Cofibrantly generated model categories allow the construction of the projective model structure on the functor category $\cat M^{\cat C}$. We require a model structure on this functor category to consider homotopy colimits. 
+
+Recall that the fibrations in a model category $\cat M$ are the maps with the right lifting property with respect to all trivial cofibrations. Similarly the trivial fibrations are the maps with the right lifting property with respect to all cofibrations. The weak equivalences are the maps that can be written as compositions of a trivial cofibration and a trivial fibration. Hence for example the cofibrations and trivial cofibrations entirely determine the model category. 
+
+\begin{definition}
+     If $\cat M$ is a category and $I$ is a set of maps in $\cat C$, then we say that \emph{$I$ permits the small object argument} if the domains of the elements of $I$ are small relative\footnote{We do not define this notion of smallness here, see \cite[Def. 10.4.1 and 10.5.8]{hirschhorn2003model}.} to $I$. 
+\end{definition}
+\begin{definition}
+    Let $\cat C$ be a category and $I$ a set of maps in $\cat C$.
+    \begin{enumerate}
+        \item The category of \emph{$I$-injectives} is the subcategory of maps that have the right lifting property with respect to every element of $I$.
+        \item The subcategory of \emph{$I$-cofibrations} is the subcategory of maps that have the left lifting property with respect to every $I$-injective. 
+        \item If $\cat C$ is closed under small colimits and $I$ is a set of maps in $\cat C$, then a \emph{relative $I$-cell complex} is a map in $\cat C$ that can be constructed as a transfinite composition \footnote{We do not define transfinite composition here, see \cite[10.2.1]{hirschhorn2003model}.} of pushouts of elements of $I$.
+    \end{enumerate}
+\end{definition}
+Every relative $I$-cell complex is an $I$-cofibration. 
+\begin{theorem}
+    If $\cat C$ is a cocomplete category and $I$ is a set of maps in $\cat C$ that permits the small object argument, then there is a functorial factorization of every map in $\cat C$ into a relative $I$-cell complex followed by an $I$-injective map.
+\end{theorem}
+\begin{definition}[{\cite[11.1.2]{hirschhorn2003model}}]
+    A \emph{cofibrantly generated model category} is a model category $\cat M$ such that 
+    \begin{enumerate}
+        \item there exists a set $I$ of maps (called a set of \emph{generating cofibrations}) that permits the small object argument and such that a map is a trivial fibration if and only if it has the right lifting property with respect to every element of $I$ and
+        \item there exists a set $J$ of maps (called a set of \emph{generating trivial cofibrations}) that permits the small object argument and such that a map is a fibration if and only if it has the right lifting property with respect to every element of $J$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[{\cite[11.2.1]{hirschhorn2003model}}]
+    Let $\cat M$ be a cofibrantly generated model category with generating cofibrations $I$ and generating trivial cofibrations $J$.
+    \begin{enumerate}
+        \item The class of cofibrations of $\cat M$ equals the class of retracts of relative $I$-cell complexes which equals the class of $I$-cofibrations.
+        \item The class of trivial fibrations equals the class of $I$-injectives.
+        \item The class of trivial cofibrations equals the class of retracts of relative $J$-cell complexes, which equals the class of $J$-cofibrations
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[{\cite[11.3.1]{hirschhorn2003model}}]
+    Let $\cat M$ be a category that is closed under small limits and colimits and let $W$ be a class of maps in $\cat M$ that is closed under retracts and satisfied the two out of three axiom. If $I$ and $J$ are sets of maps in $\cat M$ such that 
+    \begin{enumerate}
+        \item both $I$ and $J$ permit the small object argument
+        \item every $J$-cofibration is both an $I$-cofibration and an element of $W$,
+        \item every $I$-injective is both a $J$-injective and an element of $W$
+        \item one of the following two conditions holds:
+        \begin{enumerate}[(a)]
+            \item a map that is both an $I$-cofibration and na element of $W$ is a $J$-cofibration, or
+            \item a map that is both a $J$-injective and an element of $W$ is an $I$-injective,
+        \end{enumerate}
+    \end{enumerate}
+    then there is a cofibrantly generated model category structure on $\cat M$ in which $W$ is the class of weak equivalences, $I$ is a set of generating cofibrations and $J$ is a set of generating trivial cofibrations. 
+\end{theorem}
+
+\begin{theorem}[{\cite[11.6.1]{hirschhorn2003model}}]
+    If $\cat C$ is a small category and $\cat M$ is a cofibrantly generated model category with generating cofibrations $I$ and generating trivial cofibrations $J$, then the category $\cat M^{\cat C}$ is a cofibrantly generated model category. In this model category structure, a map $X\to Y$ is 
+    \begin{itemize}
+        \item a weak equivalence if $X_\alpha \to Y\alpha$ is a weak equivalence in $\cat M$ for every object $\alpha\in\cat C$,
+        \item a fibration if $X_\alpha\to Y_\alpha$ is a fibration in $\cat M$ for every object $\alpha$ of $\cat C$.
+    \end{itemize}
+\end{theorem}
+A model structure on $\cat M^{\cat C}$ with weak equivalences and fibrations as above is called the projective model structure on $\cat M^{\cat C}$. Thus the theorem states that if $\cat M$ is cofibrantly generated, the projective model structure on $\cat M^{\cat C}$ exists. 
+
+% We have natural transformations \begin{align*}
+%     \epsilon_F\colon \mathds L F \gamma_M \nto \gamma_N F, \quad \epsilon_G\colon \mathds L G \gamma_N \nto \gamma_P G\quad \text{and}\quad \epsilon_{GF}\colon\mathds L (GF) \gamma_{M} \nto \gamma_{P} GF
+% \end{align*} 
+% The transformations $\epsilon_F$ and $\epsilon_G$ can be composed as $$\mathds L G\mathds L F \gamma_M \xnto{\mathds L G \epsilon_F} \mathds L G \gamma_N F \xnto{\epsilon_G F} \gamma_P GF.$$ By the universal property of $\mathds L(G\comp F)$, there is a natural transformation $\theta\colon\mathds L G\comp\mathds L F \nto \mathds L(G\comp F) \colon \Ho\cat M\to\Ho\cat P$, such that $\epsilon_{GF}(\theta\comp\gamma_M) = \mathds L G \epsilon_F\comp\epsilon_G F$.
+
+% TODO finish this
+\subsection{Homotopy Colimits}
+We follow \cite[Chapter 5-6]{riehl_2014} and \cite[Section 19-21]{dwyer2004homotopy}
+\begin{definition}
+    Let $\cat D$ be a category and $\cat M$ a category with all $\cat D$-colimits. A homotopy $\cat D$-colimit functor is a a left derived functor of a fixed left adjoint 
+    $$\colim^{\cat D}\colon \cat M^{\cat D}\to \cat M$$
+    of the constant diagram functor $\cat M\to\cat M^{\cat D}$.
+\end{definition}
+This makes the homotopy $\cat D$-colimit homotopically unique in the sense that the category of such objects is equivalent through a homotopical equivalence to the single-object category $*$.
+
+% \begin{definition} Combinatorial Model Category
+% \end{definition}
+
+% \begin{theorem}
+%     Let $\cat M$ be a model category that admits a functorial cofibrant replacement and $\cat D$ a category. Then a homotopy $\cat D$-colimit functor exists. 
+% \end{theorem}
+% \begin{proof}
+%     Let $Q\colon \cat M\to \cat M_c$ and $q\colon Q\to\id_{\cat M}$ be a functorial cofibrant replacement and hence a left deformation of $\cat M$. Then $Q^{\cat D}\colon \cat M^D\to\cat M_c^{\cat D}$ and $q\colon Q^{\cat D}\to\id_{\cat M^{\cat D}}$ is a left deformation of $\cat M^{\cat D}$. We need to show that this is a left deformation of $\colim\colon\cat M^{\cat D}\to\cat M$. Hence we need to show that $\colim$ maps homotopy equivalent functors in $\cat M_c^{\cat D}$ to homotopy equivalent colimits. 
+
+%     Let $X, Y\colon \cat D\to\cat M_c$ and $f\colon X\nto Y$ an objectwise weak equivalence. For each $i\in \cat C$ consider the map $f_i\colon X_i\to Y_i$. We can factor the coproduct map $f\coprod\id_{Y_i} \colon X_i\coprod Y_i\to Y_i$ as a composite $X_i\coprod Y_i\xto{q_i} C_i \xto{p_i} Y_i$ such that $q_i$ is a cofibration and $p_i$ is an acyclic fibration. Since $X_i$ and $Y_i$ are cofibrant, the inclusions $i_X\colon X_i\to X_i\coprod Y_i$ and $i_Y\colon Y_i\to X_i\coprod Y_i$ are cofibrations, hence the composite maps $q_i i_X\colon X_i\to C_i$ and $q_i i_Y Y_i\to C_i$ are cofibrations. 
+% \end{proof}
+
+\subsection{Quillen Adjunctions}
+The following is from \cite[16.2]{may2011more}.
+
+\begin{definition}
+Let $F\colon \cat M\to \cat N$ and $U\colon \cat N\to\cat M$ be left and right adjoint functors between model categories. The pair $(F, U)$ is a \emph{Quillen adjunction} if the following equivalent conditions are satisfied:
+\begin{enumerate}
+    \item $F$ preserves cofibrations and $U$ preserves fibrations.
+    \item $F$ preserves cofibrations and acyclic cofibrations.
+    \item $U$ preserves fibrations and acyclic fibrations.
+    \item $F$ preserves acyclic cofibrations and $U$ preserves acyclic cofibrations.
+\end{enumerate}
+The Quillen adjunction is a \emph{Quillen equivalence} if for any map $f\colon FX\to Y$ with adjoint $g\colon X\to UY$, where $X$ is cofibrant and $Y$ is fibrant, $f$ is a weak equivalence in $\cat N$ if and only if $g$ is a weak equivalence in $\cat M$. 
+\end{definition}
+
+\begin{theorem}
+    If $(F, U)$ is a Quillen adjunction, then the total derived functors $\mathds LF\colon \Ho \cat M\to \Ho\cat N$ and $\mathds R U$ exist and form an adjoint pair. If $(F, U)$ is a Quillen equivalence, then $(\mathds LF,\mathds RU)$ is an adjoint equivalence between $\Ho\cat M$ and $\Ho\cat N$.
+\end{theorem}
+
+\begin{lemma}
+    If $F\colon \cat M\to \cat N$ is a left Quillen functor and $g\colon X\to Y$ is a map in $\cat M$, then the total left derived functor $\mathds F\colon\Ho\cat M\to\Ho\cat N$ takes the image of $g$ in $\Ho\cat M$ to the image in $\Ho\cat N$ of $F(\tilde g)$ for some cofibrant approximation $\tilde g\colon\tilde X\to\tilde Y$ of $g$.
+\end{lemma}
+
+% \begin{example}
+
+% \end{example}
+
+TODO: Reference or proof for the following.
+\begin{theorem}
+    If $(F, U)$ is a Quillen adjunction, then $F$ preserves homotopy pushouts: for any diagram $X\xfrom{f} A \xto{g} Y$, the natural map $F(X)\coprod^h_{F(A)} F(Y) \to F(X\coprod^h_A Y)$ is a weak equivalence. Dually, $U$ preserves homotopy pullbacks.
+\end{theorem}
+
+\section{Examples of Model Categories}
+\subsection{Simplicial Sets}
+\subsection{Spaces}
+Let $\cat I$ be the set of inclusions $S^{n-1}\to D^n$ for $n\geq 0$, where $S^{-1}=\emptyset$. Let $\cat J$ be the set of inclusions $i_0\colon D^n\to D^n\times I$.
+\begin{theorem}
+There is a model structure, called the classical model or Quillen model structure structure on spaces, on the category of compactly generated topological spaces, in which
+\begin{itemize}
+    \item the weak equivalences are weak homotopy equivalences
+    \item the fibrations are the Serre fibrations, i.e. maps which have the right lifting property with respect to $\cat J$
+    \item cofibrations are the retracts of relative cell complexes
+\end{itemize}
+The acyclic fibrations are the maps which have the right lifting property with respect to $\cat I\union\cat J$. 
+
+The classical model structure on topological spaces is proper, cofibrantly generated and a monoidal model category. 
+\end{theorem}
+See \cite[17.2.2]{may2011more}.
+
+Every space is fibrant with respect to this model structure, the cofibrant spaces are retracts of generalized cell complexes.
+
+
+\begin{theorem}
+    There exists a model structure, called the Strøm model structure, on the category of compactly generated spaces, in which
+    \begin{itemize}
+        \item the weak equivalences are the homotopy equivalences
+        \item fibrations are the Hurewicz fibrations, which are defined to be the maps that have the right lifting property with respect to all inclusions $A\injto A\times I$
+        \item cofibrations are determined by these classes and are called the closed Hurewicz cofibrations.
+    \end{itemize} 
+    The Strøm model is proper and a monoidal model category. 
+\end{theorem}
+See \cite[17.1.1 and 17.1.3]{may2011more}.
+The cofibrations of this model are the classical cofibrations, i.e.\ the maps that satisfy the left lifting property with respect to maps $B^I\xto{ev_0} B$ for all $B$. Similarly the fibrations satisfy the right lifting property with respect to the inclusions $A\xto{i_0} A\times I$ for all $A$. The Strøm model is not cofibrantly generated, see for example remark 4.7 in \cite{raptis2010homotopy}.
+
+\subsection{Chain Complexes}
+Let $R$ be a ring, $R-mod$ its category of modules and $\Ch_{\geq 0}(R-mod)$ the category of connective chain complexes (i.e.\ $0$ in negative degree).
+\begin{theorem}[{\cite[II.4]{quillen2006homotopical}}, \cite{strickland2020model}]
+    There is a model category structure called the \emph{projective model structure} on the category of chain complexes $\Ch_{\geq 0}(R-mod)$ whose
+    \begin{itemize}
+        \item weak equivalences are the quasi-isomorphisms
+        \item fibrations are the morphisms that are underlying epimorphisms in $R-mod$ in each positive degree
+        \item cofibrations are degreewise monomorphisms with degreewise projective cokernel. 
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}
+    The projective model structure on $\Ch_{\geq 0}$ on connective chain complexes is proper. It is a monoidal model category with respect to the tensor product of chain complexes. It is cofibrantly generated with the generating cofibrations
+
+    \begin{center}
+    \begin{tikzcd}[sep=10pt]
+        S^{n-1} \ar[d, "{ i_n }"] \ar[r, phantom, ":"] &\big[\; \cdots & \ar[l] 0  \ar[d] & \ar[l] 0  \ar[d] & \ar[l] 0  \ar[d] & \ar[l] R  \ar[d, "{\mathrm{id}}"] & \ar[l] 0  \ar[d] & \ar[l] \cdots \;\big] \\
+        D^n \ar[r, phantom, ":"] & \big[\; \cdots & \ar[l] 0  & \ar[l] 0 & \ar[l] \underset{ \mathclap{ \raisebox{-3pt}{ \scalebox{.7}{ $\mathrm{deg} = n$ } } } }{ R } &  \ar[l, "{ \mathrm{id} }"]R & 0 \ar[l] & \cdots \ar[l] \;\big] 
+    \end{tikzcd}
+    \end{center}
+
+  and generating acyclic cofibrations
+    \begin{center}
+    \begin{tikzcd}[sep=10pt]
+        0 \ar[d, "{ j_n }"] \ar[r, phantom, ":"] & \big[\; \cdots & 0 \ar[l] \ar[d] & 0 \ar[l] \ar[d] & 0 \ar[l] \ar[d] & 0 \ar[l] \ar[d] & 0 \ar[l] \ar[d] & \ar[l]\cdots \;\big] \\
+        D^n \ar[r, phantom, ":"] & \big[\; \cdots & 0 \ar[l] & 0 \ar[l] & \underset{ \mathclap{ \raisebox{-3pt}{ \scalebox{.7}{ $\mathrm{deg} = n$ } } } }{ R } \ar[l] & \ar[l, "{\mathrm{id}}"] R  & 0 \ar[l] & \ar[l] \cdots \;\big] 
+    \end{tikzcd}
+    \end{center}
+    \end{theorem}
+For a proof of the properness and the cofibrant generation, see theorems 23, 24 \cite{strickland2020model}. TODO: Monoidal model category - check if this is needed.
+% \begin{proof}
+%     Properness means that the pushout of any weak equivalence along any cofibration is still a weak equivalence and that the pullback of any weak equivalence along any fibration is again a weak equivalence. We show the first part only, consider a pushout square
+%     \begin{tikzcd}
+%         A_* \dar\rar & B_*\dar \\
+%         C_* \rar D_*
+%     \end{tikzcd}
+
+%     The claim that $\Ch_{\geq 0}$ is cofibrantly generated amounts to checking that a map of chain complexes is a an epimorphism if and only if it has the right lifting property with respect to the maps $0\to D^n$ for all $n\geq 1$ and that it is an epimorphism and quasi-isomorphism if and only if it has the right lifting property with respect to the maps $S^{n-1}\to D^n$. This is an easy diagram chase.
+% \end{proof}
+
+\subsection{Differential Graded Algebras}
+See \cite{jf1997closed}
+
+% Consider the category of differential graded 
+
+\section{Differential forms on Loop Spaces}
+\subsection{Chen Differentiable spaces and Diffeological Spaces}
 
 
 \bibliography{bibliography}
