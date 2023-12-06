@@ -685,14 +685,13 @@ Denote by $B = B(A, A, A)$ the two sided bar construction
 \begin{align*}
     B(A, A, A) = B\otimes T(A[1]) \otimes A = \sum_{n\geq 0} A\otimes A[1]^{\otimes n} \otimes A
 \end{align*}
-Its differential is given by $d_B = d_0 + d_1$ where $d_0$ is given by the differential on $A$:
+Its differential is given by $d_B = d_0 - d_1$ where $d_0$ is given by the differential on $A$:
 \begin{align*}
-    &d_0(\omega_0[\omega_1|\dots|\omega_n]\omega_{n+1}) = - d\omega_0[\omega_1|\dots|\omega_n]\omega_{n+1} - \\
-    &\quad \sum_{i=0}^n (-1)^{\varepsilon_{i-1}} \omega_0[\omega_1|\dots|d\omega_i|\dots|\omega_n]\omega_{n+1} - (-1)^{\varepsilon_{n}} \omega_0[\omega_1|\dots|\omega_n]d\omega_{n+1}
+    &d_0(\omega_0,\omega_1,\dots,\omega_n,\omega_{n+1}) = \sum_{i=0}^{n+1} (-1)^{\epsilon_{i-1}}\omega_0\otimes\dots\otimes d\omega \otimes\dots\otimes\omega_{n+1}
 \end{align*}
-with $\varepsilon_i = \deg\omega_0+\dots+\deg\omega_i - (i-1)$. The differential $d_1$ is defined using the multiplication on $A$:
+with $\varepsilon_i = \abs\omega_0+\dots+\abs\omega_i - (i-1)$ (and $\epsilon_{-1} =0$). The differential $d_1$ is defined using the multiplication on $A$:
 \begin{align*}
-    &d_1(\omega_0[\omega_1|\dots|\omega_n]\omega_{n+1}) = -(-1)^{\varepsilon_0}\omega_0\omega_1[\omega_2|\dots|\omega_n]\omega_{n+1} - \\&\quad\sum_{i=1}^{n-1} (-1)^{\varepsilon_i}\omega_0[\omega_1|\dots|\omega_i|\omega_{i+1}\omega_n]\omega_{n+1} - (-1)^{\varepsilon_{n}}\omega_0[\omega_1|\dots|\omega_{n-1}]\omega_{n}\omega_{n+1}
+    &d_1(\omega_0,\omega_1,\dots,\omega_n,\omega_{n+1}) = \sum_{i=0}^{n-1}(-1)^{\epsilon_i}\omega_0\otimes \dots\otimes\omega_i\wedge\omega_{i+1}\otimes \dots\otimes \omega_{n}
 \end{align*}
 
 For properties of the bar construction, see \ref{subseq:bar_construction}. 
@@ -708,9 +707,10 @@ $$\int_{\Delta^n}\colon \Omega^*(\Delta^n\times PM) \to \Omega^{*-n}(PM).$$
 The \emph{iterated integral on de Rham forms}\index{iterated integral!on de Rham forms} is the map 
 \begin{align*}
     I&\colon B(\Omega^*(M), \Omega^*(M), \Omega^*(M)) \to \Omega^*(PM) \\
-    I&= \sum_{n\geq 0} \int_{\Delta^n}\phantom{|} \comp ev_n^*
+    I(\omega_0 \otimes \dots \otimes\omega_{n+1}) &= (-1)^{\zeta}\int_{\Delta^n}\phantom{|} ev_n^*(\pi_0^*\omega_0\wedge\dots\wedge\pi_{n+1}^*\omega_{n+1})
 \end{align*}
-which acts on each summand as 
+%where $\zeta = (n+1)\abs{\omega_0} + n\abs{\omega_1}+\dots+2\abs{\omega_{n-1}} + \abs{\omega_{n}} + n(n+1)/2$. It acts on each summand up to sign as the composition
+where $\zeta = \abs{\omega_1}+2\abs{\omega_2}+\dots+(n+1)\omega_{n+1} + n(n+1)/2$. It acts on each summand up to sign as the composition
 \begin{align*}
     \Omega^*(M)\otimes\Omega^*(M)[1]^n\otimes\Omega^*(M)\to \Omega^{*+n}(M^{n+2})\xto{ev^*}\Omega^{*+n}(\Delta^n\times PM) \xto{\int_{\Delta^n}} \Omega^{*}(PM)
 \end{align*}
@@ -720,36 +720,38 @@ Following \cite{getzler1991differential} and \cite{chen1976reduced} we introduce
     The iterated integral is a chain map $B\to \Omega^*(PM)$. $D$ is a sub-chain complex of $C$. The iterated integral vanishes on $D$ and hence descends to a map $B/D\to\Omega^*(PM)$.
 \end{lemma}
 \begin{proof}
-    We use the Stokes' theorem for the fiber integral $d\int_{F} \omega = \int_{F}d\omega + (-1)^{\deg \omega - \dim F} \int_{\partial F}\omega$. Recall $\epsilon_i = \deg\omega_0+\dots+\deg\omega_i - (i-1)$)
+    We use the Stokes' theorem for the fiber integral $d\int_{F} \omega = \int_{F}d\omega + (-1)^{\abs{\omega} - \dim F} \int_{\partial F}\omega$. We write $\epsilon_i = \abs\omega_0+\dots+\abs\omega_i - (i-1)$ and $\zeta = \abs{\omega_1}+2\abs{\omega_2}+\dots+(n+1)\abs{\omega_{n+1}} + n(n+1)/2$.
     \begin{align*}
         % d\left(\int \omega_0\otimes\dots\otimes\omega_{n+1}\right) =& \int_{\Delta^n} ev^*\left(d\left((\pi^*\omega_0)\wedge\dots\wedge(\pi^*\omega_{n+1})\right)\right) \\&+ (-1)^{d-n} \int_{\partial\Delta^n} ev^*(\pi^*\omega_0)\wedge\dots\wedge(\pi^*\omega_{n+1}) \\
-        % =& \sum_{i=0}^{n+1} (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
+        % =& \sum_{i=0}^{n+1} (-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}} \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
         % &+(-1)^{d-n}\sum_{i=0}^n (-1)^i\int_{\Delta^{n-1}} ev^*((\pi^*\omega_0)\dots(\pi^*(\omega_{i}\wedge\omega_{i+1}))\dots(\pi^*\omega_{n+1})) \\
-        % =& \sum_{i=0}^{n+1} (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
+        % =& \sum_{i=0}^{n+1} (-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}} \int\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\\
         % &+(-1)^{d-n}\sum_{i=0}^n (-1)^i\int\omega_0\otimes\dots\otimes \omega_i\wedge\omega_{i+1}\otimes\dots\omega_{n+1}
-        d\left(I\left( \omega_0\otimes\dots\otimes\omega_{n+1}\right)\right) =& \int_{\Delta^n} ev^*\left(d\left((\pi_0^*\omega_0)\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1})\right)\right) \\& + (-1)^{\epsilon_n + 1} \int_{\partial\Delta^n} ev^*(\pi_0^*\omega_0)\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1}) 
-        \intertext{On the $i$-th face $\partial_i\Delta^n$, we have $t_i=t_{i+1}$ (with $t_0=0, t_{n+1}=1$) so $(\dots\times\pi_i\times\dots)\comp ev=(\dots\times\pi_{i+1}\times\dots)\comp ev$.}
-        =& \sum_{i=0}^{n+1} (-1)^{\epsilon_i + (i-1)}I\left(\omega_0\otimes\dots d\omega_i\dots\otimes\omega_{n+1}\right)\\
-        &(-1)^{\epsilon_n + 1}\sum_{i=0}^n \int_{\partial_i\Delta^n} ev^*((\pi_0^*\omega_0)\dots(\pi_i^*(\omega_{i}\wedge\omega_{i+1}))\dots(\pi_{n+1}^*\omega_{n+1})) 
-        \intertext{Reparametrization through the maps $\Delta^{n-1}\to\partial_i\Delta^n$ yields:}
-        =& \sum_{i=0}^{n+1} (-1)^{\epsilon_i + (i-1)} I\left(\omega_0\otimes\dots \otimes d\omega_i\otimes\dots\otimes\omega_{n+1}\right)\\
-        &+\sum_{i=0}^n (-1)^{\epsilon_n+1+i}I\left(\omega_0\otimes\dots\otimes \omega_i\wedge\omega_{i+1}\otimes\dots\otimes\omega_{n+1}\right)
+        d\left(I\left( \omega_0\otimes\dots\otimes\omega_{n+1}\right)\right) =& (-1)^{\zeta}\int_{\Delta^n} ev^*\left(d\left((\pi_0^*\omega_0)\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1})\right)\right) \\&
+        + (-1)^{\zeta+\epsilon_n + 1} \int_{\partial\Delta^n} ev^*\left((\pi_0^*\omega_0)\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1})\right) 
+        \intertext{The boundary $\partial \Delta^n$ splits into the faces $\partial_i\Delta^n$, which is positively oriented if $i$ is even and negatively oriented otherwise. On the $i$-th face $\partial_i\Delta^n$, we have $t_i=t_{i+1}$ (with $t_0=0, t_{n+1}=1$) so $\pi_i\comp ev=\pi_{i+1}\comp ev$.}
+        = \sum_{i=0}^{n+1} (-1)^{\zeta+\epsilon_{i-1} + (i-2)}\int_{\Delta^n} & ev^*\left(\pi_0^*\omega_0 \wedge \dots\wedge \pi_i^*d\omega_i\wedge\dots\wedge\pi_{n+1}^*\omega_{n+1}\right)\\
+        +\sum_{i=0}^n (-1)^{\zeta+\epsilon_n + 1 + i} \int_{\partial_i\Delta^n}& ev^*((\pi_0^*\omega_0)\wedge\dots\wedge(\pi_i^*(\omega_{i}\wedge\omega_{i+1}))\wedge(\pi_{i+2}^*\omega_{i+2})\wedge\dots\wedge(\pi_{n+1}^*\omega_{n+1})) 
+        \intertext{We reparametrize through the maps $\Delta^{n-1}\to\partial_i\Delta^n, (t_0, \dots, t_n)\mapsto (t_0, \dots, t_i, t_i, \dots, t_n)$. We write $\zeta_i = \abs{\omega_1} + \dots+i(\abs{\omega_i}+\abs{\omega_{i+1}}) + (i+1)\abs{\omega_{i+2}} + \dots + n\abs{\omega_{n+1}} + n(n-1)/2$, so that $\zeta-\zeta_i = \abs{\omega_{i+1}}+\dots+\abs{\omega_{n+1}} + n$}
+        =& +\sum_{i=0}^{n+1} (-1)^{i + \epsilon_{i-1} + (i-2)} I\left(\omega_0\otimes\dots \otimes d\omega_i\otimes\dots\otimes\omega_{n+1}\right)\\
+        &+\sum_{i=0}^n (-1)^{\zeta+\epsilon_n+1+i-\zeta_i}I\left(\omega_0\otimes\dots\otimes \omega_i\wedge\omega_{i+1}\otimes\dots\otimes\omega_{n+1}\right) \\
+        =& \sum^{n+1}_{i=0} (-1)^{\epsilon_{i-1}} I(\omega_0\otimes\dots\otimes d\omega_i\otimes\dots\otimes\omega_{n+1}) \\
+        &- \sum_{i=0}^{n} (-1)^{\epsilon_i}I(\omega_0\otimes\dots\otimes\omega_i\wedge\omega_{i+1}\otimes\dots\otimes\omega_{n+1})
     \end{align*}
-    TODO: Nail down signs.
 
     It is easy to check that $D$ is a sub-chain complex of $B$. 
 
-    We need to check that the iterated integral maps $D$ to $0$. Since only the $i+1$-th factor of the image of $ev_n$ depends on $t_i$, the pullback $ev^*(\omega_0\times\dots\times\omega_{n+1})$ can not contain the factor $dt_i$ if $\omega_{i+1}$ is a $0$-form. Hence any image of $S_i(f)$ is mapped to $0$ by the iterated integral. For $R_i(f)$, one can compute that  
+    We need to check that the iterated integral maps $D$ to $0$. Since only the $i+1$-th factor of the image of $ev_n$ depends on $t_i$, the pullback $ev^*(\omega_0\otimes\dots\otimes\omega_{n+1})$ can not contain the factor $dt_i$ if $\omega_{i+1}$ is a $0$-form. Hence any image of $S_i(f)$ is mapped to $0$ by the iterated integral. For $R_i(f)$, one can compute that  
     \begin{align*}
-        &R_i(f)(\omega_0[\omega_1|\dots|\hat\omega_i|\dots|\omega_{n}]\omega_{n+1}) = \pm \left( (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \omega_0[\omega_1|\dots| \omega_{i-1}| df| \omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} \right.\\&\quad\left. + \omega_0[\omega_1|\dots|(\omega_{i-1}f)|\omega_{i+1}|\dots\omega_n]\omega_{n+1} - \omega_0[\omega_1|\dots|(\omega_{i-1})|f\omega_{i+1}|\dots\omega_n]\omega_{n+1} \right)
+        &R_i(f)(\omega_0[\omega_1|\dots|\hat\omega_i|\dots|\omega_{n}]\omega_{n+1}) = \pm \left( (-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}} \omega_0[\omega_1|\dots| \omega_{i-1}| df| \omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} \right.\\&\quad\left. + \omega_0[\omega_1|\dots|(\omega_{i-1}f)|\omega_{i+1}|\dots\omega_n]\omega_{n+1} - \omega_0[\omega_1|\dots|(\omega_{i-1})|f\omega_{i+1}|\dots\omega_n]\omega_{n+1} \right)
     \end{align*}
     The iterated integral of the first summand is 
     \begin{align*}
         &\int \omega_0[\omega_1|\dots| \omega_{i-1}| df| \omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} = \int_{\Delta^{n-1}}\int_{t_i}^{t_{i+1}} ev_{n}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1} \\
-        &\quad= (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}}\int_{\Delta^{n-1}}\left(\int_{t_{i-1}}^{t_{i+1}} ev_{\{i\}}^*df\right) \wedge ev_{n-1}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1}) \\
-        &\quad= (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}}\int_{\Delta^{n-1}}\left(f(ev_{\{i-1\}})-f(ev_{\{i+1\}})\right) ev_{n-1}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1}) \\
-        &\quad= (-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int \omega_0[\omega_1|\dots|\omega_{i-1} f|\omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} \\
-        &\quad\hphantom{= }-(-1)^{\deg\omega_0+\dots+\deg\omega_{i-1}} \int \omega_0[\omega_1|\dots|\omega_{i-1} |f\omega_{i+1}|\dots|\omega_{n}]\omega_{n+1}
+        &\quad= (-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}}\int_{\Delta^{n-1}}\left(\int_{t_{i-1}}^{t_{i+1}} ev_{\{i\}}^*df\right) \wedge ev_{n-1}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1}) \\
+        &\quad= (-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}}\int_{\Delta^{n-1}}\left(f(ev_{\{i-1\}})-f(ev_{\{i+1\}})\right) ev_{n-1}^*(\omega_0[\omega_1|\dots|df|\dots|\omega_n]\omega_{n+1}) \\
+        &\quad= (-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}} \int \omega_0[\omega_1|\dots|\omega_{i-1} f|\omega_{i+1}|\dots|\omega_{n}]\omega_{n+1} \\
+        &\quad\hphantom{= }-(-1)^{\abs\omega_0+\dots+\abs\omega_{i-1}} \int \omega_0[\omega_1|\dots|\omega_{i-1} |f\omega_{i+1}|\dots|\omega_{n}]\omega_{n+1}
     \end{align*}
     where $ev_{\{i\}}\colon \Delta^n\times PM\to M, \left((t_1, \dots, t_n), \gamma\right)\mapsto \gamma(i)$,
 \end{proof}
@@ -783,7 +785,7 @@ We also exhibit the homology version
 but the natural target of this map is the direct product of the right hand side complexes, so the iterated integral map in on the bar complex is not on the nose the dual of a map in a homological chain complex.
 
 \paragraph{Generalization}
-In analogy to \cite[2.1]{patras2003cochain} we describe a more general construction depending on a simplicial set $K$. The bar construction above is then a special case where $K = \underline I$ is the standard simplicial set of the unit interval, which has two nondegenerate $0$-simplices and one nondegenerate $1$-simplex and generally $n+2$ mostly degenerate simplicies of degree $n$. Let $A$ be a unital differential graded commutative algebra and let $K$ be a simplicial set, finite and ordered in each level. Then there exists a simplicial chain complex denoted $A^{K}$, where $$A^{K} = \bigoplus_{n\in\N} s^n A^{K_n}$$. The simplicial boundary maps are defined as follows: 
+In analogy to \cite[2.1]{patras2003cochain} we describe a more general construction depending on a simplicial set $K$. The bar construction above is then a special case where $K = \underline I$ is the standard simplicial set of the unit interval, which has two nondegenerate $0$-simplices and one nondegenerate $1$-simplex and generally $n+2$ mostly degenerate simplicies of degree $n$. Let $A$ be a unital differential graded commutative algebra and let $K$ be a simplicial set, finite and well ordered in each level, such that the simplicial boundary maps preserve the order. Then there exists a simplicial chain complex denoted $A^{K}$, where $$A^{K} = \bigoplus_{n\in\N} s^n A^{K_n}$$. The simplicial boundary maps are defined as follows: 
 \begin{align*}
     &\partial_n^i\colon A^{K_n} \to A^{K_{n-1}}\\
     &\partial^i_n\left(\bigotimes_{\sigma\in K_n} a_\sigma\right) = \bigotimes_{\tau\in K_{n-1}} \prod_{\partial^i_n(\sigma) = \tau} a_\sigma
@@ -1543,7 +1545,24 @@ There is also a deconcatenation coproduct in the category of $A$-bimodules on $B
 $$\alpha = \alpha(\alpha_1|\dots|\alpha_n)\alpha' \mapsto \sum_i\alpha(\alpha_1|\dots|\alpha_i) 1 (\alpha_{i+1}|\dots|\alpha_n)\alpha'$$
 This comultiplication has a counit given by the multiplication map $\varepsilon \colon B(A, A, A)\to A$. This counit map is a quasi-isomorphism (TODO: Citation needed).
 
-
+\begin{theorem}
+    Let $f\colon A\to A'$ be a morphism in $CDGA_K^{\geq 0}$. If $f$ is a quasi-isomorphism, then the induced morphism $f_*\colon B(A, A, A)\to B(A', A', A')$ is a quasi-isomorphism.
+\end{theorem}
+\begin{proof}
+    We first show that $f$ induces a quasi-isomorphism $A^{\otimes p} \to A'^{\otimes p}$. This follows from the following lemma: 
+    \begin{lemma} If $f\colon A\to A'$ is a quasi-isomorphism of chain complexes of $K$-vector spaces, then for any chain complex $B$, the map $f\otimes \id\colon A\otimes B\to A'\otimes B$ is a quasi-isomorphism. 
+    \end{lemma}
+    \begin{proof}
+        Since we are working with field coefficients, $B$ is a direct sum of complexes of the form $\dots\to0\to K\to 0\to\dots$ and $\dots\to 0\to K\xto{\sim} K\to 0\to\dots$. For any such complex the claim is easy to check. Since homology and direct sum commute, a direct sum of quasi-isomorphisms is again a quasi-isomorphism.
+    \end{proof}
+    Define a filtration on the bar construction via $F^pB(A, A, A) = \bigoplus_{n\leq p} A\otimes A^n\otimes A$. Each $F^pB(A, A, A)$ is a chain complex and there is an exact sequence of chain complexes
+    \begin{align*}
+        0\to F^pB(A, A, A)\to F^{p+1}(A, A, A) \to A^{\otimes(p+3)} \to 0
+    \end{align*}
+    Using induction and the five lemma, we can show that for all $p$, the map $F^pB(A, A, A)\to F^pB(A', A', A')$ is a quasi-isomorphism. Finally, $B(A, A, A)=\colim_{p\in \N} F^pB(A, A, A)$ as a colimit of chain complexes, and the map $B(A, A, A)\to B(A', A', A')$ is a filtered colimit of quasi-isomorphisms. Any filtered colimit of quasi-isomorphisms is again a quasi-isomorphism, as one can check using the explicit construction of filtered colimits. 
+    
+    For a more explicit argument, we show injectivity explicitly. Let $a\in B(A, A, A)$ such that $d(a) = 0$ and $f_*(a)=d(b')\in B(A', A', A')$ is a boundary. Then $b'\in F^pB(A', A', A')$ for some $p$, so $a$ is a boundary in $F^pB(A', A', A')$ and since $f_*\colon F^pB(A, A, A)\to F^pB(A', A', A')$ is a quasi-isomorphism, there exists $b\in F^pB(A, A, A)$ such that $db = a$ (even though not necessarily $f_*b = b'$). Thus $f_*$ induces an injective map on homology. Surjectivity is similar. 
+\end{proof}
 
 
 
@@ -2123,9 +2142,9 @@ See \cite{jf1997closed}
 \subsection{Differential Graded Commutative Algebras}
 Let $K$ be a field of characteristic zero and write $dgcAlg_K^{\geq 0}$ for the category of unital differential graded commutative algebras over $K$ in non negative degrees. This is a complete and cocomplete category. The coproduct is defined on the tensor product of chain complexes. The coequalizer of a map $f\colon A\to B$ is given by the quotient of $B$ by the differential ideal generated by $f(A)$. Limits are given by a differential graded algebra structure on the corresponding limit sets, i.e. the functors that map each algebra to its set at level $n$ preserve limits. 
 
-\paragraph{Transfer Principle for Model Categories} The following is taken from \cite[2.5 and 2.6]{berger2003axiomatic}. The structure of a model category can sometimes be transferred along adjoint functors. We will apply this in the case of the adjunction $Ch_K \rightleftarrows dgcAlg_K$ between chain complexes and differential graded commutative algebras, where the right adjoint is the forgetful functor and the left adjoint is the free dgca of a chain complex, i.e.\ the abelianization of its tensor algebra. 
+\paragraph{Transfer Principle for Model Categories} The following is taken from \cite[2.5 and 2.6]{berger2003axiomatic}. The structure of a model category can sometimes be transferred along adjoint functors. We will apply this in the case of the adjunction $$\Lambda\colon Ch_K \rightleftarrows dgcAlg_K\colon U$$ between chain complexes and differential graded commutative algebras, where the right adjoint $U$ forgets the algebra structure and the left adjoint is the free commutative cochain algebra functor, i.e.\ mapping a cochain complex $C$ to the graded abelianization of its tensor algebra, with a differential that extends the differential of $C$. 
 
-Consider the general setting of an adjunction $F\colon \cat D\rightleftarrows \cat E \colon G$ with left adjoint $F$, with $\cat D$ a model category. Define a map $f$ in $\cat D$ to be a weak equivalence resp.\ a fibration if $G(f)$ is a weak equivalence resp.\ a fibration. Assume that $\cat E$ has small colimits and finite limits. Then if the model structure on $\cat D$ is cofibrantly generated, this defines a cofibrantly generated model structure on $\cat E$, provided that
+Consider the general setting of an adjunction $F\colon \cat D\rightleftarrows \cat E \colon G$ with left adjoint $F$, with $\cat D$ a model category. Define a map $f$ in $\cat D$ to be a weak equivalence resp.\ a fibration if $G(f)$ is a weak equivalence resp.\ a fibration. Assume that $\cat E$ has small colimits and finite limits. Then if the model structure on $\cat D$ is cofibrantly generated, this defines the \emphi{transferred mode structure} on $\cat E$, which is a cofibrantly generated model structure, provided that
 \begin{enumerate}[(i)]
     \item the functor $G$ preserves filtered colimits
     \item any sequential colimit of pushouts of images under $F$ of the generating trivial cofibrations of $\cat D$ yields a weak equivalence in $\cat E$
@@ -2137,7 +2156,7 @@ Property (ii) can be difficult to verify in practice, but there is an argument b
     \item $\cat E$ has functorial path-objects for fibrant objects.
 \end{enumerate}
 
-\paragraph{Model Structure on differential graded commutative algebras} To apply this in the setting of chain complexes and their commutative algebras, note that all chain complexes are fibrant in the projective model structure. To construct a path object of a chain complex $X$, define a complex $P$ by $P_n = X_n\oplus X_{n-1}\oplus X_n$ with differential $d(x, y, z) = (dx, -dy + x - z)$. If one considers bounded below or bounded above chain complexes, one can apply the truncation functors $\tau_{\leq 0}$ resp.\ $\tau_{\geq 0}$ to $P$.
+\paragraph{Model Structure on differential graded commutative algebras} To apply the above in the setting of chain complexes and their commutative algebras, note that all chain complexes are fibrant in the projective model structure. To construct a path object of a chain complex $X$, define a complex $P$ by $P_n = X_n\oplus X_{n-1}\oplus X_n$ with differential $d(x, y, z) = (dx, -dy + x - z)$. If one considers bounded below or bounded above chain complexes, one can apply the truncation functors $\tau_{\leq 0}$ resp.\ $\tau_{\geq 0}$ to $P$.
 
 \begin{theorem}
     There is are cofibrantly generated model structures on the categories $dgcAlg_K^{\geq 0}$ and on $dgcAlg_K$, where 
@@ -2148,6 +2167,20 @@ Property (ii) can be difficult to verify in practice, but there is an argument b
 \end{theorem}
 Note that the cofibrations in these two categories will generally be different.
 % Consider the category of differential graded 
+
+\begin{definition}
+    A \emphi{relative Sullivan algebra} is a homomorphism of differential graded commutative algebras $(A, d)\to (A\otimes \Lambda V, D)$ for a graded vector space $V$ such that $V$ has a basis $\{v_\alpha\mid\alpha\in J\}$ where $J$ is well-ordered, such that $Dv_{\beta}\in A\otimes \Lambda V_{<\beta}$ for all $\beta\in J$, where $V_{<\beta}$ is spanned by the $v_\alpha$ with $\alpha<\beta$. 
+
+    If $A=K$ then an algebra $(\Lambda V, D)$ satisfying the above property is called a \emphi{Sullivan Algebra}.
+
+    It is called \emph{minimal}\index{minimal Sullivan Algebra} if in addition the condition $\alpha<\beta\implies\deg v_\alpha \leq \deg v_\beta$ holds.
+\end{definition}
+
+
+\begin{theorem}[{\cite[1.13]{hess2007rational}}]
+    Let $K$ be a field of characteristic $0$. Any relative Sullivan algebra is a cofibration in the model structure of CDGAs, i.e.\ it satisfies the left lifting property with respect to all degreewise surjective quasi-isomorphisms of CDGAs.
+\end{theorem}
+More generally one can show that the cofibrations are the retracts of relative Sullivan algebras. 
 
 \section{Diffeological Spaces and Cohomology}
 The theory of diffeological spaces is a generalization of the theory of smooth manifolds. In the theory of diffeological spaces, we measure smoothness using smooth maps from open euclidean sets of arbitrary dimension into a space $X$. In contrast to differentiable manifolds, one can equip more general spaces with the structure of a diffeological space. This means that individual diffeological spaces can have bad properties compared to manifolds, for example one can consider infinite dimensional spaces or arbitrary quotients of manifolds. On the other hand, the category of diffeological spaces has good properties, for example it is closed under products, coproducts, quotients and subsets and there is a diffeology on the mapping space between diffeological spaces. One can define de Rham forms on diffeological spaces, which leads to de Rham cohomology. For smooth cw complexes, this is just the usual singular cohomology. 
