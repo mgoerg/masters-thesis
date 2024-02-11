@@ -248,7 +248,7 @@ Denote by $LM\times_M LM$ the subspace of $LM\times LM$ of pairs $(\gamma, \gamm
 \begin{construction}
 The loop product is the composition of three maps
 \begin{align*}
-    H_*(LM)\otimes H_*(LM)\xto{\times} H_{*}(LM\times LM)\xto{} H_{*-m}(LM\times_M LM)\to H_{*-m}(LM)
+    H_*(LM)\otimes H_*(LM)\xto{\times} H_{*}(LM\times LM)\xto{i^!} H_{*-m}(LM\times_M LM)\to H_{*-m}(LM)
 \end{align*}
 where the first is the Künneth isomorphism (we work with coefficients in a field), the second is an intersection map that is to be explained in more detail in the following, and the third is the composition of loops. The main difficulty is the construction of the intersection map.
 \end{construction}
@@ -285,11 +285,11 @@ We can pull back the tangent bundle along $ev\colon LM\times_M LM$ to obtain the
 Assume that $M$ is oriented, let $u\in H^m(TM, (TM)_0)$ be the Thom class of $TM$, which is dual to the zero section in the sense of \ref{thm:thom_class_dual}. Taking the pullback along the projection $ev^*(TM)\to TM$, we obtain a class $u_{LM\times_M LM} \in H^m(ev^*(TM), ev^*(TM)_0)$. We interpret this as dual to the zero section of $ev^*(TM)$, so that taking the cap product with $u$ is the analogue of intersecting with  $LM\times_M LM$ in $ev^*(TM)$.
 
 
-\begin{construction}
-To shorten notation, we write $H_*(X \mid A) = H_*(X, X\setminus A)$. We construct the intersection map as 
+\begin{construction}\label{constr:loop-product-classical}
+To shorten notation, we write $H_*(X \mid A) = H_*(X, X\setminus A)$. We construct the intersection map $i^!$ as 
 
 \begin{align*}
-    H_*(LM\times LM) \to H_*(LM\times LM \mid LM\times_M LM) \xfrom{\iso} H_*(LM\times LM |_N, LM\times LM|_{N_0}) \\ \xto{\iso} H_*(ev^*(TM), (ev^*(TM))_0) \xto{\capp u_{LM\times_M LM}} H_{*-n}(ev^*(TM)) \to H_{*-n}(LM\times_M LM)
+    i^!\colon H_*(LM\times LM) \to H_*(LM\times LM \mid LM\times_M LM) \xfrom{\iso} H_*(LM\times LM |_N, LM\times LM|_{N_0}) \\ \xto{\iso} H_*(ev^*(TM), (ev^*(TM))_0) \xto{\capp u_{LM\times_M LM}} H_{*-n}(ev^*(TM)) \to H_{*-n}(LM\times_M LM)
 \end{align*}
 
 Here the second map is an excision map, $(ev^*(TM)_0)$ is the bundle minus the zero section, the third map and fourth map are the Thom isomorphism of the bundle $ev^*(TM)$.
@@ -335,21 +335,57 @@ In homology, the umkehr map $\pi^!\colon H^{*+1}(LM)\to H^{*+2}_{S^1}(LM)$ can b
 
 TODO: String cobracket
 
+\subsection{Derived Category of Chain Complexes}
 
+We will use the language of derived categories, specifically in the case of derived chain complexes. The following is a very elementary introduction, readers versed in derived categories should skip this subsection. For a pedagogical introduction we refer to \cite{thomas2001derived}. For a formal treatment, see \cite{gelfand2013methods} or \cite{weibel1994introduction}. 
 
+The motivation for us to use derived categories is the following: We regularly come across maps on the homology of chain complexes $\cdot\to\cdot\from\dots\to\cdot$ which are induced by zigzags of chain maps, with the reverse maps being quasi-isomorphisms. By considering only the induced maps on homology, we lose the information that these maps were originally induced by chain maps. Using derived categories allows us to consider such zigzags as morphisms and thus allows us to put them into commutative diagrams, as we would on homology. At the same time we retain the information that these maps were induced by chain maps to a greater degree.
 
+Let $Ch=Ch(R)$ be the category of chain complexes of modules over a ring $R$. 
+The derived category $D(Ch)$ of $Ch$ is the localization of the category $Ch$ at the collection of quasi-isomorphisms, this means that it is the category that one obtains from $Ch$ by formally adjoining two-sided inverses to quasi-isomorphisms.
+
+\begin{theorem}[Universal Property of $D(Ch)$]\label{thm:derived-universal-prop}
+    There exists a category $D(Ch)$ and a functor $D\colon Ch\to D(Ch)$ which maps quasi-isomorphisms to isomorphisms, such that any functor $F\colon Ch\to C$ which maps quasi-isomorphisms to isomorphisms, factors through $D$, i.e.\ there exists a functor $\bar F\colon D(Ch)\to C$ and a natural isomorphism between $F$ and $\bar F D$. 
+\end{theorem}
+This is \cite[Thm III.2.1]{gelfand2013methods}.
+
+Any two categories satisfying this property are equivalent and for our purposes we may use this as a definition. 
+
+\begin{proposition}
+    \begin{enumerate}[(1)]
+        \item If a chain map $f\colon A\to B$ is a quasi-isomorphism and has a one-sided inverse $g$, then $D(f)D(g) = \id_{D(B)}\in D(Ch)$ and $D(g)D(f)=\id_{D(A)}\in D(Ch)$, i.e.\ the maps $D(f)$ and $D(g)$ are two-sided inverses in the derived category.
+        \item If $f, g\colon A\to B$ in $Ch$ are chain homotopic, then $D(f) = D(g)$.  
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    (1) is trivial. We show (2). Define a complex $C$, which as a graded vector space is $A\oplus A[1]\oplus A$, with differential $(a, a', a'')\mapsto (da+a', da', da''+a')$. Let $\iota_{0}, \iota_1\colon A\to C$ be the inclusions into the first resp.\ third direct summand. Then $\iota_0$ and $\iota_1$ are both quasi-isomorphisms with the same one-sided inverse, namely the chain map $C\to A$ given by $(a, a', a'')\mapsto a-a''$. Hence $D(\iota_1) = D(\iota_2)$ by (1). Let $P$ be a homotopy between $f$ and $g$, then there is a chain map $\gamma_P\colon C\to B$ given by $f + P+ g$. Now $\gamma_P\iota_1 = f$ and $\gamma_P\iota_2=g$ and we conclude $D(f) = D(g)$.
+\end{proof}
+
+\begin{remark}
+    We often omit the explicit mention of the functor $D$. If we say that a map or a diagram in $Ch$ has a certain property in $D(Ch)$, we mean that its image under the functor $D$ has said property. Any zigzag of maps with quasi-isomorphisms in the reverse direction induces a map in $D(Ch)$, hence we may arrive at diagrams of which one cannot ask to commute at the chain level, but which can commute in $D(Ch)$.
+\end{remark}
+
+\begin{remark}
+    By \cref{thm:derived-universal-prop}, the cohomology functor $H^*$ factors through $D(Ch)$. Thus if two chain maps are equal in $D(Ch)$, they are also equal on cohomology and if two chain complexes are isomorphic in $D(Ch)$ then they have isomorphic cohomology. The converse is not necessarily true.
+\end{remark}
+
+\begin{example}
+    Let $R=k$ be a field and $C$ a chain complex, then the tensor product functor $\blank\otimes C\colon Ch\to Ch$ preserves quasi-isomorphisms, since $C$ is degreewise free, (cf.\ the proof of \cref{thm:bar-quiso}). This means that $D(\blank\otimes C)\colon Ch\to D(Ch)$ maps quasi-isomorphisms to isomorphisms, so by \cref{thm:derived-universal-prop} it factors as $Ch \xto{D} D(Ch)\xto{\blank\otimes C} D(Ch)$ through a functor which we also denote by $\blank\otimes C$. Given morphisms $f, g\colon A\to B$ in $Ch$, which are equal in $D(Ch)$, we find $f\otimes \id_C, g\otimes\id_C\colon A\otimes C\to B\otimes C$ are equal in $D(Ch)$.
+
+    TODO: Talk about derived functors
+\end{example}
 
 \section{Diffeological Spaces and Cohomology}\label{sec:diffeological}
 
-We want to define complexes of de Rham forms on mapping spaces such as $\Omega^*(PM)$ and $\Omega^*(LM)$. The notion of diffeological spaces, which are a generalization of smooth manifolds, yields a natural definition of de Rham forms. These forms have the same algebraic operations of pullback, wedge product and exterior derivative as in the case of smooth manifolds. There is a de Rham map, which in nice cases, though not in general, provides a quasi-isomorphism to with the singular cohomology. There is also a fiber integration map on de Rham forms, which we construct for projections $M\times X\to X$ with closed oriented manifolds $M$. 
+The theory of diffeological spaces is a generalization of the theory of diffeological spaces. It allows us to define differential forms on mapping spaces such as the path and the loop space of a manifold. These forms have the same algebraic operations of pullback, wedge product and exterior derivative as in the case of smooth manifolds. There is a de Rham map, which in nice cases, though not in general, provides a quasi-isomorphism to with the singular cohomology. There is also a fiber integration map on de Rham forms, which we construct for projections $M\times X\to X$ with closed oriented manifolds $M$. 
 
-A first time reader may only read this introduction and work with $\Omega^*(LM)$ as one would with either the differential forms of a manifold or the singular cochain complex of a manifold and skip the rest of this section, to reference it later when questions appear. 
+A first time reader may only read this introduction and work with $\Omega^*(LM)$ as one would with either the differential forms of a manifold or the singular cochain complex of a manifold and skip the rest of this section, to come back later when questions arise. 
 
 In the theory of diffeological spaces, smoothness of a space $X$ is encoded using so called plots, which are distinguished maps from open euclidean sets of arbitrary dimension. Plots then take the role of the smooth maps from euclidean sets into $X$, so in contrast to the charts of manifolds, plots are only smooth, not diffeomorphisms in the resulting theory. One can equip more general spaces than manifolds naturally with the structure of a diffeological space. This means that individual diffeological spaces can have bad properties compared to manifolds, for example one can consider infinite dimensional spaces or arbitrary quotients of manifolds. On the other hand, the category of diffeological spaces has good properties: it is closed under products, coproducts, quotients, subsets and there is a diffeology on the mapping space between diffeological spaces. 
 
-There is a related, only slightly different notion of differentiable spaces, coined by Chen, where one uses convex euclidean sets instead of open euclidean sets to test smoothness. We work with diffeological spaces throughout this work. 
+There is a related, only slightly different notion of differentiable spaces, coined by Chen \cite{chen1973iterated}, where one uses convex euclidean sets instead of open euclidean sets to test smoothness. We work with diffeological spaces throughout this work. 
 
-We begin by outlining the definition of diffeological spaces in \cref{subsec:diffeological}. We then discuss how the cohomology of the de Rham complex of a diffeological space with a compatible topology relates to the cohomology of the original space in \cref{subsec:diffeology-cohomology} and \cref{subsec:diffeological-de-rham}. In \cref{subsec:diffeological-de-rham} we discuss the fiber integration map for projections $M\times X\to X$ smooth manifolds $X$. Finally we apply the theory to the case of mapping spaces such as $PM$ and $LM$. 
+We begin by outlining the definition of diffeological spaces and differential forms in \cref{subsec:diffeological}. For a diffeological space with a compatible topology, we compare the smooth singular complex and the topological singular complex in \cref{subsec:diffeology-cohomology}. We then discuss how the cohomology of the de Rham complex of a diffeological space relates to the cohomology of the topological space in  \cref{subsec:diffeological-de-rham}. In \cref{subsec:diffeological-path-spaces} we apply the theory to the case of mapping spaces such as $PM$ and $LM$. In \cref{subsec:fiber-integration} we discuss the fiber integration of differential forms, which generalizes to the context of diffeological spaces in certain settings. 
 
 
 
@@ -357,11 +393,11 @@ We begin by outlining the definition of diffeological spaces in \cref{subsec:dif
 The content this subsection is standard, a reference is \cite{iglesias2013diffeology}.
 
 \begin{definition}
-    Let $X$ be a nonempt set, a \emphi{diffeology} $\mathcal D=\mathcal D_X$ on $X$ is a set of so called \emphi{plots} $P\colon U\to X$ defined on open $U\subset \R^n$, where $n$ is not fixed, such that 
+    Let $X$ be a nonempty set, a \emphi{diffeology} $\mathcal D=\mathcal D_X$ on $X$ is a set of so called \emphi{plots} $P\colon U\to X$ defined on open subsets $U\subset \R^n$, where $n$ is not fixed, such that 
     \begin{enumerate}
         \item every constant map $U\to \{x\}\subset X$ is a plot,
         \item for every map $P\colon U\to X$, if for every point $r\in U$ there exists an open neighborhood $V$ of $r$ such that $P|_V$ is a plot, then $P$ is also a plot,
-        \item For every plot $P\colon U\to X$ and every smooth $F\colon V\to U$, the pullback $P\comp F\colon V\to X$ is a plot.
+        \item For every plot $P\colon U\to X$ and every smooth map $F\colon V\to U$, the pullback map $P\comp F\colon V\to X$ is a plot.
     \end{enumerate}
     A set together with a specified diffeology is called a \emphi{diffeological space}. 
 \end{definition}
@@ -374,30 +410,34 @@ The content this subsection is standard, a reference is \cite{iglesias2013diffeo
     \item Given a diffeological space $X$ and a subset $A$, one can define the diffeology on $A$ by taking plots of $A$ to be those plots of $X$ which map into $A$.
 \end{enumerate}\end{example}
 \begin{definition}
-    Let $X$ and $X'$ be two diffeological spaces. A map $f\colon X\to X'$ is said to be smooth, if for each plot $P$ of $X$, $f\comp P$ is a plot of $X'$. The set of smooth maps from $X$ to $X'$ is denoted $C^\infty(X, X')$ or $\mathcal D(X, X')$.
+    Let $X$ and $X'$ be two diffeological spaces. A map $f\colon X\to X'$ is said to be \emph{smooth}\index{smooth map of diffeological spaces}, if for each plot $P$ of $X$, $f\comp P$ is a plot of $X'$. The set of smooth maps from $X$ to $X'$ is denoted $\mathcal D(X, X')$.
 \end{definition}
-\begin{proposition}
-    There is a diffeology on $\mathcal D(X, X')$ in which a map $P\colon U\to \mathcal D(X, X')$ is a plot if and only if for every plot $Q\colon V\to X$, the parametrization $U\times V\to X', (r,s)\mapsto P(r)(Q(s))$ is a plot of $X'$. 
+\begin{proposition}\label{prop:diffeology-mapping-space}
+    \begin{enumerate}
+        \item There is a diffeology on $\mathcal D(X, X')$ in which a map $P\colon U\to \mathcal D(X, X')$ is a plot if and only if for every plot $Q\colon V\to X$, the parametrization $U\times V\to X', (r,s)\mapsto P(r)(Q(s))$ is a plot of $X'$. 
     
-    Using this diffeology, the evaluation map $ev\colon X\times C^\infty(X, X') \to X'$ and composition map $\mathcal D(X, X')\times \mathcal D(X', X'')\to \mathcal D(X, X'')$ are smooth.
+        \item With respect to this diffeology, the evaluation map $ev\colon X\times C^\infty(X, X') \to X'$ and composition map $\mathcal D(X, X')\times \mathcal D(X', X'')\to \mathcal D(X, X'')$ are smooth.
+    \end{enumerate}
 \end{proposition}
 
 \begin{definition}
     A \emph{differential $k$-form} on a diffeological space $(X,\mathcal D)$ is a $\mathcal D$-indexed collection $\alpha_P$ of differential forms $\alpha_P\in \Omega^k(U_P)$ for each plot $P\colon U_P\to X$, such that for every smooth map $f\colon U\to V$ of euclidean open sets, $f^*\alpha_P = \alpha_{fP}$. The collection of all differential $k$-forms on $X$ is denoted $\Omega^*(X)$.\index{differential form!on diffeological spaces}
 \end{definition}
-If $M$ is a smooth manifold with its smooth diffeology, the $k$-forms according to this definition are identified with the regular $k$-forms. 
+\begin{example}
+If $M$ is a smooth manifold with its smooth diffeology, the $k$-forms according to this definition are in bijection with the regular $k$-forms. 
+\end{example}
 
 One can define the usual operations on differential forms such as pullback along smooth maps, exterior derivative and wedge product. For example, $d\alpha = \{d\alpha_P\}_P$. These satisfy the usual computation rules, in particular $\Omega^*(X)$ is a cochain complex and its cohomology is called the de Rham cohomology of $X$. 
 
 \begin{remark}
-    While the definition of differential forms of diffeological spaces is evident, there are multiple definitions of tangent spaces and bundles for diffeological spaces, which in general are not equivalent \cite{christensen2015tangent}.
+    While the definition of differential forms of diffeological spaces is evident, there are multiple definitions of tangent spaces and bundles for diffeological spaces, which in general are not equivalent, see for instance \cite{christensen2015tangent}.
 \end{remark}
 
 
 
 \subsection{Singular and Smooth Cohomology} \label{subsec:diffeology-cohomology}
 
-In this subsection we introduce the smooth singular cohomology and compare it with the singular cohomology, in preparation for the construction of the de Rham map in \cref{subsec:diffeological-de-rham}. 
+In this subsection we introduce the smooth singular cohomology and compare it to the singular cohomology, in preparation for the construction of the de Rham map in \cref{subsec:diffeological-de-rham}. 
 
 \begin{definition}
     A \emphi{topological diffeological space} $X$ is a space which has both a topology and a diffeology, such that all plots of $X$ are continuous. 
@@ -406,31 +446,37 @@ In this subsection we introduce the smooth singular cohomology and compare it wi
     For a topological diffeological space $X$, 
     \begin{enumerate}
         \item its \emph{singular simplicial set} $S_*(X)$ is the simplicial set which in degree $n$ consists of all continuous maps $\Delta^n\to X$ for all $X$, 
-        \item its \emph{smooth simplicial set} $S_*^\infty(X)$ which consists of all smooth simplexes $\Delta^n\to X$ for all $n$. By a smooth simplex we mean that there is a smooth map from a neighborhood of $\Delta^n$ to $X$. 
+        \item its \emph{smooth simplicial set} $S_*^\infty(X)$ which consists of all smooth simplexes $\Delta^n\to X$ for all $n$. By a smooth simplex we mean that there is a smooth map from a neighborhood of $\Delta^n\subset\R^n$ to the diffeological space $X$. 
     \end{enumerate}
     Denote by $C_*(X)$ resp.\ $C_*^\infty(X)$ the corresponding chain complexes, and similarly $C^*(X)$ resp.\ $C^*_\infty(X)$ the associated cochain complexes. 
 \end{definition}
-The following lemma gives a sufficient condition for the smooth and continuous homology to be identical.
+The following lemma gives a sufficient condition for the smooth and continuous homology to be isomorphic.
 \begin{lemma}\label{thm:diffeological-singular-cohomology-iso}
-    Let $X$ be a topological diffeological space such that for every continuous simplex $\sigma\colon \Delta^n\to X$ with smooth $(n-1)$-faces, $n\geq 1$, there exists a continuous homotopy $h\colon \Delta^n\times I\to X$ relative to the boundary $\partial\Delta^n$ from $\sigma$ to a smooth $n$-simplex of $X$. Then the canonical map $$C^\infty_*(X) \to C_*(X)$$ is a chain homotopy equivalence. Hence also the map $C^*(X) \to C^*_\infty(X)$ is a chain homotopy equivalence.
+    Let $X$ be a topological diffeological space such that for every continuous simplex $\sigma\colon \Delta^n\to X$ with smooth $(n-1)$-faces, $n\geq 1$, there exists a continuous homotopy $h\colon \Delta^n\times I\to X$ relative to the boundary $\partial\Delta^n$ from $\sigma$ to a smooth $n$-simplex of $X$. Then the canonical maps $$C^\infty_*(X) \to C_*(X) \qquad C^*(X) \to C^*_\infty(X)$$ are chain homotopy equivalences. 
 \end{lemma}
-This theorem is stated in \cite{chen1977iterated}. To prove this one can proceed as in the case of manifolds, cf.\ \cite{parkproof}: one constructs a converse map $S(X)\to S^\infty(X)$ inductively by mapping each continuous simplex to a fixed smooth approximation, such that the approximations are compatible at the boundary. The topological homotopies of the approximation maps then yield a chain homotopy which witnesses that the two chain maps are homotopy inverse.
+\begin{proof}[Sketch of proof]
+    This theorem is stated in \cite{chen1977iterated}. To prove this one can proceed as in the case of manifolds, cf.\ \cite{parkproof}: one constructs a converse map $C_*(X)\to C_*^\infty(X)$ inductively by mapping each continuous simplex to a fixed smooth approximation, such that the approximations are compatible at the boundary. The topological homotopies of the approximation maps then yield a chain homotopy which witnesses that the two chain maps are homotopy inverse.
+\end{proof}
 
-For smooth manifolds one can show that the hypothesis of the lemma is satisfied using Whitney's Approximation theorem, as in \cite{parkproof}. We state the Whitney approximation theorem here, as it is given in \cite[Theorem 6.26]{lee2003introduction}.
+\begin{proposition}
+    For any smooth manifold $M$, the hypothesis of \cref{thm:diffeological-singular-cohomology-iso} is satisfied: For every continuous simplex $\sigma\colon \Delta^n\to M$ with smooth $(n-1)$-faces, $n\geq 1$, there exists a continuous homotopy $\Delta^n\times I\to X$ relative to the boundary $\partial \Delta^n$ from $\sigma$ to a smooth $n$-simplex of $X$. 
+\end{proposition}
+
+This is a consequence of the Whitney approximation theorem, which we state as it is given in \cite[Theorem 6.26]{lee2003introduction}.
 
 \begin{theorem}[Whitney's Approximation Theorem\index{Whitney Approximation Theorem}]
     Let $X$ be a smooth manifold with or without boundary, $Y$ a smooth manifold without boundary, and let $f\colon X\to Y$ be a continuous map, smooth on a closed (possibly empty) subset $A\subset X$. Then $f$ is homotopic relative to $A$ to a smooth map $X\to Y$.
 \end{theorem}
 
-% A smooth cw complex is a cw complex in which all attaching maps $\partial D^n\to X^{(n-1)}$ are smooth, hence each skeleton $X^{(n)}$ and $X$ itself is a topological diffeological space.
+% A smooth CW complex is a CW complex in which all attaching maps $\partial D^n\to X^{(n-1)}$ are smooth, hence each skeleton $X^{(n)}$ and $X$ itself is a topological diffeological space.
 
-% By \cite{iwase2020whitney} there is a smooth approximation theorem for smooth cw complexes:
+% By \cite{iwase2020whitney} there is a smooth approximation theorem for smooth CW complexes:
 % \begin{theorem}
-%     Let $M$ be a smooth manifold and $X$ be a smooth cw complex. Then for a continuous map $f\colon M\to X$, there exists a smooth map $g\colon M\to X$ and a continuous homotopy from $f$ to $g$. If $f$ is smooth on a closed subset $A\subset M$ with an additional assumption that $M$ is compact or $X$ is of finite dimension, then the continuous homotopy can be taken relative to $A$. 
+%     Let $M$ be a smooth manifold and $X$ be a smooth CW complex. Then for a continuous map $f\colon M\to X$, there exists a smooth map $g\colon M\to X$ and a continuous homotopy from $f$ to $g$. If $f$ is smooth on a closed subset $A\subset M$ with an additional assumption that $M$ is compact or $X$ is of finite dimension, then the continuous homotopy can be taken relative to $A$. 
 % \end{theorem}
 
 % \begin{corollary}
-%     Let $M$ be a smooth manifold and $X$ either a smooth manifold without boundary or a smooth cw complex. Then for the smooth mapping space $\mathcal D(M, X) = \Map(M, X)$, the map 
+%     Let $M$ be a smooth manifold and $X$ either a smooth manifold without boundary or a smooth CW complex. Then for the smooth mapping space $\mathcal D(M, X) = \Map(M, X)$, the map 
 %     $$C^\infty_*(\mathcal D(M, X)) \to C_*(\mathcal D(M, X))$$
 %     is a chain homotopy equivalence. 
 % \end{corollary}
@@ -439,7 +485,8 @@ For smooth manifolds one can show that the hypothesis of the lemma is satisfied 
 
 \subsection{De Rham Cohomology and De Rham Map} \label{subsec:diffeological-de-rham}
 
-For any smooth simplex $\sigma\colon \Delta^n\to X$ and an $n$-form $\omega\in\Omega^n(X)$, one can define its integral $\int_{\sigma}\omega = \int_{\Delta^n}\sigma^*\omega$.
+For any smooth simplex $\sigma\colon \Delta^n\to X$ and an $n$-form $\omega\in\Omega^n(X)$, one can define its integral $\int_{\sigma}\omega \defeq \int_{\Delta^n}\sigma^*\omega$. The differential form $\sigma^*\omega\in\Omega^*(\Delta^n)$ is a differential form in the sense of smooth manifolds and since $\sigma$ extends smoothly near $\Delta^n$, the integral is well-defined.
+
 \begin{definition}
     Let $X$ be a diffeological space. The \emph{de Rham comparison map}\index{de Rham map for diffeological spaces} is the map 
     \begin{align*}
@@ -451,27 +498,28 @@ For any smooth simplex $\sigma\colon \Delta^n\to X$ and an $n$-form $\omega\in\O
     \end{align*}
     for $\omega\in\Omega^n(X)$ and $\sigma\in S_n^\infty(X)$.
 \end{definition}
-$\sigma^*\omega\in\Omega^*(\Delta^n)$ is a differential form in the sense of smooth manifolds and since $\sigma$ extends smoothly near $\Delta^n$, the integral is a well-defined real number.
 
 \begin{proposition}\label{thm:deRham-properties}
-    The map $I_{dR}$ is an injective chain map.
+    The map $I_{dR}$ of diffeological spaces is an injective chain map.
 \end{proposition}
 \begin{proof}
-    Let $\sigma\colon\Delta^n\to X$ be a smooth singular simplex and select an extension $\bar \sigma\colon U\to X$ for some neighborhood $U\supset \Delta^n$. It is well known that the de Rham map on smooth manifolds is a chain map, hence $\int_{\Delta^n}d\sigma^*\omega = \int_{\partial\Delta^n}\sigma^*\omega$ and we conclude that $I_{dR}$ is a chain map. 
+    Let $\sigma\colon\Delta^n\to X$ be a smooth singular simplex and $\omega\in\Omega^*(X)$. The form $\sigma^*\omega$ is a differential form in the classical sense on $\Delta^n$ and it is well known that the de Rham map on smooth manifolds is a chain map, hence $\int_{\Delta^n}d\sigma^*\omega = \int_{\partial\Delta^n}\sigma^*\omega$ and thus $\int_{\Delta^n}d\omega = \int_{\partial\Delta^n}\omega$. 
     
     To show injectivity, let $\omega\in \Omega^n(X)$, such that $\int_\sigma \omega = 0$ for all smooth singular simplices $\sigma$. Let $P\colon U\to X$ be a plot of $X$, with $U\subset \R^m$ open, we want to show that $\omega_P = 0\in\Omega^n(U)$. By hypothesis, the integral of $\omega_P$ over any simplex in $U$ is $0$. For $x\in U$, if $\omega_P|_x\neq 0$, then there exist some vectors $X_1,\dots, X_n\in T_xU \iso \R^n$ such that $\omega_P|_x(X_1, \dots, X_n) > 0$ and by continuity, these vectors extend to local vector fields such that $\omega$ evaluates positively in a small neighborhood of $x$. But then, for a simplex $\sigma$ which is tangent to $X_1, \dots, X_n$, the integral of $\omega$ is nonzero, which is a contradiction. 
 \end{proof}
 
+\begin{remark}
 The de Rham map is not a quasi-isomorphism on general diffeological spaces. A counterexample is the orbit space of the $\R$-action on $S^1\times S^1$ by translation by $t(1, \alpha)$ for some irrational $\alpha\in \R$, see \cite{iglesias2013diffeology}.
+\end{remark}
 
-A smooth cw complex is the analogue of a cw complex in the category of diffeological spaces: If the $n-1$-skeleton is a diffeological space, one may require that the attaching maps of $n$-cells are smooth and equip the $n$-skeleton with the structure of a diffeological space. This yields a diffeology on the colimit. 
+A smooth CW complex is the analogue of a CW complex in the category of diffeological spaces: It is a diffeological space $X$ which is constructed as the colimit of a sequence of diffeological spaces $X_n\to X_{n+1}$ such that $X_{n+1}$ is obtained from $X_n$ by gluing copies of $(n+1)$-disks to $X_n$ along smooth maps on the boundary of the disks. 
 \begin{theorem}\label{thm:diffeological-de-rham-cw}
-    If $X$ is smoothly homotopy equivalent to a (not necessarily finite) smooth cw complex, then the de Rham map is a quasi-isomorphism.
+    If $X$ is smoothly homotopy equivalent to a (not necessarily finite) smooth CW complex, then the de Rham map is a quasi-isomorphism.
 \end{theorem}
 This is theorem 2.2.14 in \cite{gurer2014topologie}, to prove this one shows that both functors satisfy the analogue of the Eilenberg Steenrod axioms for diffeological spaces. 
 
 % \begin{corollary}
-%     If $X$ is a topological diffeological space which is smoothly homotopy equivalent to a smooth cw complex, then the de Rham cohomology is isomorphic to the singular cohomology, via the chain of quasi-isomorphisms
+%     If $X$ is a topological diffeological space which is smoothly homotopy equivalent to a smooth CW complex, then the de Rham cohomology is isomorphic to the singular cohomology, via the chain of quasi-isomorphisms
 %     \begin{align*}
 %         \Omega^*(X) \injto C^*_{\infty}(X) \surjfrom C^*(X) 
 %     \end{align*}
@@ -483,32 +531,40 @@ This is theorem 2.2.14 in \cite{gurer2014topologie}, to prove this one shows tha
 
 In this subsection we consider the case of a smooth manifold $M$. We exhibit a diffeological structure on the path space that is suitable for our computation and discuss the relation between its de Rham cohomology and singular cohomology.
 
-Let $M$ be a smooth manifold. Then the \emph{diffeology on the smooth path space} $PM$ of $M$ is the mapping space diffeology of $PM$. Unwrapping the definitions, a map $U\to PM$ is a plot if its adjoint $I\times U\to M$ is a map of smooth manifolds. For the free loop space $LM$ and the based loop space $\Omega M$ we use the analogous definition via the adjoint map $S^1\times U\to M$. Note that to satisfy the covering axiom, we have to use the space of smooth paths resp.\ loops in this context. \index{diffeology!on path spaces}
+Let $M$ be a smooth manifold. We want to equip the path space of $M$ with the structure of a diffeological space. A first attempt is to use the mapping space diffeology of maps from $I\to M$, as in \cref{prop:diffeology-mapping-space}. The smooth maps from $I$ to $M$ in the diffeological sense are the smooth maps in the classical sense. However we want to model the concatenation of paths $PM\times_M PM\to PM$, which for general smooth paths is not smooth. We also want to model the splitting map $PM\times I\to PM\times_M PM$ which splits a path into two paths at time $t$. To fix this issue, we work with piecewise smooth paths instead. 
 
-There is something more to be done: we are also interested in spaces such as $LM\times_M LM$, the space of figure eights in $M$, and we need the concatenation map $LM\times_M LM\to LM$, the projection to each factor $LM\times_M LM\to LM$ and the splitting map $I\times PM\to PM\times PM$. The concatenation of smooth paths is generally not smooth. One way to deal with this is to require loops to be constant near $t=0$. More generally, if we consider mapping spaces of graphs into $M$, we can also require that the path along each edge is constant near the vertices. This solves most of the issues except for the splitting map, which splits paths at an arbitrary point, not just at the vertices. 
-
-As an alternative to this, one can use piecewise smooth paths.
-\begin{definition} The \emph{diffeology on the space of piecewise smooth paths} \index{diffeology!on piecewise smooth paths} is given by defining a map $\alpha\colon U\to PM$ to be a plot if the adjoint map $\#\alpha\colon U\times I\to M$ has the property that, for some partition $0=t_0<t_1<\dots<t_r=1$ of the unit interval $I$, the adjoint $\#\alpha\mid U\times[t_i, t_{i+1}]\to M$ extends to a plot for $M$ on some open neighborhood for all $i$ and $\#\alpha$ is continuous. 
+\begin{definition}\label{def:diffeology-piecewise-smooth-paths} The \emph{diffeology on the space of piecewise smooth paths} \index{diffeology!on piecewise smooth paths} is given by defining a map $\alpha\colon U\to PM$ to be a plot if the adjoint map $\#\alpha\colon U\times I\to M$ is continuous and has the property that, for some partition $0=t_0<t_1<\dots<t_r=1$ of the unit interval $I$, the restriction $\#\alpha\mid_{U\times[t_i, t_{i+1}]}$ extends to a plot for $M$ on some open neighborhood for all $i$. 
 \end{definition}
 
-Similar constructions apply to $\Omega M$ and $LM$. This construction is due to \cite{gugenheim1977chen}. More generally, if $G$ is a topological space which is the geometric realization of a graph, we can ask that maps of $G$ to $M$ are piecewise smooth along the edges and use this to define a diffeology on $\Map(G, M)$.
+This construction is due to \cite{gugenheim1977chen}. Similar constructions apply to the based and free loop space $\Omega M$ and $LM$. More generally, let $G$ be a topological space which is the geometric realization of a graph and let $\Map(G, M)$ be the space of continuous maps $G\to M$ which are piecewise smooth along the edges of $G$. With a similar construction as in \cref{def:diffeology-piecewise-smooth-paths} one can define the \emph{diffeology on $\Map(G, M)$}. Denote by $C^0(G, M)$ the topological space of continuous maps from $G$ to $M$, with the topology of uniform convergence.
 
-Denote by $\Map(G, M)$ the diffeological space of piecewise smooth maps from $G$ to $M$ and $\Map_{cts}(G, M)$ the space of continuous maps from $G$ to $M$. The results of \cref{sec:cochain-models} and \cref{sec:loop-models} depend on the assumption that $\Omega^*(\Map(G, M))$ computes the singular cohomology of $\Map_{cts}(G, M)$. These complexes are related through the sequence of chain maps. 
+The results of \cref{sec:cochain-models} and \cref{sec:loop-models} depend on the assumption that $\Omega^*(\Map(G, M))$ computes the singular cohomology of $\C^0(G, M)$. These complexes are related through the sequence of chain maps. 
 \begin{align}
-    \Omega^*(\Map(G, M)) \to C_\infty^*(\Map(G, M)) \from C^*(\Map(G, M)\from C^*(\Map_{cts}(G, M)) \label{eqn:diffeological-quisos}
+    \Omega^*(\Map(G, M)) \to C_\infty^*(\Map(G, M)) \from C^*(\Map(G, M)\from C^*(C^0(G, M)) \label{eqn:diffeological-quisos}
 \end{align}
+We will discuss when these maps are quasi-isomorphisms. We shall prove the following theorem: 
+\begin{theorem}
+    If $\Map(G, M)$ has both the structure of a smooth and a topological CW complex, then the maps \begin{align*}
+        \Omega^*(\Map(G, M)) \to C_\infty^*(\Map(G, M)) \from C^*(\Map(G, M)\from C^*(C^0(G, M))
+    \end{align*}
+    are quasi-isomorphisms.
+\end{theorem}
+
+
 We make the following assumption. 
 \begin{assumption}\label{assumption}
     Let $M$ be a (closed) smooth manifold and $G$ be a finite graph, resp.\ its assoticated topological space. We assume that maps in the sequence \ref{eqn:diffeological-quisos} are quasi-isomorphisms.
 \end{assumption}
 
-The main issue is the de Rham map $\Omega^*(X) \to C_\infty^*(X)$, which in general is not a quasi-isomorphism. It appears to be folklore that this is true for $LM$, but we are unable to give a proof. Recall that the proof of the de Rham theorem in the case of smooth manifolds depends on structure of the manifold that is not available in the case of diffeological spaces, e.g.\ a locally finite covering with contractible spaces and contractible intersections. 
+
+The de Rham map $$\Omega^*(X) \to C_\infty^*(X)$$ is in general is not a quasi-isomorphism. Recall that the proof of the de Rham theorem in the case of smooth manifolds depends on structure of the manifold that is not available in the case of diffeological spaces, e.g.\ a locally finite covering with contractible spaces and contractible intersections. It appears to be folklore that the de Rham map is an isomorphism in the case of $LM$, but we are unable to give a proof. 
+
+Recall from \cref{thm:diffeological-de-rham-cw} that if $X$ is homotopy equivalent to a smooth CW complex, then the de Rham theorem map is an isomorphism. Thus if $\Map(G, M)$ is homotopy equivalent to a smooth CW complex.
 
 \begin{remark}
-    Recall from \cref{thm:diffeological-de-rham-cw} that if $X$ is homotopy equivalent to a smooth cw complex, then the de Rham theorem holds. Thus it would suffice to show that $\Map(G, M)$ is a cw complex with smooth attaching maps.
-
-    It is known due to Milnor \cite{milnor1959spaces}, that for spaces $X$ and $Y$, where $X$ is compact metrizable and $Y$ is homotopy equivalent to a (topological) cw complex, the mapping space $\Map(X, Y)$ has the homotopy type of a cw complex. There are specific cell complexes for the homotopy type of the free loop space, see for example \cite{rivera2018combinatorial}. 
+    It is known due to Milnor \cite{milnor1959spaces}, that for spaces $X$ and $Y$, where $X$ is compact metrizable and $Y$ is homotopy equivalent to a CW complex, the mapping space $C^0(X, Y)$ has the homotopy type of a CW complex. There are specific cell complexes for the homotopy type of the free loop space, see for example \cite{rivera2018combinatorial}. However these constructions yield topological CW complexes, not smooth CW complexes, and they work with spaces of continuous maps, not smooth maps.
 \end{remark}
+
 
 \begin{proposition}\label{prop:comparison-singular-smooth-cohomology}
     If $M$ is a smooth manifold without boundary, then the restriction map $C^*(\Map(G, M) \to C_\infty^*(\Map(G, M))$ is a homotopy equivalence.
@@ -524,108 +580,122 @@ Let $P_sM$ denote the smooth loop space and $P_cM$ the continuous loop space of 
     A map into the continuous loop space $S^n\to P_cM$ corresponds to a map $S^n\times I\to M$, which is homotopic to a smooth map by the Whitney approximation theorem, hence a map into the smooth loop space $S^n\to P_sM$, so the map on homotopy groups is surjective. Similarly any continuous homotopy $S^n\times I\to P_cM$ between smooth loops corresponds to a map $S^n\times I \times I\to PM$ which is smooth at $s=0, 1$, the Whitney approximation theorem allows us to replace this with a smooth map, thus the adjoint map is a homotopy in the smooth loop space. This shows that the map on homotopy groups is also injective. %For piecewise smooth paths, surjectivity is shown the same way. For injectivity, one can reparametrize smoothly, such that there is some partition $0=t_0<t_1<\dots < t_r=1$ of the unit interval, so that the homotopy is smooth at $s=0, 1$ on the intervals $[t_i, t_{i+1}]$
 \end{proof}
 
-By Whitehead's theorem, any weak equivalence between cw complexes is a quasi-isomorphism; in fact it is a homotopy equivalence.
+By Whitehead's theorem, any weak equivalence between CW complexes is a quasi-isomorphism; in fact it is a homotopy equivalence. 
 
-The following theorem sums up the discussion:
 
-\begin{theorem}
-    If $\Map(G, M)$ has both the structure of a smooth and a topological cw complex, then the maps \begin{align*}
-        \Omega^*(\Map(G, M)) \to C_\infty^*(\Map(G, M)) \from C^*(\Map(G, M)\from C^*(\Map_{cts}(G, M))
-    \end{align*}
-    are quasi-isomorphisms, i.e.\ \cref{assumption} is satisfied.
-\end{theorem}
+% \begin{remark}
+%     One can also compare $\Omega^*(X)$ with Sullivan's polynomial forms $A_{PL}(X)$ via the following zigzag: 
+%     \begin{align*}
+%         \Omega^*(X)\to A_{dR}(S^\infty_*(X))\from A_{PL}(S^\infty_*(X))\from A_{PL}(S_*(X)) = A_{PL}(X)
+%     \end{align*}
+%     Here $A_{dR}(S^\infty_*(X))$ is constructed from the simplicial algebra with $(A_{dR})_n=\Omega^*(\Delta^n)$ and the second map is induced from the inclusion $(A_{PL})_n\to (A_{dR})_n$. For $X=\Map(G, M)$ our assumption is equivalent to requiring that the sequence 
+%     \begin{align*}
+%         \Omega^*(\Map(G, M))\to A_{dR}(S^\infty_*(\Map(G, M)))\from A_{PL}(S^\infty_*(\Map(G, M)))\from A_{PL}(S_*(\Map(G, M))) = A_{PL}(\Map(G, M)) \from A_{PL}(C^0(G, M))
+%     \end{align*}
+%     consists of quasi-isomorphisms.
 
-\begin{remark}
-    One can also compare $\Omega^*(X)$ with Sullivan's polynomial forms $A_{PL}(X)$ via the following zigzag: 
-    \begin{align*}
-        \Omega^*(X)\to A_{dR}(S^\infty_*(X))\from A_{PL}(S^\infty_*(X))\from A_{PL}(S_*(X)) = A_{PL}(X)
-    \end{align*}
-    Here $A_{dR}(S^\infty_*(X))$ is constructed from the simplicial algebra with $(A_{dR})_n=\Omega^*(\Delta^n)$ and the second map is induced from the inclusion $(A_{PL})_n\to (A_{dR})_n$. For $X=\Map(G, M)$ our assumption is equivalent to requiring that the sequence 
-    \begin{align*}
-        \Omega^*(\Map(G, M))\to A_{dR}(S^\infty_*(\Map(G, M)))\from A_{PL}(S^\infty_*(\Map(G, M)))\from A_{PL}(S_*(\Map(G, M))) = A_{PL}(\Map(G, M)) \from A_{PL}(\Map_{cts}(G, M))
-    \end{align*}
-    consists of quasi-isomorphisms.
+%     By the discussion in \cite{felix2012rational}[ch. 11], the map $A_{dR}(S^\infty_*(X))\from A_{PL}(S^\infty_*(X))$ is a quasi-isomorphism. By the cite{kuribayashi2020simplicial}[theorem 2.4], the map $\Omega^*(X)\to A_{dR}(S^\infty_*(X))$ is a quasi-isomorphism if and only if the map $\Omega^*(\Map(X)) \to C_\infty^*(\Map(X))$ is a quasi-isomorphism. The map $A_{PL}(S^\infty_*(\Map(G, M)))\from A_{PL}(S_*(\Map(G, M)))$ is a homotopy equivalence by a similar argument as in \cref{prop:comparison-singular-smooth-cohomology}. The map $A_{PL}(\Map(G, M))\to A_{PL}(C^0(G,M))$ is a quasi-isomorphism if and only if the map on the singular cochain complex is. 
 
-    By the discussion in \cite{felix2012rational}[ch. 11], the map $A_{dR}(S^\infty_*(X))\from A_{PL}(S^\infty_*(X))$ is a quasi-isomorphism. By the cite{kuribayashi2020simplicial}[theorem 2.4], the map $\Omega^*(X)\to A_{dR}(S^\infty_*(X))$ is a quasi-isomorphism if and only if the map $\Omega^*(\Map(X)) \to C_\infty^*(\Map(X))$ is a quasi-isomorphism. The map $A_{PL}(S^\infty_*(\Map(G, M)))\from A_{PL}(S_*(\Map(G, M)))$ is a homotopy equivalence by a similar argument as in \cref{prop:comparison-singular-smooth-cohomology}. The map $A_{PL}(\Map(G, M))\to A_{PL}(\Map_{cts}(G,M))$ is a quasi-isomorphism if and only if the map on the singular cochain complex is. 
-
-\end{remark}
+% \end{remark}
 
 
 
 \subsection{Fiber Integration in Diffeological Spaces}\label{subsec:fiber-integration}
-We first recall the definition of the fiber integral in the euclidean case, cf.\ \cite{bott1982differential}. We then define a fiber integration map for diffeological spaces $X$ and $Y$, which will be a map
-%$\Omega^*(Y\times M)\to\Omega^{*-\dim M}(Y)$ for a closed oriented manifold $M$ and an integration map 
-$$\Omega^d(Y\times X) \otimes C_n^\infty(X)\to\Omega^{d-n}(Y).$$
+We first recall the definition of the fiber integral in the euclidean case, cf.\ \cite{bott1982differential}. We then define a fiber integration map for diffeological spaces $F$ and $X$, which will be a map
+%$\Omega^*(X\times M)\to\Omega^{*-\dim M}(X)$ for a closed oriented manifold $M$ and an integration map 
+$$\Omega^d(X\times F) \otimes C_n^\infty(F)\to\Omega^{d-n}(X).$$
 
 \begin{construction} [Euclidean Fiber Integral]
-    Let $U\subset \R^n, V\subset\R^m$ be open and $\omega\in\Omega^*(U\times V)$, then $\omega$ is a sum of forms $f du_{i_1}\wedge\dots \wedge du_{i_k}\wedge dv_{j_1}\wedge\dots\wedge dv_{j_l}$ for smooth functions $f\in C^\infty(U\times V)$. Under suitable conditions such that the integral converges (e.g.\ if $f$ has compact support in the $U$ direction), one can define the fiber integral of $\omega$ in the $V$ direction to be the form $\int_V \omega\in\Omega^*(U)$ given at $u\in U$ by
-    $$v\mapsto \left(\int_V \omega\right)_v = \sum du_{i_1}\wedge\dots \wedge du_{i_k} \left(\int_V f(u, v) dv_{j_1}\wedge\dots\wedge dv_{j_l}\right).$$
-    The integral is formally set to $0$ if $l\neq n$. This is a map $\Omega^*_{cv}(U\times V)\to \Omega^{*-\dim V}(U)$, where $\Omega^*_{cv}(U\times V)$ denotes the forms with compact support in $V$ direction. 
+    Let $U\subset \R^n, V\subset\R^m$ be open and $\omega\in\Omega^*(U\times V)$, then $\omega$ is a sum of forms $f_{I, J} du_{i_1}\wedge\dots \wedge du_{i_k}\wedge dv_{j_1}\wedge\dots\wedge dv_{j_l}$ with $I=(i_1,\dots, i_k), J=(j_1,\dots, j_l)$ for unique smooth functions $f_{I,J}\in C^\infty(U\times V)$. We say that the fiber integral of $\omega$ is well-defined if for all $u\in U$, the integral $$\int_V f_{I,J}(u, v) dv_{j_1}\wedge\dots\wedge dv_{j_l}$$ converges for all multi-indices $I, J$ with $l = \abs{J} = \dim V$ and yields a smooth function $U\to \R$. In this case, we define the \emph{fiber integral} of $\omega$ to be the form $\int_V \omega\in\Omega^*(U)$ given at $u\in U$ by
+    $$u\mapsto \left(\int_V \omega\right)_u = \sum du_{i_1}\wedge\dots \wedge du_{i_k} \left(\int_V f_{I, J}(u, v) dv_{j_1}\wedge\dots\wedge dv_{j_l}\right).$$
+    The integral is formally set to $0$ if $l\neq n=\dim V$. 
 \end{construction}
+For example, a form $\omega\in \Omega^*(U\times V)$ has compact vertical support if for all $u$, the set $\{v\in V\times V\mid \omega|_{(u, v)}\neq 0\}\subset V$ is contained in a compact subset of $V$. Fiber integration then yields a map $$\Omega^*_{cv}(U\times V)\to \Omega^{*-\dim V}(U),$$ where $\Omega^*_{cv}(U\times V)$ denotes the forms with compact support in $V$ direction. 
 \begin{lemma}\label{lem:fiber-int-euclidean}
-    If $f\colon V\to V'$ be smooth, then for $\omega\in \Omega^*(V')$
+    \begin{enumerate}
+        \item 
+    If $f\colon U\to U'$ is smooth, then for $\omega\in \Omega^*(U'\times V)$, if both fiber integrals $\int_V\omega\in\Omega^*(U')$ and $\int_V (f\times\id_V)^*\omega\in\Omega^*(U)$ are well-defined, then they are equal:
     \begin{align*}
-        \int_V (\id\times f)^*\omega = f^*\int_{V'}\omega
+        \int_{V} (f\times \id_V)^*\omega = f^*\int_{V}\omega
     \end{align*}
-    If $g\colon  U\to U'$ is a diffeomorphism, then
+    \item 
+    If $g\colon  V\to V'$ is a diffeomorphism, then for $\omega\in \Omega^*(U\times V')$
     \begin{align*}
-        \int_V (g\times\id)^*\omega = \pm \int_{V} \omega
+        \int_V (\id\times g)^*\omega = \pm \int_{V'} \omega
     \end{align*}
-    with positive sign if $g$ is orientation preserving and negative sign otherwise.
+    if both fiber integrals are well-defined, with positive sign if $g$ is orientation preserving and negative sign otherwise.
+    \item Let $p\colon U\times V\to U$ be the projection, then for $\omega_1\in\Omega^*(U)$ and $\omega_2\in\Omega^*(U\times V)$, 
+    \begin{align*}
+        \int_V p^*\omega_1 \wedge\omega_2 = \omega_1\wedge\int_V \omega_2
+    \end{align*}
+    if both fiber integrals are well-defined. 
+\end{enumerate}
 \end{lemma}
+\cite{bott1982differential} and \cite{greub1972connections} define fiber integration in the context of with oriented vector bundles $E\to B$ over finite dimensional manifolds, using only forms with compact vertical support. Our definition is slightly adapted: We consider only trivial bundles, i.e.\ cartesian products, where the base space and fiber are subsets of euclidean spaces. We have also made the convergence assumption explicit instead of relying on compact vertical support. Nevertheless this is a standard construction. 
 
-% \begin{construction}[Fiber Integral $\Omega^*(M\times Y)\to\Omega^{*-\dim M}(Y)$]
+\begin{remark}\label{rmk:fiber-int-cpt}
+    If $K\subset V\subset \R^n$ is compact, we may define the fiber integral $\int_K\omega\in \Omega^*(U)$ of $\omega\in\Omega^*(U\times V)$ to be the form given at $u\in U$ by
+    $$u\mapsto \left(\int_K \omega\right)_u = \sum du_{i_1}\wedge\dots \wedge du_{i_k} \left(\int_K f_{I, J}(u, v) dv_{j_1}\wedge\dots\wedge dv_{j_l}\right).$$
+    This is always well-defined: Since $K$ is compact, $\omega$ is bounded in the $K$ direction, hence the integral converges. Moreover it is smooth since for every $u\in U$ and every $p\geq 0$, there is an open set $u\in N\subset U$ such that $\omega$ and all its $p$-th derivatives are bounded on the strip $N\times K$. 
+\end{remark}
+
+We now define a more general fiber integral where $U\subset \R^n$ is replaced with a general diffeological space.
+
+% \begin{construction}[Fiber Integral $\Omega^*(M\times X)\to\Omega^{*-\dim M}(X)$]
 % Let $M$ be an oriented closed manifold and $U\subset \R^n$ open. Using a smooth partition of unity subordinate to a positively oriented atlas of $M$, one can define the a map $$\int_M\colon\Omega^{*+\dim M}(U\times M)\to\Omega^*(U)$$
 % and this is independent of the partition of unity. 
 
-% Let $Y$ be a diffeological space, then one can construct the \emph{fiber integral}\index{fiber integral!on diffeological spaces} $$\int_M\colon\Omega^{*+\dim M}(Y\times M)\to \Omega^*(Y)$$ by mapping $\{\alpha_P\}\mapsto \{\int_M\alpha_P\}$. This satisfies the same invariance properties as in the lemma.
+% Let $X$ be a diffeological space, then one can construct the \emph{fiber integral}\index{fiber integral!on diffeological spaces} $$\int_M\colon\Omega^{*+\dim M}(X\times M)\to \Omega^*(X)$$ by mapping $\{\alpha_P\}\mapsto \{\int_M\alpha_P\}$. This satisfies the same invariance properties as in the lemma.
 % \end{construction}
 
 \begin{construction}[Fiber integral over smooth singular chains]
-    If $X$ and $Y$ are diffeological spaces, $\sigma\colon\Delta^n\to X$ is a smooth simplex in $X$ and $\omega\in\Omega^*(Y\times X)$, then for each plot $P\colon V\to Y$ of $Y$ and, we have $(P\times\sigma)^*\omega\in\Omega^*(U\times \Delta^n)$ and we can define $$\int_\sigma \omega = \left\{\int_{\Delta^n} (P\times\sigma)^*\omega\right\}$$
-    Since $\sigma$ extends smoothly to a small neighborhood of $\Delta^n$ and $\Delta^n$ is compact, the defining intergral converges. The resulting map
-    \begin{align*} \int\colon\Omega^d(Y\times X) \otimes C_n^\infty(X)&\to\Omega^{d-n}(Y)\\
-        \alpha\otimes \omega&\mapsto \int_\alpha\omega
+    Let $F$ and $X$ be diffeological spaces, $\sigma\colon\Delta^n\to F$ be a smooth simplex in $F$ and $\omega\in\Omega^*(X\times F)$, then for each plot $P\colon U\to X$ of $X$ we have $(P\times\sigma)^*\omega\in\Omega^*(U\times \Delta^n)$. Since $\sigma$ extends to a small neighborhood $V\supset \Delta^n$, the form $P\times\sigma^*\omega$ extends to a form in $\Omega^*(U\times V)$. Since $\Delta^n$ is compact, the fiber integral $\int_{\Delta^n} P\times\sigma^*\omega$ is well-defined, c.f.\ \cref{rmk:fiber-int-cpt}. These forms piece together to a well-defined form on $X$ by part 1 of \cref{lem:fiber-int-euclidean}: 
+    $$\int_\sigma \omega = \left\{\int_{\Delta^n} (P\times\sigma)^*\omega\right\}\in\Omega^*(X).$$
+    This extends linearly to chains of smooth simplices and one obtains a linear map
+    \begin{align*} \int\colon\Omega^d(X\times F) \otimes C_n^\infty(F)&\to\Omega^{d-n}(X)\\
+        \omega\otimes \alpha&\mapsto \int_\alpha\omega
     \end{align*}
-    is the \emph{fiber integral}\index{fiber integral} over smooth singular chains.
+    called the \emph{fiber integral}\index{fiber integral} over smooth singular chains.
 \end{construction}
 
 \begin{remark}
-    One can make a similar construction with a compact oriented manifold in place of $\sigma$.
+    With a similar construction, using a partition of unity, one can construct a fiber integral over a compact oriented manifold $M$ or more generally a map $M\to F$.
 \end{remark}
 
 The fiber integral map satisfies the following properties:
 \begin{proposition}
     \begin{enumerate}
-        \item If $\sigma\in C^\infty_k(X), \tau\in C^\infty_l(Y)$ and $\omega\in\Omega^{k+l}(Y\times X)$, then
+        \item If $\sigma\in C^\infty_k(F), \tau\in C^\infty_l(X)$ and $\omega\in\Omega^{k+l}(X\times F)$, then
         \begin{align*}
             \int_\tau\int_\sigma\omega = \int_{\tau\times\sigma}\omega \in \R
         \end{align*}
-        where $\tau\times\sigma = EZ(\tau,\sigma)\in C^\infty_{k+l}(X\times Y)$ denotes the image of the Eilenberg-Zilber map and the outer integral is as in \cref{subsec:diffeological-de-rham}. 
-        \item If $f\colon X\to X', g\colon Y\to Y'$, then for $\alpha\in C^\infty_*(X), \omega\in \Omega^*(Y'\times X')$,
+        where $\tau\times\sigma = EZ(\tau,\sigma)\in C^\infty_{k+l}(F\times X)$ denotes the image of the Eilenberg-Zilber map. 
+        \item If $f\colon F\to F', g\colon X\to X'$, then for $\alpha\in C^\infty_*(F), \omega\in \Omega^*(X'\times F')$,
         \begin{align*}
             \int_\alpha (g\times f)^*\omega = g^*\int_{f_*\alpha}\omega
         \end{align*}
+        \item Let $p\colon X\times F\to X$ be the projection, then for $\omega_1\in\Omega^*(X), \omega_2\in\Omega^*(X\times F)$ and $\alpha\in C^\infty_*(F)$:
+        \begin{align*}
+            \int_{\alpha} p^*(\omega_1)\wedge\omega_2 = \omega_1\wedge\int_{\alpha}\omega_2
+        \end{align*}
     %     \item
-    % Let $\alpha\in\Omega^*(M\times Y)$ and $\beta\in\Omega^*(Y)$, then
+    % Let $\alpha\in\Omega^*(M\times X)$ and $\beta\in\Omega^*(X)$, then
     % \begin{align*}
     %     \pi_*(\alpha\wedge\pi^*\beta) = \pi_*\alpha\wedge\beta
     % \end{align*}
-    % If in addition, $Y$ is an oriented compact manifold (or $Y$ not necessarily compact but $\beta$ has compact support), then
+    % If in addition, $X$ is an oriented compact manifold (or $X$ not necessarily compact but $\beta$ has compact support), then
     % \begin{align*}
-    %     \int_{M\times Y} \alpha\wedge\pi^*\beta = \int_Y\int_M \left(\alpha\wedge\pi^*\beta\right) =  \int_Y\left(\int_M \alpha\right)\wedge\beta
+    %     \int_{M\times X} \alpha\wedge\pi^*\beta = \int_X\int_M \left(\alpha\wedge\pi^*\beta\right) =  \int_X\left(\int_M \alpha\right)\wedge\beta
     % \end{align*}
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-    For the first part, we may take $X=\Delta^k, Y=\Delta^l$ with no loss of generality. The Eilenberg-Zilber map gives a partition of the product $\Delta^{k}\times\Delta^l$ via smooth maps $\Delta^{k+l}\to\Delta^k\times\Delta^l$ with disjoint images except on a zero set, hence we conclude. The second part is clear from \cref{lem:fiber-int-euclidean}. 
+    For the first part, we may take $F=\Delta^k, X=\Delta^l$ without loss of generality. The Eilenberg-Zilber map gives a partition of the product $\Delta^{k}\times\Delta^l$ via smooth maps $\Delta^{k+l}\to\Delta^k\times\Delta^l$ with disjoint images except on a zero set, hence we conclude. The remaining statements are implied by \cref{lem:fiber-int-euclidean}. 
 \end{proof}
 
-Let $I_{dR}\colon \Omega^*(X)\to C_\infty^*(X)$ be the de Rham map as in \cref{subsec:diffeological-de-rham}.
-
-By the following theorem, fiber integration corresponds to the slash product in the smooth singular cochain complex.
+Let $I_{dR}\colon \Omega^*(F)\to C_\infty^*(F)$ be the de Rham map as in \cref{subsec:diffeological-de-rham}. By the following theorem, fiber integration corresponds to the slash product in the smooth singular cochain complex under $I_{dR}$.
 \begin{theorem}\label{thm:fiber-integral-slash-product}
-    $F$ be a smooth manifold and $B$ a diffeological space, let $\alpha\colon\Delta^p\to F$ be a smooth simplex and $\omega\in\Omega^{p+q}(B\times F)$ a differential form. Then
+    Let $F$ be a smooth manifold and $B$ a diffeological space, let $\alpha\colon\Delta^p\to F$ be a smooth simplex and $\omega\in\Omega^{p+q}(B\times F)$ a differential form. Then
     \begin{align*}
         I_{dR}(\omega) / \alpha = I_{dR}\left(\int_{\alpha} \omega\right)
     \end{align*}
@@ -639,7 +709,7 @@ By the following theorem, fiber integration corresponds to the slash product in 
 
 From this we can show Stokes' theorem for fiber integration over smooth singular chains with a simple formal argument:
 \begin{proposition}\label{thm:fiber-stokes}
-    Let $Y$ be a diffeological space, $\omega\in\Omega^{p+q}(X\times Y)$ and $\alpha\in C_p(X)$, then
+    Let $X$ be a diffeological space, $\omega\in\Omega^{p+q}(F\times X)$ and $\alpha\in C_p^\infty(F)$, then
     $$d\left(\int_\alpha\omega\right) = \int_\alpha\ d\omega + (-1)^{\deg \omega - \deg\alpha}\int_{\partial \alpha} \omega$$
 \end{proposition}
 \begin{proof}
@@ -652,9 +722,9 @@ From this we can show Stokes' theorem for fiber integration over smooth singular
 
 With this we can easily show that the de Rham cohomology of diffeological spaces is invariant with respect to smooth homotopy.
 \begin{theorem}
-    Let $f_0, f_1\colon M'\to M$ be smooth maps of diffeological spaces. Then every smooth homotopy $F\colon I\times M'\to M$ from $f_0$ to $f_1$ induces a chain homotopy $\int_F\colon \Omega^*(M)\to \Omega^*(M')$ such that 
+    Let $f_0, f_1\colon M'\to M$ be smooth maps of diffeological spaces. Then every smooth homotopy $F\colon I\times M'\to M$ from $f_0$ to $f_1$ induces a chain homotopy $H\colon \Omega^*(M)\to \Omega^{*-1}(M')$ such that 
     \begin{align*}
-        d\int_F + \int_F d = f_1^* - f_0^*
+        dH + H d = f_1^* - f_0^*
     \end{align*}
 \end{theorem}
 \begin{proof}
@@ -662,7 +732,7 @@ With this we can easily show that the de Rham cohomology of diffeological spaces
     \begin{align*}
         d \int_I F^*\omega = \int_I F^*d\omega + (-1)^{\deg\omega - 1} (f_1^*\omega - f_0^*\omega)
     \end{align*}
-    hence we can take $\int_F$ to be $\omega\mapsto (-1)^{\deg\omega}\int_I F^*\omega$.
+    hence we can take $H$ to be $\omega\mapsto (-1)^{\deg\omega}\int_I F^*\omega$.
 \end{proof}
 
 
@@ -670,7 +740,7 @@ With this we can easily show that the de Rham cohomology of diffeological spaces
 %     A differential $k$-form on a diffeological space $(X,\mathcal D)$ is a $\mathcal D$-indexed collection $\alpha_P$ of differential forms $\alpha_P\in \Omega^k(U)$ for each plot $P\colon U\to X$, such that for every smooth map $f\colon U\to V$ of euclidean open sets, $f^*\alpha_P = \alpha_{fP}$. The collection of all differential $k$-forms on $X$ is denoted $\Omega^k(X)$. 
 % \end{definition}
 
-% One can define the usual pullback, exterior derivative and wedge product operations by acting on $\alpha_P$. In particular, there is a well defined de Rham cohomology of the complex $\Omega^*(X)$. The de Rham cohomology is invariant with respect to smooth homotopy, so this more generally holds for any space which is smoothly homotopy equivalent to the a smooth cw complex. See \ref{subsec:diffeological} for more detailed statements and references of the preceding statements. 
+% One can define the usual pullback, exterior derivative and wedge product operations by acting on $\alpha_P$. In particular, there is a well defined de Rham cohomology of the complex $\Omega^*(X)$. The de Rham cohomology is invariant with respect to smooth homotopy, so this more generally holds for any space which is smoothly homotopy equivalent to the a smooth CW complex. See \ref{subsec:diffeological} for more detailed statements and references of the preceding statements. 
 
 
 
@@ -679,34 +749,34 @@ With this we can easily show that the de Rham cohomology of diffeological spaces
 
 \section{String Topology Operations via Configuration Spaces}
 
-In this section we give the construction of the loop product and coproduct from \cite{naef2019string}. Classically, the intersection maps in these operations are constructed via tubular neighborhoods and the Thom isomorphism. We instead give a different construction using the compactified configuration space of two points. We begin by recalling the compactification of configuration spaces over a manifold $M$ in \cref{subsec:compactificatified-configuration-space}. In \cref{subsec:intersection-in-M-via-conf} we construct the intersection product on a closed manifold $M$ using configuration spaces. We then give an analogous construction of the loop product in \cref{subsec:loop-product}. We will show in \ref{subsec:loop-product-model} that on homology our constructions are identical with the classical concstruction \ref{subsec:loop-product-classical} via the Thom isomorphism. 
+In this section we reproduce the construction of the loop product and coproduct from \cite{naef2019string}. Classically, the intersection maps in these operations are constructed via tubular neighborhoods and the Thom isomorphism. One can instead construct the intersection map using the compactified configuration space of two points. We begin by recalling the compactification of configuration spaces over a manifold $M$ in \cref{subsec:compactificatified-configuration-space}. In \cref{subsec:intersection-in-M-via-conf} we construct the intersection product on a closed manifold $M$ using configuration spaces. We then give an analogous construction of the loop product in \cref{subsec:loop-product}. We will show in \ref{subsec:loop-product-model} that on homology our constructions are identical with the classical concstruction \ref{subsec:loop-product-classical} via the Thom isomorphism. 
 
 \subsection{Fulton-MacPherson Compactification of Configuration Spaces}\label{subsec:compactificatified-configuration-space}
 
 We begin by introducing the compactification of the configuration spaces. We follow~\cite{sinha2004manifold}.
 
-Recall that the ordered configuration space of $n$ points in a space $M$ is defined as $$\Conf_M(n) = \{(x_1, \dots, x_n)\in M^n\mid x_i\neq x_j\ \text{for}\ i\neq j\}.$$ 
+\begin{definition}
+The ordered configuration space of $n$ points in a space $M$ is defined as $$\Conf_M(n) = \{(x_1, \dots, x_n)\in M^n\mid x_i\neq x_j\ \text{for}\ i\neq j\}.$$ 
+\end{definition}
 
-We denote $\underline n=\{1,\dots,n\}$. For $(i,j)\in \Conf_{\underline n}(2)$, let $\pi_{ij}\colon \Conf_{\R^m}(n)\to S^{m-1}$ be the map which sends $(x_i)_{i\in\underline m}$ to the unit vector in the direction $x_i-x_j$. For $(i,j,k)\in\Conf_{\underline n}(3)$, let $s_{ijk}\colon C_{\R^m}(n) \to (0, \infty), s_{ijk}(x) = \abs{x_i-x_j} / \abs{x_i-x_k}$. Let $\iota\colon\Conf_M(n)\to M^n$ be the embedding. Define the ambient space of the Fulton-MacPherson compactification $$A_M(n) = M^{n} \times (S^{m-1})^{\Conf_{\underline n}(2)} \times [0, \infty]^{\Conf_{\underline n}(3)}.$$ We embed the configuration space into this ambient space by 
+Let $M$ be a closed manifold. We fix an embedding $M \hookrightarrow \R^D$. We construct the Fulton-MacPherson compactification of $\Conf_M(n)$ as follows:
+
+Let $\underline n=\{1,\dots,n\}$. For $(i,j)\in \Conf_{\underline n}(2)$, let $$\pi_{ij}\colon \Conf_M(n)\to S^{D-1}$$ be the map which sends $(x_i)_{i\in\underline m}$ to the unit vector in the direction $x_i-x_j$. For $(i,j,k)\in\Conf_{\underline n}(3)$, let $$s_{ijk}\colon \Conf_{M}(n) \to (0, \infty), \qquad s_{ijk}(x) = \abs{x_i-x_j} / \abs{x_i-x_k}.$$ Let $\iota\colon\Conf_M(n)\to M^n$ be the embedding. Define the ambient space of the Fulton-MacPherson compactification $$A_M(n) = M^{n} \times (S^{D-1})^{\Conf_{\underline n}(2)} \times [0, \infty]^{\Conf_{\underline n}(3)}.$$ We embed the configuration space into this ambient space by 
 \begin{align*}
     &\alpha_{M,n} \colon \Conf_M(n) \to A_M(n)\\
     &\alpha_{M,n} = \iota \times \prod_{(i,j)\in \Conf_{\underline n(2)}}\pi_{ij} \times \prod_{(i, j, k)\in\Conf_{\underline n}(3)}s_{ijk}
 \end{align*}
-Additionally we consider the case $M=\R^m$, where we make a similar definition, but omitting the first factor, i.e. $\alpha_{m,n} \colon \Conf_{\R^m}(n) \to A_{\R^m}(n), \alpha_{m,n} = \left(\pi_{ij}\right) \times \left((s_{ijk})\right)$
-
-For a compact manifold $M$, fix an embedding $M \hookrightarrow \R^D$.
 
 \begin{definition}
-The \emphi{Fulton-MacPherson-Axelrod-Singer} compactification of the ordered configuration space of $n$ points in $M$ is the closure of the image of the above map: $\cConf_M(n) = cl_{A_M(n)}(im(\alpha_{M,n}))$. That is, the closure of 
+The \emphi{Fulton-MacPherson-Axelrod-Singer} compactification of the ordered configuration space of $n$ points in $M$ is the closure of the image of the above map: $\cConf_M(n) = cl_{A_M(n)}(im(\alpha_{M,n}))$. That is, the closure of the image of
 \begin{align*}
-    \iota \times \prod_{(i,j)\in \Conf_{\underline n(2)}}\pi_{ij} \times \prod_{(i, j, k)\in\Conf_{\underline n}(3)}s_{ijk} \colon \Conf_M(n)\to M^{n} \times (S^{m-1})^{\Conf_{\underline n}(2)} \times [0, \infty]^{\Conf_{\underline n}(3)}
+    \iota \times \prod_{(i,j)\in \Conf_{\underline n(2)}}\pi_{ij} \times \prod_{(i, j, k)\in\Conf_{\underline n}(3)}s_{ijk} \colon \Conf_M(n)\to M^{n} \times (S^{D-1})^{\Conf_{\underline n}(2)} \times [0, \infty]^{\Conf_{\underline n}(3)}
 \end{align*}
-The Fulton-MacPherson-Axelrod-Singer compactification of $n$ points in $\R^m$ is $\cConf_m(n) = cl_{A_m(n)}(im(\alpha_{m,n}))$.
 \end{definition}
 
 % The maps $\iota, \pi_{ij}, s_{ijk}$ can be extended to the closure $\cConf_M(n)$.
 
-In~\cite{sinha2004manifold} it is shown that if $M$ is a compact manifold, then $\cConf_M(n))$ is a compact manifold with corners, whose top stratum is homeomorphic to $\Conf_M(n)$. In particular, the compactification is homotopy equivalent to the original configuration space. 
+In~\cite{sinha2004manifold} it is shown that if $M$ is a closed manifold, then $\cConf_M(n))$ is a compact manifold with corners, whose top stratum is homeomorphic to $\Conf_M(n)$. In particular, the compactification is homotopy equivalent to the original configuration space. 
 
 \begin{remark}
     One can restore the original configuration of points in the configuration space from the image of the $\pi_{i,j}$ and $s_{i,j,k}$, up to translation and rotation in $\R^D$.
@@ -718,7 +788,7 @@ In~\cite{sinha2004manifold} it is shown that if $M$ is a compact manifold, then 
 For the $\R^m$ case the base space is not compact and we omit the factor $\iota$ in the definition of $\alpha$, to ensure $\cConf_m(n)$ is compact. 
 
 \begin{example}
-    Since we are largely interested in the case $n=2$, we give an explicit description of $\cConf_M(2)$. The top stratum of this is $\Conf_M(2)$. The remaining stratum is a copy of the unit tangent bundle $UTM$, which is attached so that $UTM\subset \cConf_M(2)$ is closed and a sequence $(x'_n, x''_n)$ in $\Conf_M(2)$ converges to $X\in UT_xM$ if $(x'_n)$ and $(x''_n)$ converge to $x$ and $x_n'-x_n''\in \R^D/ \R_+$ converges to $X\in UT_xM\subset\R^D/\R_+$. 
+    Since we are largely interested in the case $n=2$, we give an explicit description of $\cConf_M(2)$. The top stratum of this is $\Conf_M(2)$. There is one remaining stratum which is homeomorphic to the unit tangent bundle $UTM$, which is attached so that $UTM\subset \cConf_M(2)$ is closed and a sequence $(x'_n, x''_n)$ in $\Conf_M(2)$ converges to $X\in UT_xM$ if $(x'_n)$ and $(x''_n)$ converge to $x$ and $x_n'-x_n''\in \R^D/ \R_+$ converges to $X\in UT_xM\subset\R^D/\R_+$. 
 \end{example}
 
 % One can restore the original configuration of points from the image of $\alpha_{m,n}$ up to translation and scaling in $\R^m$. In general the images under $\pi_{ij}$ suffice for this, if the points are collinear, $s_{ijk}$ identifies their position relative to each other. For a real vector space $V$, denote by $ST(V)$ the group generated by translations and scaling with a positive scalar in $V$, this acts naturally on $V^n$ and the configuration spaces. The compactification factors as $\Conf_m(n) \to \Conf_m(n) / ST(\R^m) \to \cConf_m(n)$, where the first map is a homotopy equivalence and the second map is a homeomorphism onto its image, with dense and open image. 
@@ -899,9 +969,10 @@ By applying \cref{lem:pullback_cube} to the fibration $LM\times LM\to M\times M$
         LM\times LM|_M \rar & LM\times LM
     \end{tikzcd}
 \end{equation}
-where each term is the fiber product of $LM\times LM$ with the corresponding term in~\ref{M_pushout} over $M\times M$. Thus $LM\times LM|_M$ is the space of figure eights in $M$, i.e.\ two loops starting at the same point in $M$. $LM\times LM|_{UTM} = (LM\times LM)\times_{M\times M} UTM$ is the space of figure eights in $M$, together with a unit tangent vector at the node of the eight. $LM\times LM|_{\cConf_M(2)}$ is a space which contains pairs of loops which need not necessarily intersect, but if they intersect at $t=0$, then we additionally have a unit tangent vector at the node. 
+where each term is the fiber product of $LM\times LM$ with the corresponding term in~\ref{M_pushout} over $M\times M$. Thus $LM\times LM|_M$ is the space of figure eights in $M$, i.e.\ two loops starting at the same point in $M$. $LM\times LM|_{UTM} = (LM\times LM)\times_{M\times M} UTM$ is the space of figure eights in $M$, together with a unit tangent vector at the node of the eight. $LM\times LM|_{\cConf_M(2)}$ is a space which contains pairs of loops which need not necessarily intersect, but if they intersect at $t=0$, then we additionally have a unit tangent vector at the node. Since the diagram is a homotopy pushout, the homotopy cofibers are homotopy equivalent by \cref{thm:pasting-lemma}. 
 
-Since the diagram is a homotopy pushout, the homotopy cofibers are homotopy equivalent by \cref{thm:pasting-lemma}. Thus we can lift the intersection map of $M$ to $LM$:
+\begin{construction}\label{constr:loop-intersection-via-configuration}
+    We define the intersection map $i_{LM\times_M LM}^!$ of the inclusion $i_{LM\times_M LM}\colon LM\times_M LM\to LM\times LM$ as the following composition 
 \begin{equation}
     \begin{tikzcd}
         H^{*}(LM \times LM) & \lar H^*(LM\times LM, LM\times LM|_{\cConf_M(2)}) \dar["\iso"] & &\\
@@ -915,14 +986,15 @@ The map $H^*(LM\times LM|_{UTM}, LM\times LM|_M) \xleftarrow{"\cupp Th"} H^{*-n}
         & \cone\left(\Omega^*\left(LM\times LM|_{UTM}\right) \to\Omega^*\left(LM\times LM|_{M}\right)\right) &\lar \Omega^{*-n}(LM\times LM|_{M})
     \end{tikzcd}
 \end{center}
+\end{construction}
 
 The \emph{loop product}\index{loop product!via configuration spaces} is now the following map: 
 \begin{align*}
-    H^*(LM)\otimes H^*(LM) \from H^*(LM\times LM) \from H^{*-n}(LM\times LM|_M) \from H^{*-n}(LM),
+    H^*(LM)\otimes H^*(LM) \xfrom H^*(LM\times LM) \xfrom{i^!} H^{*-n}(LM\times LM|_M) \xfrom H^{*-n}(LM),
 \end{align*}
 here the last map is induced by the concatenation map $LM\times LM|_M \to LM$.
 
-\subsection{Loop Coproduct (Cohomological Product)}
+\subsection{Loop Coproduct (Cohomological Product)}\label{subsec:loop-coproduct}
 
 The coproduct is going to be defined relative to constant loops, i.e.
 \begin{align*}
@@ -1019,7 +1091,7 @@ The splitting / reparametrization map is obtained via the same formula as before
 
 \section{Cochain Complex Models for Graph Mapping Spaces}\label{sec:cochain-models}
 
-We are interested in the cohomology of the path space $PM$ of a manifold $M$ and more generally the mapping spaces from a graph into $M$. Here, $PM$ denotes the space of piecewise smooth paths in $M$, topologized by uniform convergence. More generally, for a finite graph $G$, the space $\Map(G, M)$ consists of maps from the associated topological space $G$ to $M$ which are piecewise smooth along the edges. This has the structure of a topological diffeological space (cf.\ \cref{subsec:diffeological}) and we can define the complex of de Rham forms $\Omega^*(\Map(G, M))$. By the discussion in \cref{subsec:diffeological-path-spaces} and \cref{assumption}, we will assume that $\Omega^*(\Map(G, M))$ is quasi-isomorphic to $C^*(\Map_{cts}(G, M))$, the singular cochain complex of the space of continuous maps from $G$ to $M$. 
+We are interested in the cohomology of the path space $PM$ of a manifold $M$ and more generally the mapping spaces from a graph into $M$. Here, $PM$ denotes the space of piecewise smooth paths in $M$, topologized by uniform convergence. More generally, for a finite graph $G$, the space $\Map(G, M)$ consists of maps from the associated topological space $G$ to $M$ which are piecewise smooth along the edges. This has the structure of a topological diffeological space (cf.\ \cref{subsec:diffeological}) and we can define the complex of de Rham forms $\Omega^*(\Map(G, M))$. By the discussion in \cref{subsec:diffeological-path-spaces} and \cref{assumption}, we will assume that $\Omega^*(\Map(G, M))$ is quasi-isomorphic to $C^*(C^0(G, M))$, the singular cochain complex of the space of continuous maps from $G$ to $M$. 
 
 Classically, a differential graded algebra (DGCA) $A$ is called a DGCA model of another DGCA $A'$ if there exists a sequence of quasi-isomorphisms $A\to\dots\from A'$ such that each map is a map of DGCAs. A DGCA model of a space $X$ is defined to be a DGCA model of $A_{PL}(X)$, the DGCA of polynomial forms on $X$, cf. \cite[ch. 10]{felix2012rational}. In this work we will call a model of a chain complex $C$ any chain complex $C'$ together with an isomorphism $C\quiso C'$ in the derived category of chain complexes $D(Ch(k))$. Similarly a model of a map $C\to C'$ is a commutative square in $D(Ch(k))$
 \begin{center}
@@ -1167,7 +1239,7 @@ which is a direct sum of the maps
     C^*(M)\otimes C^*(M)[1]^{\otimes n} \otimes C^{*+n}(M) \xto{ev^*} C^{*+n}(\Delta^n\times PM) \xto{\blank / [\Delta^n]} C^{*}(PM)
 \end{align*}
 \end{definition}
-Here $/$ is the homology slant product, which we recall in \cref{subsec:slant_product}. By the remarks in \cref{subsec:fiber-integration}, the slant product is identified with fiber integration through the De Rham isomorphism, hence this construction yields the same map as above. One can show that this map descends to a map $B(C^*(M), C^*(M), C^*(M))\to NC^*(PM)$, where the left side is the simplicial normalization of the bar construction as above and the complex $NC^*(PM)$ is the quotient of $C^*(PM)$ modulo degenerate cochains. 
+Here $/$ is the homology slant product, which we recall in \cref{subsec:slant_product}. By \cref{thm:thm:fiber-integral-slash-product}, the slant product is identified with fiber integration through the De Rham isomorphism, hence the de Rham isomorphism identifies this iterated integral map with the one on the de Rham complex.
 
 % \begin{remark}
 %     This map descends to a map $B(C^*(M), C^*(M), C^*(M)) \to NC^*(PM)$, where $NC^*(PM)$ is the normalized singular cochain complex, i.e.\ the quotient by the images of the degeneracy maps $s_i$ and $B(C^*(M), C^*(M), C^*(M)) = \bigoplus C^*(M)\otimes \bar C^*(M)[1]^{\otimes n}\otimes C^*(M)$ is the normalization of the bar complex, where $\bar C^*(M)$ is the complex with $\bar C^0(M) / 1$ and $\bar C^k(M) = C^k(M)$ for $k\neq 0$. To show this, consider the diagram
@@ -1195,32 +1267,47 @@ Let $const\colon M\to PM$ be the constant path map and let $ev_{0,1}\colon PM\to
 \begin{proposition}\label{thm:path-models-0}
     \begin{enumerate}
     \item The following diagram commutes: 
-    \begin{center}
+    \begin{equation}\label{diag:path-models-0-1}
     \begin{tikzcd}
-        B \rar["I"] \dar & \Omega^*(PM) \dar \\
+        B \rar["I"] \dar["\alpha"] & \Omega^*(PM) \dar["const^*"] \\
         A \rar[equal] & \Omega^*(M)
     \end{tikzcd}
-    \end{center}
+    \end{equation}
     \item The following diagram commutes:
-    \begin{center}
+    \begin{equation}\label{diag:path-models-0-2}
         \begin{tikzcd}
-        A \otimes A \rar \dar & \Omega^*(M\times M)\dar \\
+        A \otimes A \rar \dar["\beta"] & \Omega^*(M\times M)\dar["ev_{0,1}"] \\
         B \rar["I"] & \Omega^*(PM)
         \end{tikzcd}
-    \end{center}
+    \end{equation}
     \item The iterated integral map $I\colon B(A, A, A)\to \Omega^*(PM)$ is a quasi-isomorphism. 
 \end{enumerate}
 \end{proposition}
 \begin{proof}
     \begin{enumerate}
-        \item let $p\colon M\times\Delta^n\to M$ be the projection. There is a map $\Omega^*(M)^{\otimes k}\to \Omega^*(M)$ given by the $(k-1)$-fold wedge product, which we denote by $\wedge$. Consider the following commutative diagram:
+        \item Let $p\colon M\times\Delta^n\to M$ be the projection. There is a map $\Omega^*(M)^{\otimes k}\to \Omega^*(M)$ given by the $(k-1)$-fold wedge product, which we denote by $\wedge$. Consider the following commutative diagram:
 \begin{center}
-\begin{tikzcd}
-    \Omega^*(M) & \lar["\int_{\Delta^n}"] \Omega^{*+n}(M\times \Delta^n) & \lar["p^*"]\Omega^{*+n}(M) & \lar\Omega^{*+n}(M) \\
-    \Omega^*(PM) \uar["const^*"] &\lar["\int_{\Delta^n}"] \Omega^{*+n}(PM\times\Delta^n) \uar["const^*\otimes\id"] &\lar{ev^*}\uar["\Delta"]\Omega^{*+n}(M^{n+2}) & \lar\Omega^{*+n}(M)^{\otimes (n+2)} \uar["\wedge"]
-\end{tikzcd}
+    \begin{tikzcd}
+        \Omega^{*+n}(M)^{\otimes (n+2)} \dar["\wedge"] \rar & \Omega^{*+n}(M^{n+2}) \dar["\Delta"] \rar["ev^*"] & \Omega^{*+n}(PM\times\Delta^n) \rar["\int_{\Delta^n}"] \dar["const^*\otimes\id"] & \Omega^*(PM) \dar["const^*"] \\
+        \Omega^{*+n}(M) \rar & \Omega^{*+n}(M) \rar["p^*"] & \Omega^{*+n}(M\times \Delta^n) \rar["\int_{\Delta^n}"] & \Omega^*(M)
+    \end{tikzcd}
 \end{center}
-We need to show that the composition from bottom right to top left vanishes for $n>0$. 
+
+The composition along the bottom row vanishes for $n>0$ since
+\begin{align*}
+    \int_{\Delta^n} p^*\omega = \omega \int_{\Delta^n} 1
+\end{align*}
+which vanishes if $1\in \Omega^0(M)$ is not an $n$-form. For $n=0$, the space $\Delta^0$ is a single point and the composition along the top row is the identity. Taking the direct sum over $n\geq 0$ shows that diagram \ref{diag:path-models-0-1} commutes. 
+
+\item Consider the following commutative diagram:
+\begin{center}
+    \begin{tikzcd}
+        \Omega^*(PM) &\lar["\int_{\Delta^n}"] \Omega^{*+n}(PM\times\Delta^n) &\lar["ev^*"] \Omega^{*+n}(M^{n+2}) &\lar \Omega^{*}(M)^{\otimes (n+2)}[n]\\
+        \Omega^*(M\times M) \uar & \lar["\int_{\Delta^n}"] \Omega^{*+n}(M\times M\times\Delta^n)\uar &\lar \Omega^{*+n}(M\times M)\uar&\lar\Omega^*(M)^{\otimes 2}[n]\uar
+    \end{tikzcd}
+\end{center}
+The commutativity of diagram \ref{diag:path-models-0-2} follows from taking $n=0$. 
+% The composition in the lower row vanishes for $n\neq 0$ as in (1).
 % Let $\hat A=\bigoplus_{n\in \Z_{\geq 0}} A[n]$ be the complex with differential $d=d_0+d_1$ where $d_0$ is given by the differential on $A$ and $d_1$ is given by $\id\colon A[n]\to A[n-1]$ for $n$ even and $0$ otherwise. There is a quasi-isomorphism $\hat A\to A$ by projecting to the $n=0$ summand. We obtain the commutative diagram
 % \begin{center}
 %     \begin{tikzcd}
@@ -1230,9 +1317,7 @@ We need to show that the composition from bottom right to top left vanishes for 
 % \end{center}
 % One checks that the diagram in (1) is induced by this. 
 
-\item TODO
-
-\item By (1) the iterated integral map is a quasi-isomorphism: the bottom and right arrows are quasi-isomorphisms and the map $B\to A$ is a quasi-isomorphism by \cref{thm:bar_resolution}. 
+\item In diagram \ref{diag:path-models-0-1}, the bottom and right arrows are quasi-isomorphisms and the map $B\to A$ is a quasi-isomorphism by \cref{thm:bar_resolution}. Hence $I$ is a quasi-isomorphism.
 \end{enumerate}
 \end{proof}
 
@@ -1268,11 +1353,26 @@ We need to show that the composition from bottom right to top left vanishes for 
 % \end{proof}
 
 \subsection{Models for Mapping Spaces from Graphs}\label{subsec:graph-models}
-Let again $M$ be a compact, connected and simply connected, oriented manifold. In this section we model mapping spaces $\Map(G, M)$ where $G$ is (the geometric realization of) a graph, and maps between those spaces. This includes for example the loop space and the figure eight space of $M$. The main ingredient is the iterated integral map of the previous subsection and the pullback pushout lemma \ref{subsec:eilenberg_moore}. Our model is not stated in this generality in \cite{naef2019string}. Note that if there is more than one edge, then our model is different from the model given by Patras and Thomas for mapping spaces from simplicial sets into spaces, see \cite{patras2003cochain}.
+Let again $M$ be a compact, connected and simply connected, oriented manifold. In this section we model mapping spaces $\Map(G, M)$ where $G$ is (the geometric realization of) a graph, and maps between those spaces. This includes for example the loop space and the figure eight space of $M$. The main ingredient is the iterated integral map of the previous subsection and the pullback pushout lemma, \cref{thm:pullback-pushout}. Our model is not stated in this generality in \cite{naef2019string}. Note that if there is more than one edge, then our model is different from the model given by Patras and Thomas for mapping spaces from simplicial sets into spaces, see \cite{patras2003cochain}.
 
-Let $A =\Omega^*(M)$ and $A^e=A^{op}\otimes A$. 
+Let $G$ be a graph given by ordered finite sets $E$ of edges and $V$ of vertices, with source and target maps $s, t\colon E\to V$. To this graph is associated a topological space which shall also be denoted by $G$. We construct a complex $A^{\otimes G}$ which is quasi-isomorphic to $\Omega^*(\Map(G, M))$. This is constructed using a copy of the bar construction for each edge and a copy of $A$ for each vertex, which are assembled with a relative tensor product. Figure \ref{fig:graph-model-example} depicts an example, using a graph with two nodes, two parallel edges and a lobe. 
 
-Let $G$ be a graph given by ordered finite sets $E$ of edges and $V$ of vertices, with maps $s, t\colon E\to V$. To this graph is associated a topological space which shall also be denoted by $G$. We construct a complex $A^{\otimes G}$ which is quasi-isomorphic to $\Omega^*(\Map(G, M))$. This is constructed using a copy of the bar construction for each edge and a copy of $A$ for each vertex, which are assembled with a relative tensor product. Figure \ref{fig:graph-model-example} depicts an example, using a graph with two nodes, two parallel edges and a lobe. 
+The space $G$ is the pushout in the following diagram of spaces
+\begin{center}
+    \begin{tikzcd}
+        E\times \{0, 1\} \rar["s\coprod t"]\dar& V\dar\\
+        E\times I \rar & G
+    \end{tikzcd}
+\end{center}
+Applying $\Map(\blank, M)$ induces a diagram as follows, which exhibits $\Map(G, M)$ as a pullback. 
+\begin{center}\label{diag:mapping-space-pullback}
+    \begin{tikzcd}
+        \Map(E\times \{0, 1\}, M) & \lar["\phi"] \Map(V, M)  \\
+        \Map(E\times I, M) \uar["\psi"] & \lar \Map(G, M) \uar
+    \end{tikzcd}
+\end{center}
+We begin by creating a model of the diagram $\Map(E\times I, M) \to \Map(E\times \{0, 1\}, M)  \from \Map(V, M)$. We then apply \cref{thm:pullback-pushout} to show that the pushout of the model diagram will be a model of the pullback of the spaces. 
+
 
 \begin{figure}[h]
     \center
@@ -1289,154 +1389,185 @@ Let $G$ be a graph given by ordered finite sets $E$ of edges and $V$ of vertices
         (0mm,0mm)
           node[pos=0.6,below] {$ B(A, A, A)$};
     \end{tikzpicture}
-    \caption{Example of a graph $G$ and sketch of the complex $A^{\otimes G}$. As graded vector spaces, $B = A\otimes T(\bar A[1])\otimes A$ where $T(\bar A[1]) = \bigoplus_{n\in \Z_{\geq 0}} \bar A[1]^{\otimes n}$. In this example, as graded vector spaces, $A^{\otimes G} = A^{\otimes 2} \otimes (T(\bar A[1]))^{\otimes 3}$, where each factor corresponds to a vertex or an edge. The differential is defined using the differential of $A$ and the source and target maps of the graph. }\label{fig:graph-model-example}
+    \caption{Example of a graph $G$ and sketch of the complex $A^{\otimes G}$. As graded vector spaces, $B = A\otimes T(\bar A[1])\otimes A$ where $T(\bar A[1]) = \bigoplus_{n\in \Z_{\geq 0}} \bar A[1]^{\otimes n}$. In this example, as graded vector spaces, $A^{\otimes G} = A^{\otimes 2} \otimes (T(\bar A[1]))^{\otimes 3}$, where each factor corresponds to a vertex or an edge. The differential is a sum of two differentials $d=d_0+d_1$ where $d_0$ is given by the differential of $A$ and $d_1$ is defined using the source and target maps of the graph and the product on $A$. }\label{fig:graph-model-example}
 \end{figure}
 
-For any finite ordered set $S$, we can define the tensor product $A^{\otimes S} = \bigotimes_{s\in S} A$ and equip it with the usual tensor product chain complex and algebra structure. Given an order preserving map $f\colon S\to S'$ with $S = \{s_1,\dots, s_n\}$ and $S' = \{s'_1,\dots, s'_l\}$, we can construct a map $A^{\otimes S}\to A^{\otimes S'}$ using the algebra structure of $A$:
+Let $A$ be a DGCA. For any finite ordered set $S$, we can define the tensor product $A^{\otimes S} = \bigotimes_{s\in S} A$ and equip it with the usual tensor product chain complex and algebra structure. Given a map $f\colon S\to S'$ with $S = \{s_1,\dots, s_n\}$ and $S' = \{s'_1,\dots, s'_l\}$, we can construct a map $A^{\otimes S}\to A^{\otimes S'}$ using the algebra structure of $A$:
 \begin{align*}
     a_{s_1}\otimes\dots\otimes a_{s_n}\mapsto (-1)^\epsilon \Prod_{f(s) =s'_1} a_s \otimes\dots \otimes \Prod_{f(s) =s'_l} a_s
 \end{align*}
-where $(-1)^\epsilon$ is the Koszul sign from reordering $a_{s_1}\otimes\dots\otimes a_{s_n}$ into the order on the right hand side.
+where $(-1)^\epsilon$ is the Koszul sign from reordering $a_{s_1}\otimes\dots\otimes a_{s_n}$ into the order on the right hand side. 
 
-Let $A=\Omega^*(M)$ and $B = B(A, A, A)$ as before. Consider the following maps
+Let $A=\Omega^*(M)$ and $B = B(A, A, A)$. Consider the following maps
 \begin{align*}
-    (A^e)^{\otimes E} \to A^V\otimes A^V\to A^V \\
-    (A^e)^{\otimes E}\to B^E
+    \Phi\colon& (A^{\otimes 2})^{\otimes E}\to B^{\otimes E} \\
+    \Psi\colon& (A^{\otimes 2})^{\otimes E} \to A^{\otimes V}\otimes A^{\otimes V}\to A^{\otimes V} 
 \end{align*}
-The first is induced by the map $s\coprod t\colon E\coprod E\to V\coprod V$ and the multiplication on $A$: it maps $$a_{e_1}\otimes a'_{e_1}\otimes\dots\otimes a_{e_n}\otimes a'_{e_n} \mapsto (-1)^\epsilon \Prod_{s(e) = v_1}a_e \Prod_{t(e) = v_1} a_e \otimes \dots\otimes \Prod_{s(e) = v_n}a_e \Prod_{t(e) = v_n} a_e$$ for $V = \{v_1,\dots, v_n\}$, where $\epsilon$ is the Koszul sign of permuting the factors $a_{e_1}, a'_{e_1}, \dots, a_{e_n}, a'_{e_n}$ into the sequence on the right hand side. The second map is the product of the inclusions $A^e\to B$. Denote the pushout of these two maps by $A^{\otimes G} = A^{\otimes V} \otimes_{(A^e)^{\otimes E}} B^{\otimes E}$.
+The map $\Phi$ is the product of the inclusions $A^{\otimes 2}\to B$, given simply by
+$$a_{e_1}\otimes a'_{e_1}\otimes\dots\otimes a_{e_n}\otimes a'_{e_n} \mapsto (a_{e_1}\otimes a'_{e_1}) \otimes \dots\otimes (a_{e_n}\otimes a'_{e_n}).$$ 
+The map $\Psi$ is induced by the map $s\coprod t\colon E\coprod E\to V\coprod V$ and the multiplication on $A$: it maps 
+$$a_{e_1}\otimes a'_{e_1}\otimes\dots\otimes a_{e_n}\otimes a'_{e_n} \mapsto (-1)^\epsilon \Prod_{s(e) = v_1}a_e \Prod_{t(e) = v_1} a'_e \otimes \dots\otimes \Prod_{s(e) = v_n}a_e \Prod_{t(e) = v_n} a'_e$$
+for $V = \{v_1,\dots, v_n\}$, where $\epsilon$ is the Koszul sign of permuting the factors $a_{e_1}, a'_{e_1}, \dots, a_{e_n}, a'_{e_n}$ into the sequence on the right hand side. 
 
-\begin{theorem}\label{thm:graph-mapping-space}
-    Let $M$ be a connected simply connected compact manifold and of finite type. Then the pushout (as chain algebras)
-    \begin{center}
+We can relate $\phi^*, \psi^*$ to $\Phi, \Psi$ through the following diagram: 
+\begin{center}
     \begin{tikzcd}
-        (A^e)^{\otimes E} \dar \rar & A^{\otimes V} \dar \\
+        B^{\otimes E} \dar["I^{\otimes E}"] & \lar["\Phi"] (A^{\otimes 2})^{\otimes E}\dar \rar["\Psi"] & A^{\otimes V} \dar[equal] \\
+        \Omega^*(PM)^{\otimes E}\dar & \lar \Omega^*(M\times M)^{\otimes E} \dar\rar & \Omega^*(M)^{\otimes V}\dar \\
+        \Omega^*(\Map(I, M)^{\times E}) \dar[equal] & \lar["\phi^*"]\dar[equal] \Omega^*(\Map(\{0, 1\}, M)^{\times E}) \rar["\psi^*"] & \Omega^*(\Map(\{pt\}, M)^{\times V})\dar[equal] \\
+        \Omega^*(\Map(E\times I, M)) & \lar["\phi^*"] \Omega^*(\Map(E\times \{0, 1\}, M)) \rar["\psi^*"] & \Omega^*(\Map(V, M)) \\
+    \end{tikzcd}
+\end{center}
+
+Thus $\Phi$ and $\Psi$ are models of $\phi$ and $\psi$:
+\begin{lemma}\label{lem:graph-model-aid}
+    There is a commutative diagram where each vertical map is a quasi-isomorphism:
+    \begin{center}
+        \begin{tikzcd}
+            B^{\otimes E} \dar & \lar["\Phi"] (A^{\otimes 2})^{\otimes E}\dar \rar["\Psi"] & A^{\otimes V} \dar \\
+            \Omega^*(\Map(E\times I, M)) & \lar["\phi^*"] \Omega^*(\Map(E\times \{0, 1\}, M)) \rar["\psi^*"] & \Omega^*(\Map(V, M)) \\
+        \end{tikzcd}
+    \end{center}
+\end{lemma}
+
+Recall that the tensor product $M\otimes_A N$ of two differential graded modules $M, N$ over a differential graded algebra $A$ is the quotient of the tensor product $M\otimes N$ by the differential ideal generated by $ma \otimes n - m\otimes an$ for homogeneous elements $m\in M, a\in A, n\in N$. 
+
+Through the maps $\Phi, \Psi$, there is an $(A^{\otimes 2})^{\otimes E}$-module structure on $B^{\otimes E}$ and $A^{\otimes V}$. Our model of $\Omega^*(\Map(G, M))$ is defined as $A^{\otimes G} = B^{\otimes E}\otimes_{(A^{\otimes 2})^{\otimes E}} A^{\otimes V}$. One can show that $\Phi$ and $\Psi$ are maps of algebras and $A^{\otimes G}$ is the pushout in the category of differential graded commutative algebras. Thus $A^{\otimes G}$ is defined as the pushout of the model and we have an algebraic analogue of diagram \ref{diag:mapping-space-pullback}:
+
+\begin{center}\label{diag:mapping-space-pullback-algebraic}
+    \begin{tikzcd}
+        (A^{\otimes 2})^{\otimes E} \dar["\Phi"] \rar["\Psi"] & A^{\otimes V} \dar \\
         B^{\otimes E} \rar & A^{\otimes G}
     \end{tikzcd}
-    \end{center}
-    is a model of the space $\Map(G, M)$, i.e.\ there exists a natural quasi-isomorphism
-    $I_G\colon A^{\otimes G} \to \Omega^*(\Map(G, M))$.
-    
-    Moreover, for an order preserving morphism of graphs $G\to G'$, the following diagram commutes:
+\end{center}
+
+
+\begin{construction}
+    For a finite ordered graph $G$ and a manifold $M$, the \emph{iterated integral map}\index{iterated integral map!for graph mapping spaces} for $\Map(G, M)$ is the composition
+    \begin{align*}
+        I_G\colon A^ {\otimes G}\to\Omega^*(\Map(E\times I, M))\otimes_{\Omega^*(\Map(E\times\{0,1\}, M))} \Omega^*(\Map(V, M)) \to \Omega^*(\Map(G, M))
+    \end{align*}
+\end{construction}
+
+\begin{remark}
+    We can explicitly compute the map $$I_G\colon A^{\otimes G}\to \Omega^*(\Map(G, M)).$$ As graded vector spaces, $A^{\otimes G}$ is a direct sum of $\bigotimes_{e\in E} A[1]^{k_e}\oplus A^{\otimes V}$ over all $k_e\geq 0$ for $e\in E$: the outer $A$ factors of the bar construction are identified with the $A$ factors of the vertices by taking the tensor product relative to $(A^{\otimes 2})^{\otimes E}$. Write $s=\sum_{e\in E} k_e$. On each direct summand, $I_G$ is given by 
+\begin{align*}
+    \bigotimes_{e\in E} A[1]^{\otimes k_e} \otimes A^{\otimes V} \to \Omega^{*+s}\left(M^{s+|V|}\right)\xto{ev^*} \Omega^{*+s}\left(\Map(G, M) \times \Prod_{e\in E} \Delta^{k_e}\right) \xto{\int} \Omega^*(\Map(G, M))
+\end{align*}
+where the evaluation map $$ev=ev_{\{k_e\}}\colon \Map(G, M)\times \Prod_{e\in E} \Delta^{k_e} \to  M^{s+|V|}$$ evaluates each element of the mapping space at the times in $\Delta^{k_e}$ along the edge $e$ and at each vertex $v$. 
+
+For example, if $G=\ocircle_1=S^1$ is the circle with one vertex and one edge, then $ev_n\colon LM\times \Delta^n\to M^n\times M$ is given by mapping $t_1,\dots, t_n, \gamma\mapsto \gamma(t_1),\dots,\gamma(t_n), \gamma(0)$.
+\end{remark}
+
+To apply \cref{thm:pullback-pushout} we need to add the assumption that $M$ is of finite type. Here a manifold is called of finite type if its cohomology is finite dimensional in each degree. 
+
+\begin{theorem}\label{thm:graph-mapping-space}
+    Let $M$ be a simply connected manifold and of finite type. Then the iterated integral map 
+    $$I_G\colon A^{\otimes G} \to \Omega^*(\Map(G, M)).$$
+    is a quasi-isomorphism, hence $A^ {\otimes G}$ is a model of $\Map(G, M)$.
+
+    Moreover, for a morphism of graphs $G\to G'$, there is a commutative diagram
     \begin{center}
     \begin{tikzcd}
-        A^{\otimes G} \dar \rar & \Omega^*(M^G) \dar \\
-        A^{G'}\rar & \Omega^*(M^{G'})
+        A^{\otimes G} \dar \rar["I_G"] & \Omega^*(\Map(G, M)) \dar \\
+        A^{G'}\rar["I_{G'}"] & \Omega^*(\Map(G', M))
     \end{tikzcd}
     \end{center}
 \end{theorem}
 \begin{proof}
-    We can apply the pullback-pushout theorem \ref{thm:pullback-pushout} to the following pullback diagram:
+    We can apply the pullback-pushout theorem \ref{thm:pullback-pushout} to the pullback diagram of $\Map(G, M)$
     \begin{center}
-    \begin{tikzcd}
-        M^{\{0, 1\}\times E} & \lar["(s\coprod t)^*"] M^V  \\
-        M^{I\times E} \uar & \lar M^G \uar
-    \end{tikzcd}
+        \begin{tikzcd}
+            \Map(E\times \{0, 1\}, M) & \lar["\phi"] \Map(V, M)  \\
+            \Map(E\times I, M) \uar["\psi"] & \lar \Map(G, M) \uar
+        \end{tikzcd}
     \end{center}
-    All spaces here are connected and simply connected since $M$ is. The map $M^{I\times E} \to M^{\{0, 1\}\times E}$ is a Serre fibration (it is a product of the evaluation maps $PM\to M\times M$) hence the diagram is a homotopy pullback diagram. 
+    All spaces here are connected and simply connected since $M$ is. The map $\Map(E\times I, M)\to\Map(\{0,1\}\times E, M)$ is a Serre fibration (it is a product of the evaluation maps $PM\to M\times M$) hence the diagram is a homotopy pullback diagram. 
 
     Consider the following commutative diagram:
     \begin{center}
         \[
         \begin{tikzcd}[column sep = 2em, center picture]
             \Omega^*(M^{I\times E})\otimes^L_{\Omega^*(M^{\{0, 1\}\times E})} \Omega^*(M^V) \rar& \Omega^*(M^{I\times E})\otimes_{\Omega^*(M^{\{0, 1\}\times E})} \Omega^*(M^V) \rar & \Omega^*(M^G) \\
-            B^{\otimes E}\otimes^L_{(A^e)^{\otimes E}} A^{\otimes V} \rar["\quiso"]\uar["\quiso"]& B^{\otimes E}\otimes_{(A^e)^{\otimes E}} A^{\otimes V} \uar
+            B^{\otimes E}\otimes^L_{(A^{\otimes 2})^{\otimes E}} A^{\otimes V} \rar["\quiso"]\uar["\quiso"]& B^{\otimes E}\otimes_{(A^{\otimes 2})^{\otimes E}} A^{\otimes V} = A^{\otimes G}\uar
         \end{tikzcd}
         \]
     \end{center}
-    The map $(A^e)^{\otimes E} \to B^{\otimes E}$ is a tensor product of the maps $A^e\to B$, hence a cofibration over $(A^e)^{\otimes E}$, see \cref{lem:bar-cofibrant}. Hence the lower map is a quasi-isomorphism by \cref{thm:bar-resolution-sullivan}. The left map is also a quasi-isomorphism because it is a quasi-isomorphism on each of the factors, see \cref{thm:bar-quiso}. Finally, the composition of the horizontal maps is also a quasi-isomorphism by the pullback-pushout lemma \ref{thm:pullback-pushout}. We conclude that the map $A^{\otimes G} \to \Omega^*(\Map(G, M))$ is a quasi-isomorphism. 
+    The vertical maps are induced by the diagram in \cref{lem:graph-model-aid}.
+    The map $(A^{\otimes 2})^{\otimes E} \to B^{\otimes E}$ is a tensor product of the maps $A^{\otimes 2}\to B$, hence a cofibration over $(A^{\otimes 2})^{\otimes E}$, see \cref{lem:bar-cofibrant}. Hence the lower map is a quasi-isomorphism by \cref{thm:bar-resolution-sullivan}. The left vertical map is a quasi-isomorphism because it is a quasi-isomorphism on each of the factors, see \cref{thm:bar-quiso}. Finally, the composition of the top horizontal maps is a quasi-isomorphism by the pullback-pushout lemma \ref{thm:pullback-pushout}, using \cref{assumption}. We conclude that the map $A^{\otimes G} \to \Omega^*(\Map(G, M))$ is a quasi-isomorphism. 
 \end{proof}
 
-Explicitly, the map $I_G\colon A^{\otimes G}\to \Omega^*(\Map(G, M))$ is given by a product of the iterated integral maps on each $B$ and evaluation maps on each $A$ factor. Equivalently, it is given as the sum of the following maps, summed over all choices of indices $k_e\geq 0$ for $e\in E$
 
-\begin{align*}
-    \bigotimes_{e\in E} A[1]^{\otimes k_e} \otimes \bigotimes_{v\in V} A \xto{ev^*} \Omega^{*+s}\left(\Prod_{e\in E} \Delta^{k_e} \times \Map(G, M)\right) \to \Omega^*(\Map(G, M))
-\end{align*}
-where $s=\sum_{e\in E} k_e$, the map $ev=ev_{\{k_e\}}$ each element of the mapping space at the times in $\Delta^{k_e}$ along the edge $e$ and at each vertex $v$, and the right map is the fiber integral. 
-
-For example, if $G=\ocircle_1=S^1$ is the circle with one vertex and one edge, then $ev_n\colon \Delta^n\times LM\to M^n\times M$ is given by mapping $t_1,\dots, t_n, \gamma\mapsto \gamma(t_1),\dots,\gamma(t_n), \gamma(0)$.
-
-
-We can now easily give models for the loop space and the figure eight space in $M$: 
-\begin{lemma}\label{lem:model-quasi-iso-examples}
-    The following maps are quasi-isomorphisms if $M$ is connected, simply connected and of finite type.
+We can now easily give models for common spaces and maps in string topology. Let $\ocircle_1$ be the graph with one vertex and one edge, thus $LM = \Map(\ocircle_1, M)$. Further let $8$ be the graph with one vertex and two edges, so $LM\times_M LM = \Map(8, M)$. Let $\ocircle_2$ be the circle graph with two points and let $\ocircle_1\coprod \ocircle_1$ be the coproduct of graphs (disjoint union) of two copies of $\ocircle_1$.
+\begin{corollary}\label{lem:model-quasi-iso-examples}
+    The following maps are quasi-isomorphisms if $M$ is simply connected and of finite type.
     \begin{align*}
-        B\otimes_{A^e} A\xto{I\otimes\id_A}\Omega^*(PM)\otimes_{\Omega^*(M\times M)}\Omega^*(M)\to \Omega^*(LM)
+        B\otimes_{A^{\otimes 2}} A \xto{I_{\ocircle_1}} \Omega^*(LM)
     \end{align*}
     \begin{align*}
-        (B\otimes B)\otimes_{A^e\otimes A^e} A^{\otimes 2} \xto{I\otimes I\otimes \id} (\Omega^*(PM\times PM))\otimes_{\Omega^*(M^4)} \Omega^*(M^2) \to \Omega^*(Map(\ocircle_2, M))
+        (B\otimes B)\otimes_{A^{\otimes 2}\otimes A^{\otimes 2}} A^{\otimes 2} \xto{I_{\ocircle_2}}\Omega^*(Map(\ocircle_2, M))
     \end{align*}
     \begin{align*}
-        (B\otimes B)\otimes_{A^e\otimes A^e} A \xto{I\otimes I\otimes \id} (\Omega^*(PM\times PM))\otimes_{\Omega^*(M^4)} \Omega^*(M) \to \Omega^*(Map(8, M))
+        (B\otimes B)\otimes_{A^{\otimes 2}\otimes A^{\otimes 2}} A \xto{I_{8}} \Omega^*(Map(8, M))
+    \end{align*}
+    \begin{align*}
+        (B\otimes_{A^{\otimes 2}}A) \otimes (B\otimes_{A^{\otimes 2}} A) \xto{I_{\ocircle_1\coprod\ocircle_1}} \Omega^*(LM\times LM)
+    \end{align*}
+    \begin{align*}
+        B\otimes_A B\to \Omega^*(PM\times_M PM)
     \end{align*}
 
     The following diagram commutes:
     \begin{center}
     \begin{tikzcd}
-        (B\otimes B)\otimes_{A^{\otimes 4}} A \rar & \Omega^*(\Map(8)) \\
-        (B\otimes_{A^e}A) \otimes (B\otimes_{A^e} A)\uar \rar & \Omega^*(LM\times LM) \uar
+        (B\otimes B)\otimes_{A^{\otimes 4}} A \rar["I_8"] & \Omega^*(\Map(8)) \\
+        (B\otimes_{A^{\otimes 2}}A) \otimes (B\otimes_{A^{\otimes 2}} A)\uar \rar["\ocircle_1\coprod \ocircle_1"] & \Omega^*(LM\times LM) \uar
     \end{tikzcd}
     \end{center}
-\end{lemma}
-Here $\ocircle_2$ is the circle graph with two points and two edges, and $8$ denotes the figure eight graph with two vertices and a single node.
+\end{corollary}
+The diagram follows from the naturality of $I$ with respect to the map $\ocircle_1\coprod \ocircle_1\to 8$.
 
 
 \subsection{Model for the concatenation and splitting map}\label{subsec:model-concatenation} 
-Concatenating and splitting up paths is not modeled by the theory of the previous subsection. Consider the concatenation of loops map $c\colon LM\times_M LM\to LM$ and the splitting map $s\colon I\times LM\to \Map(\ocircle_2, M)$. The concatenation is induced by the map on paths $PM\times_M PM \to PM$ as in theorem \ref{thm:path-models-1}. The splitting map is induced by a map on paths $I\times PM \to PM\times_M PM$.
+Concatenating and splitting up paths is not modeled by the theory of the previous subsection. 
 
-% \begin{remark}Recall that in order to even define $\Omega^*(LM)$, we have to use the smooth loop space. The concatenation of smooth loops $LM\times_M LM\to LM$ will generally not yield smooth loops. To fix this, we replace the smooth loop space with the subspace of smooth loops which are constant near $0\in S^1=\R/\Z$. One can show that this subspace is homotopy equivalent to the original smooth loop space, using a homotopy between the identity of $S^1$ and a map $S^1\to S^1$ which is constant near $0$. Similarly we replace $LM\times_M LM$ by the subspace of maps $S^1\vee S^1\to M$ which are constant near $0$ and similar replacements apply to $LM$. 
-% \end{remark}
-
-Before we model these maps on chain complexes, we introduce a model of the interval $\mathcal I = \R (1-t) \oplus \R t \oplus \R dt\subset \Omega^*(I)$, the space of Whitney forms on the interval. There is a projection 
+The \emph{concatenation of paths} is defined as the map 
 \begin{align*}
-    \Omega^*(I) &\to \mathcal I\\
-    f&\mapsto f(0)(1-t) + f(1) t + \left(\int_I f\right) dt
+    c\colon PM\times_mPM&\to PM \\
+    c(\gamma_1, \gamma_2)(t) &= \begin{cases}\gamma_1(\frac 12 t)&\text{if}\ t\leq\frac 12 \\ \gamma_2(\frac 12 t + \frac 12) & \text{if}\ t\geq \frac 12 \end{cases}
 \end{align*}
-which is a quasi-isomorphism with quasi-inverse given by the inclusion $$\iota_{\mathcal I}\colon \mathcal I \subset \Omega^*(I).$$ 
-
-
-
-\begin{theorem}\label{thm:path-models-1}
+This induces a concatenation of loops $c\colon LM\times_MLM \to LM$.
+We model the concatenation of paths by the \emph{deconcatenation coproduct} on $B$
+\begin{align*}
+    \bar c\colon B&\to B\otimes_A B \\
+    a\otimes a_1 \otimes \dots \otimes a_n \otimes a'&\mapsto \sum_{k+l=n} a\otimes a_1 \otimes \dots \otimes a_k \otimes  1 \otimes a_{k+1} \otimes \dots \otimes a_{k+l} \otimes  a'
+\end{align*}
+The following lemma shows that $\bar c$ models the concatenation of paths $c$ on cohomology and $\bar c\otimes\id\colon B\otimes_{A^{\otimes 2}}\to (B\otimes B)\otimes_{A^{\otimes 2}\otimes A^{\otimes 2}} A$ models the concatenation of loops. 
+\begin{lemma}\label{lem:model-concatenation}
     Let $c\colon PM\times_M PM\to PM$ be the concatenation of paths. The following diagrams commute:
-
-    \begin{center}
+    \begin{equation}\label{diag:concatenation}
         \begin{tikzcd}
             B \rar \dar["\bar c"] & \Omega^*(PM) \dar["c^*"] \\
             B \otimes_A B \rar & \Omega^*(PM\times_M PM)
-    \end{tikzcd}
+        \end{tikzcd}
+    \end{equation}
     \qquad
+    \begin{equation}\label{diag:concatenation-2}
     \begin{tikzcd}
-        (B\otimes B)\otimes_{A^e\otimes A^e} A\rar["I_{8}"] &\Omega^*(LM\times_M LM) \\
-        B\otimes_{A^e}A \uar["\bar c"]\rar["I_\ocircle"] & \Omega^*(LM) \uar["c^*"]
+        (B\otimes B)\otimes_{A^{\otimes 2}\otimes A^{\otimes 2}} A\rar["I_{8}"] &\Omega^*(LM\times_M LM) \\
+        B\otimes_{A^{\otimes 2}}A \uar["\bar c"]\rar["I_{\ocircle_1}"] & \Omega^*(LM) \uar["c^*"]
     \end{tikzcd}
-    \end{center}
-    The map $\bar c$ is induced by deconcatenation maps $A\otimes \bar A[1]^{\otimes n}\otimes A \to A\otimes \bar A[1]^{\otimes k} \otimes A \otimes \bar A[1]^{\otimes l} \otimes A$ which act on elements as: $a(a_1|\dots|a_n)a'\mapsto \sum_{k+l=n} a(a_1|\dots|a_k) 1 (a_{k+1}|\dots|a_{k+l}) a'$.
-
-    The following diagrams commute in the derived category of chain complexes:
-
-    \begin{tikzcd}
-        \mathcal I \otimes B \rar["\iota_{\mathcal I} \times I_{\ocircle_2}"] & \Omega^*(I\times PM) \\
-        B\otimes_A B \rar \uar &\Omega^*(PM\times_M PM) \uar["s^*"]
-    \end{tikzcd}
-    \qquad
-    \begin{tikzcd}
-        \mathcal I \otimes (B\otimes_{A^e} A) \rar & \Omega^*(I\otimes LM) \\
-        (B\otimes_A B)\otimes_{A^e} A \rar \uar & \Omega^*(\Map(\ocircle_2, M))\uar
-    \end{tikzcd}
-
-    The map $B\otimes_A B\to \mathcal I\otimes B$ in the left diagram is given by 
-    \begin{align*}
-        a_1(\gamma_1)a_2(\gamma_2)a_3 \mapsto &(1-t)\otimes \varepsilon(a_1(\gamma_1)a_2)(\gamma_2)a_3 \\&+ t\otimes a_1(\gamma_1)\varepsilon(a_2(\gamma_2)a_3) \\&+ dt\otimes (-1)^{\abs{a_1\gamma_1a_2}}a_1(\gamma_1|a_2|\gamma_2)a_3
-    \end{align*}
-    for $a_i\in A, \gamma_1\in A[1]^{\otimes k}, \gamma_2\in A[1]^{\otimes l}$ and the analogous map in the right diagram is induced by this map.
-\end{theorem}
-All the horizontal maps are quasi-isomorphisms from \cref{thm:graph-mapping-space}.
-
-The statements above are given in \cite{naef2019string} without proof. We give a detailed proof here. 
-
+    \end{equation}
+\end{lemma}
 \begin{proof}
+    This is stated in \cite{naef2019string} without proof. We give a detailed proof here. 
     \begin{enumerate}
-        \item
-    For $k+l=n$, consider the maps $$d_{k,l}\colon \Delta^k\times\Delta^l\to \Delta^n, \quad (t_1, \dots, t_k), (t_{k+1}, \dots, t_{k+l}) \mapsto \left(\frac 12 t_1, \dots, \frac 12 t_k, \frac 12 + \frac 12 t_{k+1}, \dots, \frac 12 + \frac 12 t_{k+l}\right)$$ so that the images of the $d_{k,l}$ cover $\Delta^n$ and are disjoint except at the boundary. Consider the following diagram with $k+l=n$. 
+        \item For diagram \ref{diag:concatenation}: let $k+l=n$, consider the maps
+        \begin{align*}
+            d_{k,l}\colon \Delta^k\times\Delta^l&\to \Delta^n\\
+            (t_1, \dots, t_k), (t_{k+1}, \dots, t_{k+l}) &\mapsto \left(\frac 12 t_1, \dots, \frac 12 t_k, \frac 12 + \frac 12 t_{k+1}, \dots, \frac 12 + \frac 12 t_{k+l}\right)
+        \end{align*}
+        so that the images of the $d_{k,l}$ cover $\Delta^n$ and are disjoint except at the boundary. Consider the following diagram with $k+l=n$. 
 
 % \begin{figure}\label{fig:path_models_1}
     \[
@@ -1455,67 +1586,121 @@ All squares commute except for the right, which commutes only after summing over
     &= \sum_{k+l=n} \int_{\Delta^k\times\Delta^l} (c\times d_{k,l})^*\omega
 \end{align*}
 
-The left hand side is the upper path of the square, the right hand side is the lower path of the square, up to commuting the factors.
+The left hand side is the upper path of the square, the right hand side is the lower path of the square, up to commuting the factors. This concludes the proof for diagram \ref{diag:concatenation}.
 
-    \item By applying the functor $\blank \otimes_{A^e} A$ to the first diagram, we obtain the diagram
+    \item For diagram \ref{diag:concatenation-2}: By applying the functor $\blank \otimes_{A^{\otimes 2}} A$ to diagram \ref{diag:concatenation}, we obtain the diagram
     \begin{center}
         \begin{tikzcd}
-            (B\otimes_A B)\otimes_{A^e} A\rar &\Omega^*(\ocircle_2) \\
-            B\otimes_{A^e}A \uar\rar & \Omega^*(LM) \uar
+            (B\otimes_A B)\otimes_{A^{\otimes 2}} A\rar["I_{\ocircle_2}"] &\Omega^*(\ocircle_2) \\
+            B\otimes_{A^{\otimes 2}}A \uar\rar["I_{\ocircle_1}"] & \Omega^*(LM) \uar
         \end{tikzcd}
     \end{center}
     The inclusion $\Map(\ocircle_2, M)\to LM\times_M LM$ is modeled by the diagram
     \begin{center}
         \begin{tikzcd}
             (B\otimes_A B)\otimes_{A^3} A\rar &\Omega^*(LM\times_M LM) \\
-            (B\otimes_A B)\otimes_{A^e} A\rar \uar &\Omega^*(\ocircle_2) \uar\\
+            (B\otimes_A B)\otimes_{A^{\otimes 2}} A\rar \uar &\Omega^*(\ocircle_2) \uar\\
         \end{tikzcd}
     \end{center}
-    as in \ref{thm:graph-mapping-space}, via the map of graphs $\ocircle_2\to 8$ mapping the two points to the pinch point of the figure $8$. This concludes the proof for the first diagram.
+    as in \ref{thm:graph-mapping-space}, via the map of graphs $\ocircle_2\to 8$ mapping the two points to the pinch point of the figure $8$. Combining the two diagrams, we obtain the diagram as claimed.
+\end{enumerate}
+\end{proof}
 
-    
-    \item For the third diagram, we factor $s^*$ through $\mathcal I\otimes \Omega^*(PM)$. Note that there is a derived isomorphism $\mathcal I\otimes\Omega^*(PM)\to \Omega^*(I\times PM)$ given by $\iota_{\mathcal I}\times\id$ with derived inverse given by 
+Recall that the splitting of paths map is defined as
+\begin{align*} 
+    s\colon I\times PM &\to PM\times_M PM\\
+    s(t, \gamma)&=\left(r(\gamma|_{[0, t]}) , r(\gamma|_{[t, 1]})\right)
+\end{align*}
+where $r$ is the reparametrization map which maps a path defined on any interval to a path on the interval $[0,1]$. We denote the induced map $I\times LM\to \Map(\ocircle_2, M)$ by $s$ as well.
+
+% \begin{remark}Recall that in order to even define $\Omega^*(LM)$, we have to use the smooth loop space. The concatenation of smooth loops $LM\times_M LM\to LM$ will generally not yield smooth loops. To fix this, we replace the smooth loop space with the subspace of smooth loops which are constant near $0\in S^1=\R/\Z$. One can show that this subspace is homotopy equivalent to the original smooth loop space, using a homotopy between the identity of $S^1$ and a map $S^1\to S^1$ which is constant near $0$. Similarly we replace $LM\times_M LM$ by the subspace of maps $S^1\vee S^1\to M$ which are constant near $0$ and similar replacements apply to $LM$. 
+% \end{remark}
+
+We introduce a model of the interval $\mathcal I = \R (1-t) \oplus \R t \oplus \R dt\subset \Omega^*(I)$, the space of Whitney forms on the interval. There is a projection 
+\begin{align*}
+    \Omega^*(I) &\to \mathcal I\\
+    f&\mapsto f(0)(1-t) + f(1) t + \left(\int_I f\right) dt
+\end{align*}
+which is a quasi-isomorphism with quasi-inverse given by the inclusion $$\iota_{\mathcal I}\colon \mathcal I \subset \Omega^*(I).$$ 
+
+Recall from \cref{thm:path-models-0} that $\alpha\colon B\to A$ is given the direct summands of $B$ by the product for $n=0$ and $0$ for $n>0$.
+
+We model the splitting map $s$ by the map 
+\begin{align*}
+    \bar s \colon B\otimes_A B&\to \mathcal I\otimes B \\
+    a_1 \otimes \gamma_1 \otimes a_2 \otimes \gamma_2 \otimes a_3 &\mapsto  (1-t) \otimes \alpha (a_1 \otimes \gamma_1 \otimes a_2)1_A \otimes \gamma_2 \otimes a_3 \\
+    &\quad+ t\otimes a_1 \otimes \gamma_1 \otimes 1_A \alpha (a_2 \otimes \gamma_2 \otimes a_3)  \\
+    &\quad +  (-1) ^{\abs{a_1\gamma_1a_2}} dt\otimes a_1 \otimes (\gamma_1\otimes a_2\otimes \gamma_2) \otimes a_3
+\end{align*}
+for $a_i\in A, \gamma_1\in A[1]^{\otimes k}, \gamma_2\in A[1]^{\otimes l}$.
+
+The following is a slight reformulation of \cite{naef2019string}{Prop. 4.2}.
+\begin{theorem}\label{thm:model-splitting}
+    The following diagrams commute in the derived category of chain complexes $D(Ch_\R)$:
+
+    \begin{tikzcd}
+        \mathcal I \otimes B \rar["\iota_{\mathcal I} \times I"] & \Omega^*(I\times PM) \\
+        B\otimes_A B \rar["I"] \uar["\bar s"] &\Omega^*(PM\times_M PM) \uar["s^*"]
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        \mathcal I \otimes (B\otimes_{A^{\otimes 2}} A) \rar["\iota_{\mathcal I}\times I"] & \Omega^*(I\times LM) \\
+        (B\otimes_A B)\otimes_{A^{\otimes 2}} A \rar["I"] \uar & \Omega^*(\Map(\ocircle_2, M))\uar["s^*"]
+    \end{tikzcd}
+\end{theorem}
+All the horizontal maps are quasi-isomorphisms from \cref{thm:graph-mapping-space}.
+
+For spaces $X, Y$ and forms $\omega_1\in\Omega^*(X), \omega_2\in\Omega^*(Y)$, we write $\omega_1\times\omega_2 = p_1^*\omega_1 \wedge p_2\omega_2\in\Omega^*(X\times Y)$, where $p_1\colon X\times Y\to X$ and $p_2\colon X\times Y\to Y$ are the projections.
+
+\begin{proof}
+    %This is stated in \cite{naef2019string} without proof. We give a detailed proof here. 
+    The second diagram follows from the first diagram, by a similar argument as in the proof of \cref{lem:model-concatenation}. Thus we only consider the first diagram.
+
+    We factor $s^*$ through $\mathcal I\otimes \Omega^*(PM)$. There is a quasi-isomorphism $\mathcal I\otimes\Omega^*(PM)\to \Omega^*(I\times PM)$ given by $\iota_{\mathcal I}\times\id$ with quasi-inverse and left inverse given by 
     \begin{align*}
-        \Omega^*(I\times PM) \to \mathcal I \otimes \Omega^*(PM),\qquad\omega\mapsto (1-t)\omega|_{t=0} + t\ \omega|_{t=1} + dt \int_I \omega
+        k\colon\Omega^*(I\times PM) &\to \mathcal I \otimes \Omega^*(PM) \\
+        \omega & \mapsto (1-t)\omega|_{t=0} + t\ \omega|_{t=1} + dt \int_I \omega
     \end{align*}
     where $\omega|_{t=0,1}$ is the image of $\omega$ under the pullback of the inclusion $PM\to I\times PM$ at $t=0$ resp.\ $t=1$.
-    Thus we obtain the following commutative diagram
-    \begin{center}
-    \begin{tikzcd}
-        \Omega^*(PM\times_M PM) \rar\dar[equal] & \mathcal I \otimes \Omega^*(PM) \\
-        \Omega^*(PM\times_M PM)\rar["s^*"] & \Omega^*(I\times PM) \uar["\quiso"]
-    \end{tikzcd}
-    \end{center}
-    Denote by $\epsilon_{0}$ resp.\ $\epsilon_1\colon PM\to PM\times_M PM$ the maps $\gamma\mapsto \mathrm{const}(\gamma(0))\times \gamma$ resp.\ $\gamma\mapsto \gamma\times \mathrm{const}(\gamma(1))$, note that these are identical with the compositions $PM\to PM\times I\to PM\times_M PM$. The map $\Omega^*(PM\times_M PM) \to \mathcal I \otimes \Omega^*(PM) $ is
+
+    Denote by $\epsilon_{0}$ resp.\ $\epsilon_1\colon PM\to PM\times_M PM$ the maps $\gamma\mapsto \mathrm{const}(\gamma(0))\times \gamma$ resp.\ $\gamma\mapsto \gamma\times \mathrm{const}(\gamma(1))$. The composition $\hat s = k\comp s^*$ is
     \begin{align*}
+        \hat s\colon \Omega^*(PM\times_M PM)\to \mathcal I\otimes\Omega^*(PM)\\
         \omega \mapsto (1-t)\ \epsilon_0^*(\omega) + t\ \epsilon_1^*(\omega) + dt \int_I s^*\omega
     \end{align*}
-    Since $\epsilon_i$ are induced by a graph map, \cref{thm:graph-mapping-space} provides a description of them on the corresponding bar constructions. 
+
+    In $D(Ch_{\R})$, the maps $k$ and $\iota_{\mathcal I}\times \id$ are inverses and hence $(\iota_{\mathcal I}\times \id)\comp \hat s = s^*$. Hence in $D(Ch_{\R})$, the map $s^*$ is  equal to the map
+    \begin{align*}
+        \hat s\colon \Omega^*(PM\times_M PM)\to \Omega^*(I\times PM)\\
+        \omega \mapsto (1-t)\ \epsilon_0^*(\omega) + t\ \epsilon_1^*(\omega) + dt \int_I s^*\omega
+    \end{align*}
+
+    Since the constant map $M\to PM$ is modeled by $\alpha$ from \cref{thm:path-models-0}, the maps $\epsilon_i$ are modeled by $\alpha\otimes\id$ resp.\ $\id\otimes\alpha\colon B\otimes_A B\to B$.
     
     It remains to give an algebraic model of the map $\omega\mapsto \int_I s^*\omega$. Let $r\colon \Delta^k\times\Delta^l\times I\to \Delta^{n+1}$, mapping $(s_1,\dots, s_k), (t_1,\dots, t_k), t\mapsto (ts_1, \dots, ts_k, t+(1-t)t_1, \dots, t+(1-t)t_l)$ and similarly $r'\colon \Delta^k\times I\times\Delta^l\to \Delta^{n+1}$, equal to $r$ up to swapping the factors. We consider the following diagram in the derived category, where $k+l=n$:
     \[
     \begin{tikzcd}[center picture]
-        \Omega^*(PM\times_M PM) \dar[equal] & \lar["\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}((PM\times \Delta^k) \times_M(\times PM\times \Delta^l)) \dar & \lar["(ev_k\times ev_l)^*"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar[equal] \\
-        \Omega^{*}(PM\times_M PM)\dar["s^*"] & \lar["\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times_M PM\times \Delta^k\times \Delta^l )\dar["(\id\times s)^*"] & \lar  \Omega^{*+k+l}(M^{1+k+1+l+1})\dar[equal] \\
-        \Omega^{*}(PM\times I) \dar["\int_I"] &\lar["\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) \dar[equal] & \lar["(ev\comp (r\times\id)^*"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar[equal] \\
-        \Omega^{*-1}(PM) \dar["\pm\id"] & \lar["\int_{\Delta^k\times\Delta^l\times I}"] \dar \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) &\lar["(ev\comp (r\times\id)^*"]\dar \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
-        \Omega^{*-1}(PM) \dar[equal] & \lar["\int_{\Delta^k\times I\times \Delta^l}"] \dar["(r'\times\id)^!"] \Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l) &\lar["(ev\comp (r'\times\id)^*"]\dar["\id"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
+        \Omega^{*}(PM\times_M PM)\dar["s^*"] & \lar["\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times_M PM\times \Delta^k\times \Delta^l )\dar["(\id\times s)^*"] & \lar["ev_{k,l}"]  \Omega^{*+k+l}(M^{1+k+1+l+1})\dar[equal] \\
+        \Omega^{*}(PM\times I) \dar["\int_I"] &\lar["\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) \dar[equal] & \lar["(ev\comp (\id\times r)^*"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar[equal] \\
+        \Omega^{*-1}(PM) \dar["\pm\id"] & \lar["\int_{\Delta^k\times\Delta^l\times I}"] \dar \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) &\lar["(ev\comp (\id\times r)^*"]\dar \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
+        \Omega^{*-1}(PM) \dar[equal] & \lar["\int_{\Delta^k\times I\times \Delta^l}"] \dar["(\id\times r')^!"] \Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l) &\lar["(ev\comp (\id\times r')^*"]\dar["\id"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
         \Omega^{*-1}(PM) & \lar["\int_{\Delta^{n+1}}"] \Omega^{*+n}(PM \times \Delta^{n+1}) &\lar["ev_{n+1}^*"] \Omega^{*+n}(M\times M^{n+1}\times M)
     \end{tikzcd}
     \]
    
-    Everything except for the lower two squares commutes on the chain level. We cannot construct the umkehr map $(r\times\id)^!\colon\Omega^{*+k+l}(\Delta^k\times\Delta^l\times I\times PM)\to \Omega^{*+n}(\Delta^{n+1}\times PM)$ on the chain level, as we have done for other umkehr maps so far: $r$ has finite fiber almost everywhere, but we have restricted ourselves to de Rham forms that are smooth and defined everywhere. We work in the derived category instead and pass to the singular cochain complex. 
+    Everything except for the lower two squares commutes on the chain level. We cannot construct the umkehr map $(\id\times r')^!\colon\Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l)\to \Omega^{*+n}(PM\times \Delta^{n+1})$ via a fiber integral on the chain level, as we have done for other umkehr maps so far: $r'$ has finite fiber almost everywhere, but we have restricted ourselves to de Rham forms that are smooth and defined everywhere. We work in the derived category instead and pass to the singular cochain complex. 
     
-    We replace the lower two squares with the quasi-isomorphic diagram
+    Let $p_{\Delta^k\times I\times\Delta^l}\colon M\times\Delta^k\times\Delta^l\times I \to M$ and $p_{\Delta^{n+1}}\colon M\times \Delta^{n+1}\to M$ be the projections. We replace the lower two squares with the quasi-isomorphic diagram
     \begin{center}
     \begin{tikzcd}
-        C^{*-1}(M) \dar[equal] & \lar["p_{\Delta^k\times\Delta^l\times I}^!"] C^{*+k+l}(\Delta^k\times\Delta^l\times I\times M) \dar["(r\times\id)^!"] & \lar["(\Delta\comp(r\times\id))^*"] C^{*+k+l}(M^{1+k+1+l+1}) \dar["\pm\id"]\\
-        C^{*-1}(M) & \lar["p_{\Delta^{n+1}}^!"] C^{*+n}(\Delta^{n+1}\times M) &\lar["\Delta^*"] C^{*+n}(M^{1+(n+1)+1})
+        C^{*-1}(M) \dar[equal] & \lar["p_{\Delta^k\times I\times\Delta^l}^!"] C^{*+k+l}(M\times \Delta^k\times I\times\Delta^l) \dar["(\id\times r)^!"] & \lar["(\Delta\comp(\id\times r))^*"] C^{*+k+l}(M^{1+k+1+l+1}) \dar["\pm\id"]\\
+        C^{*-1}(M) & \lar["p_{\Delta^{n+1}}^!"] C^{*+n}(M\times \Delta^{n+1}) &\lar["\Delta^*"] C^{*+n}(M^{1+(n+1)+1})
     \end{tikzcd}
     \end{center}
-    In particular, we construct the derived map $\Omega^{*+k+l}(\Delta^k\times I\times \Delta^l\times PM)\to \Omega^{*+n}(\Delta^{n+1}\times PM)$ as the map in the center, taken through these isomorphisms. Since umkehr maps compose, the left square commutes. To compute the umkehr map $r'^!$, since the map $r'\colon (\Delta^k\times I\times \Delta^l, \partial \Delta^k\times I\times \Delta^l)\to (\Delta^{n+1}, \Delta^{n+1})$ preserves the orientation, the fundamental class is preserved by $r_*$. So $r^!$ maps $1$ to $1$ and since both spaces are contractible, this determines $r^!$ uniquely in the derived category. On the other hand, $r^*$ maps $1$ to $1$, hence the composition is $r'^! r'^* = \id$. In fact, $(r'\times \id)^!(r'\times\id)^* = \id$. This shows that the right diagram commutes. 
+    The umkehr map in the center can be constructed in $D(Ch_\R)$, because both spaces satisfy Poincaré duality relative to their boundary, compare \cref{subsec:umkehr_maps_via_pd}. 
+    We then construct the map $\Omega^{*+k+l}(\Delta^k\times I\times \Delta^l\times PM)\to \Omega^{*+n}(\Delta^{n+1}\times PM)$ in $D(Ch(\R))$ as the map in the center, taken through the isomorphisms between the diagrams. Since umkehr maps compose, the left square commutes. To compute the umkehr map $r'^!$, since the map $r'\colon (\Delta^k\times I\times \Delta^l, \partial \Delta^k\times I\times \Delta^l)\to (\Delta^{n+1}, \Delta^{n+1})$ preserves the orientation, the fundamental class is preserved by $r_*$. So $r^!$ maps $1$ to $1$ and since both spaces are contractible, this determines $r^!$ uniquely in the derived category. On the other hand, $r^*$ maps $1$ to $1$, hence the composition is $r'^! r'^* = \id$. In fact, $(r'\times \id)^!(\id\times r')^* = \id$. This shows that the right diagram commutes. 
 
-    Due to the large diagram above, the following commutes in $D(k)$: 
+    Thus we have shown that the following commutes in $D(k)$: 
 
     \begin{center}
         \begin{tikzcd}
@@ -1523,7 +1708,7 @@ The left hand side is the upper path of the square, the right hand side is the l
         \Omega^{*-1}(PM) & \lar B[-1]
     \end{tikzcd}
     \end{center}
-    where the right vertical map is $a_1(\gamma_1)a_2(\gamma_2)a_3 \mapsto (-1)^{\abs{a_1\gamma_1a_2}} a_1(\gamma_1|a_2|\gamma_2)a_3$. Hence we have shown that the second diagram of the theorem commutes.
+    where the right vertical map is $a_1(\gamma_1)a_2(\gamma_2)a_3 \mapsto (-1)^{\abs{a_1\gamma_1a_2}} a_1(\gamma_1|a_2|\gamma_2)a_3$. Hence we are done.
     % \[
     % \begin{tikzcd}[center picture]
     %     \Omega^*(PM\times_M PM) \dar & \lar \Omega^{*+k+l}((\Delta^k\times PM) \times_M(\Delta^k\times PM)) \dar & \lar \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar \\
@@ -1538,9 +1723,6 @@ The left hand side is the upper path of the square, the right hand side is the l
     %     \Omega^{*+1}(I\times PM) \dar & \lar\dar  \mathcal I \otimes B \\
     %     \Omega^*(PM) & \lar B
     % \end{tikzcd}
-
-    \item For the fourth diagram, a similar argument as for the first applies.
-    \end{enumerate}
 \end{proof}
 
 \begin{remark}
@@ -1560,17 +1742,17 @@ The left hand side is the upper path of the square, the right hand side is the l
 
 
 \section{Algebraic Models of String Topology Operations}\label{sec:loop-models}
-As an application of the previous subsection, we are able to describe maps involved in the construction of the string topology operations, such as the inclusion $LM\times_M LM\to LM\times LM$ and the composition $LM\times_M LM\to LM$. In subsection \cref{subsec:loop-product-model} we give a model of the loop product using Hochschild homology and show that the iterated integral map intertwines this with the loop product in the derived category. We also show that the different constructions of the loop product via configuration spaces from \cref{subsec:loop-product} and via tubular neighborhoods and the Thom isomorphism from \cref{subsec:loop-product-classical} yield the same maps on cohomology. In \cref{subsec:poincare-algebra} we explain how one can obtain a chain level model of the loop coproduct. In \cref{subsec:co-bv-alg} we show that the iterated integral map from the Hochschild complex into $\Omega^*(LM)$ preserves the co-BV operator as a map of derived chain complexes. In particular this gives a proof that the Chas-Sullivan operations satisfy the co-BV algebra relations  on cohomology in the simply connected case. 
+As an application of the previous subsection, we are able to describe maps involved in the construction of the string topology operations, such as the inclusion $LM\times_M LM\to LM\times LM$ and the composition $LM\times_M LM\to LM$. In \cref{subsec:loop-product-model} we give a model of the loop product using Hochschild homology and show that the iterated integral map intertwines this with the loop product in the derived category. We also show that the different constructions of the loop product via configuration spaces from \cref{subsec:loop-product} and via tubular neighborhoods and the Thom isomorphism from \cref{subsec:loop-product-classical} yield the same maps on cohomology. In \cref{subsec:poincare-algebra} we explain how one can obtain a chain level model of the loop coproduct. In \cref{subsec:co-bv-alg} we show that the iterated integral map from the Hochschild complex into $\Omega^*(LM)$ preserves the co-BV operator as a map of derived chain complexes. In particular this gives a proof that the Chas-Sullivan operations satisfy the co-BV algebra relations  on cohomology in the simply connected case. 
 
 \subsection{Loop Product Model (Cohomology Coproduct)}\label{subsec:loop-product-model}
-To describe the Loop product we need to describe the intersection map $H^*(LM\times LM) \from H^{*-n}(LM\times_M LM)$. In \ref{subsec:loop-product} we constructed the following zigzag to describe this map:
+To give a model of the Loop product we need to model the intersection map $i^!\colon H^*(LM\times LM) \from H^{*-n}(LM\times_M LM)$. In \cref{constr:loop-intersection-via-configuration} we constructed this as the following zigzag in $D(Ch)$:
 \begin{center}
-    \begin{tikzcd}[column sep = 1em, center picture]
+    \begin{tikzcd}[column sep = 1em, center picture, font=\small]
         \Omega^*(LM\times LM) &\lar \cone\left(\Omega^*(LM\times LM)\to \Omega^*(LM\times LM|_{\cConf_M(2)})\right) \dar["\quiso"] & \\ 
         & \cone\left(\Omega^*(LM\times LM|_M)\to \Omega^*(LM\times LM|_{UTM})\right) & \lar \Omega^{*-n}(LM\times LM|_M)[-n]
     \end{tikzcd}
 \end{center}
-Here $\cone$ denotes the mapping cone. Using the pullback-pushout lemma from \cref{subsec:eilenberg_moore} we can rewrite this, using the derived relative tensor product $M\otimes^L_{A^{\otimes 2}}N$ over the DGCA $A^{\otimes 2}$. For us, this is the bar construction $M\otimes^L_A N = B(M, A, N)$. Let $A=\Omega^*(M), A^{\otimes 2} = \Omega^*(M\times M)$ and $D = \Omega^*(LM)$, then the zigzag above can be rewritten as: 
+Here $\cone$ denotes the mapping cone. Using the pullback-pushout lemma \ref{thm:pullback-pushout} we can rewrite this, using the derived relative tensor product $M\otimes^L_{A^{\otimes 2}}N$ over the DGCA $A^{\otimes 2}$. This can be constructed as the bar construction $M\otimes^L_A N = B(M, A, N)$, compare \cref{subsec:bar_construction}. Let $A=\Omega^*(M)$ and $D = \Omega^*(LM)$, then the zigzag above can be rewritten as: 
 \begin{center}
     \begin{tikzcd}[center picture]
         D^{\otimes 2} &\lar \cone\left(D^{\otimes 2}\to D^{\otimes 2}\otimes^L_{A^{\otimes 2}}\Omega^*(\cConf_M(2))\right) \dar["\quiso"] &
@@ -1590,8 +1772,8 @@ which comes with a quasi-isomorphism to the original zigzag.
 % Using the models from the previous subsection, we can rewrite the above zigzag again:
 % \begin{center}
 %     \begin{tikzcd}[font=\footnotesize, column sep = 1em, center picture]
-%         B\otimes_{A^e} A\otimes B\otimes_{A^e} A & \lar \cone\left(B\otimes_{A^e} A\otimes B\otimes_{A^e} A \to (B\otimes B) \otimes_{A^e\otimes A^e} C\right) \dar["\quiso"] && \\
-%         &\cone\left(B\otimes_{A^e} B \otimes_{A^e} A \to B\otimes_{A^e} B\otimes_{A^e} U\right) & \lar B\otimes_{A^4} B[-n] & \lar B\otimes_{A^e} A[-n]
+%         B\otimes_{A^{\otimes 2}} A\otimes B\otimes_{A^{\otimes 2}} A & \lar \cone\left(B\otimes_{A^{\otimes 2}} A\otimes B\otimes_{A^{\otimes 2}} A \to (B\otimes B) \otimes_{A^{\otimes 2}\otimes A^{\otimes 2}} C\right) \dar["\quiso"] && \\
+%         &\cone\left(B\otimes_{A^{\otimes 2}} B \otimes_{A^{\otimes 2}} A \to B\otimes_{A^{\otimes 2}} B\otimes_{A^{\otimes 2}} U\right) & \lar B\otimes_{A^4} B[-n] & \lar B\otimes_{A^{\otimes 2}} A[-n]
 %     \end{tikzcd}
 % \end{center}
 The new zigzag can be obtained from the following much simpler zigzag of $A$-bimodules by tensoring with $D^{\otimes 2}$ over $A^{\otimes 2}$:
@@ -1605,98 +1787,97 @@ The new zigzag can be obtained from the following much simpler zigzag of $A$-bim
 and this is the intersection map $\Delta^!\colon\Omega^*(M\times M)\from \Omega^{*-n}(M)$ as constructed in \ref{subsec:intersection-in-M-via-conf}. Thus we conclude the following lemma:
 
 \begin{lemma}
-    The following diagram commutes in the derived category of chain complexes:
+    The following diagram commutes in $D(Ch)$:
     \begin{center}
     \begin{tikzcd}
-        \Omega^*(LM\times LM) & \lar \Omega^{*}(LM\times_M LM)[-n]  \\
-        \uar["\quiso"] \Omega^*(LM)\otimes \Omega^*(LM) \otimes^L_{A^{\otimes 2}} A^{\otimes 2} & \uar["\quiso"]\lar["\id\otimes\Delta"] \Omega^*(LM)\otimes \Omega^*(LM) \otimes^L_{A^{\otimes 2}} A[-n]
+        \Omega^*(LM\times LM) & \lar["i^!"] \Omega^{*}(LM\times_M LM)[-n]  \\
+        \uar["\quiso"] \Omega^*(LM)\otimes \Omega^*(LM) \otimes^L_{A^{\otimes 2}} A^{\otimes 2} & \uar["\quiso"]\lar["\id\otimes\Delta^!"] \Omega^*(LM)\otimes \Omega^*(LM) \otimes^L_{A^{\otimes 2}} A[-n]
     \end{tikzcd}
     \end{center}
-    The upper map is the intersection map as constructed in \cref{subsec:loop-product}
-    $\Delta^!\colon \Omega^*(M)[-n]\to\Omega^*(M)\otimes \Omega^*(M)$ is the intersection coproduct of $M$, see \cref{subsec:intersection-in-M-via-conf}.
+    The map $\Delta^!\colon \Omega^*(M)[-n]\to\Omega^*(M)\otimes \Omega^*(M)$ is the intersection coproduct of $M$, see \cref{subsec:intersection-in-M-via-conf}.
 \end{lemma}
-With a similar analysis of the classical construction of the loop product from \ref{subsec:loop-product}, one can show the same lemma for the intersection map there. Thus they are identical.
+With a similar analysis of the classical construction of the loop product from \ref{constr:loop-product-classical}, one can show the same lemma for the intersection map there. Thus we can show the following:
 
 \begin{corollary}\label{thm:loop-products-identity}
-    Let $M$ be a closed oriented, connected and simply connected manifold. Let $A = \Omega^*(M)$.
+    Let $M$ be a closed oriented, simply connected manifold. Let $A = \Omega^*(M)$.
 
-    The two constructions of the derived intersection map $\Omega^*(LM\times LM) \from \Omega^{*}(LM\times_M LM)[-n]$ from \cref{subsec:loop-product-classical} and \cref{subsec:loop-product} are identical. In particular they are the same on cohomology.
+    The two constructions of the derived intersection map $i^!\colon\Omega^*(LM\times LM) \from \Omega^{*}(LM\times_M LM)[-n]$ from \cref{subsec:loop-product-classical} and \cref{constr:loop-intersection-via-configuration} are equal as maps in $D(Ch(\R))$. In particular they are the same on cohomology.
 \end{corollary}
 
-\begin{corollary}\label{thm:loop-product-derived}
-    Let $M$ be a closed oriented, connected and simply connected manifold. Let $A = \Omega^*(M)$ and $B=B(A, A, A)$ the bar construction of $A$.
-    The following diagram of derived maps of chain complexes commutes:
+\begin{theorem}\label{thm:loop-product-derived}
+    Let $M$ be a closed oriented, simply connected manifold. Let $A = \Omega^*(M)$ and $B=B(A, A, A)$ the bar construction of $A$.
+    The following diagram in $D(Ch)$ commutes:
     \begin{center}
     \begin{tikzcd}
-        \Omega^*(LM)\otimes\Omega^*(LM) & \lar \Omega^*(LM\times_M LM)[-n] & \lar \Omega^*(LM)[-n] \\
-        B\otimes_{A^{\otimes 2}} A\otimes B\otimes_{A^{\otimes 2}} A \uar["\quiso"] & \lar["\id\otimes\Delta^!"] B^{\otimes 2}\otimes_{A^{\otimes 4}} A\uar["\quiso"] & B\otimes_{A^{\otimes 2}} A \lar\uar["\quiso"]
+        \Omega^*(LM)\otimes\Omega^*(LM) & \lar["i^!"] \Omega^*(LM\times_M LM)[-n] & \lar["c"] \Omega^*(LM)[-n] \\
+        B\otimes_{A^{\otimes 2}} A\otimes B\otimes_{A^{\otimes 2}} A \uar["\quiso"] & \lar["\id\otimes\Delta^!"] B^{\otimes 2}\otimes_{A^{\otimes 4}} A\uar["\quiso"] & B\otimes_{A^{\otimes 2}} A \lar["\bar c"]\uar["\quiso"]
     \end{tikzcd}
     \end{center}
-    The upper horizontal composition is the loop product (cohomology coproduct). The vertical quasi-isomorphisms are iterated integral type maps (see \cref{thm:graph-mapping-space}). The lower horizontal composition is induced by the intersection coproduct on $A$ and the deconcatenation coproduct on $B\to B\otimes B$ (see \cref{thm:path-models-1}).
-\end{corollary}
-
-\subsection{Poincaré Duality Algebras}\label{subsec:poincare-algebra}
-
-We would like to work with the models from the previous subsection as if they were implemented at the chain level. All the maps relating to $A$ and $B(A, A, A)$ exist at the chain level except for the intersection map $\Delta^!\colon A\to A\otimes A[n]$. We use a theorem of Lambrechts and Stanley \cite{lambrechts2008poincare}, which under the conditions of \cref{thm:loop-product-derived} implies that one can construct an algebra which is quasi-isomorphic to $A$ and which has a coproduct equal to $\Delta^!$ in the derived sense. For this construction, one encodes Poincaré duality in a nondegenerate pairing that is compatible with the product on $A$. If this pairing is perfect (which means that $A$ is finite dimensional), one obtains the notion of a Poincaré duality algebra. Any Poincaré duality algebra has a coproduct that is compatible with the product and the differential, which makes $A$ a differential graded Frobenius algebra. 
-
-We begin by stating the main result of this subsection. 
-\begin{theorem}
-    Under the conditions of \cref{thm:loop-product-derived}, there exists a Frobenius algebra $A$ which is quasi-isomorphic to $\Omega^*(M)$ through a zigzag $A\from \dots\to \Omega^*(M)$ of algebra maps, such that this chain of isomorphisms in the derived category takes the coproduct on $A$ to the intersection coproduct $\Delta^!$ on $\Omega^*(M)$. 
+    The upper horizontal composition is the loop product (cohomology coproduct). The vertical quasi-isomorphisms are iterated integral type maps (see \cref{thm:graph-mapping-space}). The lower horizontal composition is induced by the intersection coproduct on $A$ and the deconcatenation coproduct on $B\to B\otimes_A B$ (see \cref{lem:model-concatenation}).
 \end{theorem}
 
-We will call such an $A$ a \emph{Frobenius algebra model} of $M$ in this work, but this terminology is not standard. Given such a model of $\Omega^*(M)$, we can replace $\Omega^*(M)$ in \cref{thm:loop-product-derived} with $A$ and obtain the following:
+\subsection{Frobenius Algebra Models}\label{subsec:poincare-algebra}
 
-\begin{theorem}
-    If $A$ is a Frobenius algebra model of $M$, then in the derived category, the loop product is given under the isomorphisms of \cref{thm:loop-product-derived} by the chain map
-    \begin{align*}
-        B(A, A, A)\otimes_{A^{\otimes 2}} A &\to B(A, A, A)\otimes_{A^{\otimes 2}} A \otimes B(A, A, A)\otimes_{A^{\otimes 2}} A \\
-        a_0\otimes\dots \otimes a_{n+1}\otimes a &\mapsto \sum(-1)^{\deg a'(\deg a_{i+1}+\dots+\deg a_{n+1} - (n-i-1))}\\
-        \qquad& (a_0 \otimes\dots\otimes a_i \otimes 1 \otimes a')\otimes (1\otimes a_{i+1}\otimes\dots\otimes a_{n+1}\otimes a'')
-    \end{align*}
-    where we are using Sweedler's notation for the coproduct $\Delta a = \sum a'\otimes a''$. This is the tensor product of the intersection coproduct on $A$ and the deconcatenation coproduct on $B(A, A, A)$.
-\end{theorem}
+We would like to work with the models from the previous section as if they were implemented at the chain level. All the maps relating to $A$ and $B(A, A, A)$ exist at the chain level except for the intersection map $\Delta^!\colon A\to A\otimes A[n]$. 
+By a theorem of Lambrechts and Stanley \cite{lambrechts2008poincare}, one can construct an algebra that is quasi-isomorphic to $\Omega^*(M)$ and that has a coproduct on the chain level which is equal to $\Delta^!$ in $D(Ch)$. 
 
-Following \cite{lambrechts2008poincare}, we state their main result that every commutative differential graded algebra whose cohomology is a simply connected Poincaré duality algebra is itself quasi-isomorphic to a simply connected commutative differential graded Poincaré duality algebra.
+\subsubsection{Poincaré Duality Algebras and Frobenius Algebras}
 
-Let $k$ be a field of any characteristic. Recall that a CDGA $A$ is connected if $A^0 \iso k$ and simply connected if additionally $A^1 = 0$. It is of finite type if it has finite dimension in each degree. 
+Let $k$ be a field of any characteristic, let $A$ be a graded algebra and let $V$ be a graded vector space over $k$. We call a bilinear graded map $\mu\colon V\otimes V\to k[-n]$ a pairing of degree $n$. Denote by $V^\vee$ the graded dual of $V$.
 
 \begin{definition}
     \begin{enumerate}
-        \item An \emph{oriented Poincaré duality algebra}\index{Poincaré duality algebra} of dimension $n$ is a connected CDGA $A$ and a chain map $\epsilon\colon A\to k[-n]$, such that the induced bilinear forms 
-    \begin{align*}
-        A^k\otimes A^{n-k}\to k, a\otimes b\mapsto \epsilon(ab)
-    \end{align*}
-    are non-degenerate.
-        \item An \emph{oriented differential Poincaré duality algebra} or \emphi{Poincaré CDGA} is a CDGA $A$ together with a chain map $A\to k[n]$ such that $(A, \epsilon)$ is an oriented Poincaré duality algebra and $\epsilon(dA) = 0$.
+        \item A graded module $V$ is connected if $V^0 \iso k$ and simply connected if additionally $V^1 = 0$. It is of finite type if it has finite dimension in each degree.
+        \item A pairing $\mu\colon V\otimes V\to k[-n]$ is nondegenerate if $\mu(v, v') = 0$ for all $v'\in V$ implies $v=0$.
+        \item A pairing is perfect if the map $V\to V^\vee$, $v\mapsto \mu(v,\dot)$ is an isomorphism. 
     \end{enumerate}
+\end{definition}
+
+Note that any perfect pairing is nondegenerate. If $V$ is not finite dimensional, the converse is not generally true. 
+
+\begin{definition}
+    A \emph{Poincaré duality algebra}\index{Poincaré duality algebra} or Poincaré duality CDGA in dimension $n$ is a connected CDGA $A$ and a chain map $\epsilon\colon A\to k[-n]$ of degree $-n$, such that the induced bilinear pairing
+    \begin{align*}
+        A\otimes A\to k[-n], a\otimes b\mapsto \epsilon(ab)
+    \end{align*}
+    is non-degenerate. The map $\epsilon$ is called the orientation map of $A$. A graded algebra is a Poincaré duality algebra if it is a Poincaré duality CDGA with differential zero. 
 \end{definition}
 The condition $\epsilon(dA) = 0$ implies that $H^*(A)$ is a Poincaré duality algebra of dimension $n$.
 
-\begin{theorem}\label{thm:lambrechts-stanley-model}
-    Let $k$ be a field of any characteristic and let $A$ be a CDGA over $k$ such that $H^*(A)$ is a simply connected oriented Poincaré duality algebra of finite type in dimension $n$. Then there exists a CDGA $A'$ weakly equivalent to $A$ such that $A'$ is a simply connected Poincaré CDGA of finite type.
+The following is the main result of 
+\begin{theorem}[\cite{lambrechts2008poincare}]\label{thm:lambrechts-stanley-model}
+    Let $k$ be a field of any characteristic and let $A$ be a CDGA over $k$ such that $H^*(A)$ is a simply connected oriented Poincaré duality algebra in dimension $n$ of finite type. Then there exists a CDGA $A'$ weakly equivalent to $A$ such that $A'$ is a simply connected Poincaré CDGA of finite type.
 \end{theorem}
-Two CDGAs $A$ and $A'$ are weakly equivalent if there exists a zigzag of quasi-isomorphisms $A\xto{\quiso} \dots\xfrom{\quiso} A'$. In fact, an inspection of the proof in \cite{lambrechts2008poincare} reveals that in the theorem one can take this zigzag to be
+Two CDGAs $A$ and $A'$ are weakly equivalent if there exists a zigzag of quasi-isomorphisms and morphisms of CDGAs $A\xto{\quiso} \dots\xfrom{\quiso} A'$. In fact, an inspection of the proof in \cite{lambrechts2008poincare} shows that in the theorem one can take this zigzag to be
 \begin{align*}
     A' \xfrom{\quiso} S\xto{\quiso} A
 \end{align*}
-where $S$ is a minimal Sullivan model of $A$. Moreover, if the orientation and product on $H^*(A)$ come from such structures on $A$, one can take the maps to be morphisms preserving the product and orientation. 
+where $S$ is a minimal Sullivan model of $A$. 
+
+Moreover, if the orientation on $H^*(A)\to k[-n]$ is induced by an orientation map $A\to k[-n]$ on $A$, one can define an orientation on $S$ such that the morphisms in the zigzag preserve the orientation.
 
 This construction is not functorial in $A$.
 
-\begin{proof}[Sketch of proof] We give a sketch of the proof in \cite{lambrechts2008poincare}. Since $A$ is simply connected and has finite Betti numbers, by taking a minimal Sullivan model, one may assume that $A$ is of finite type, $A^0 = k, A^1 = 0$ and $A^2\subset \ker d$. One can show that there exists a chain map $\epsilon\colon A\to k[-n]$ which induces the orientation map of the Poincaré duality structure of $H^*(A)$. This orientation map may not induce nondegenerate pairings $A^k\otimes A^{n-k}\to A^n\to k$: there may be orphan elements $a$ with $\epsilon(ab) = 0$ for all $b$. Quotienting the orphans $\mathcal O$ yields a differential Poincaré algebra $A/\mathcal O$. The problem is that the quotient map might not be a quasi-isomorphism as $\mathcal O$ need not be acyclic. However \cite{lambrechts2008poincare} give a construction where $A$ is inductively replaced with quasi-isomorphic algebras such that the homology of the orphans is reduced to $0$. 
-\end{proof}
+%\begin{proof}[Sketch of proof] We give a sketch of the proof in \cite{lambrechts2008poincare}. Since $A$ is simply connected and has finite Betti numbers, by taking a minimal Sullivan model, one may assume that $A$ is of finite type, $A^0 = k, A^1 = 0$ and $A^2\subset \ker d$. One can show that there exists a chain map $\epsilon\colon A\to k[-n]$ which induces the orientation map of the Poincaré duality structure of $H^*(A)$. This orientation map may not induce nondegenerate pairings $A^k\otimes A^{n-k}\to A^n\to k$: there may be orphan elements $a$ with $\epsilon(ab) = 0$ for all $b$. Quotienting the orphans $\mathcal O$ yields a differential Poincaré algebra $A/\mathcal O$. The problem is that the quotient map might not be a quasi-isomorphism as $\mathcal O$ need not be acyclic. However \cite{lambrechts2008poincare} give a construction where $A$ is inductively replaced with quasi-isomorphic algebras such that the homology of the orphans is reduced to $0$. 
+%\end{proof}
 
 We show that if $A$ is a finite dimensional Poincaré duality CDGA, then it has the additional structure of a coproduct, which together with the product on $A$ forms a Frobenius algebra. 
 
-Since $A$ is finite dimensional, the nondegeneracy of the pairing $A^k\otimes A^{n-k} \to k$ implies that it is perfect, hence $A$ is isomorphic to its degree shifted graded dual $A \iso A^\vee [-n]$, where $A^\vee = \Hom(A, k)$. Using this observation, we can construct the \emph{coproduct} of the Poincaré duality algebra as the following degree $n$ map:
+\begin{construction} Assume that $A$ is a finite dimensional Poincaré duality CDGA. Thus the nondegeneracy of the pairing $A^k\otimes A^{n-k} \to k$ implies that it is perfect, hence $A$ is isomorphic to its degree shifted graded dual $A \iso A^\vee [-n]$, where $A^\vee = \Hom(A, k)$. Using this observation, we can construct the \emph{coproduct} of the Poincaré duality algebra as the following degree $n$ map:
 \begin{align*}
     \Delta\colon A\to A^\vee[-n] \to (A\otimes A)^\vee[-n] \iso A^\vee\otimes A^\vee[-n] \iso A\otimes A[n]
 \end{align*}
 Here the second map is induced by the product on $A$ and the third map is an isomorphism since $A$ is finite dimensional. 
+\end{construction}
 
 \begin{definition}
-    A \emphi{differential graded Frobenius algebra} is a unital CDGA $A$ together with a coproduct $\Delta\colon A\to A\otimes A$ of possibly nonzero degree, such that $\Delta$ is a coassociative cocommutative chain map, $\Delta$ is counital, $\Delta$ is a map of left and right $A$-modules and the multiplication on $A$ is a map of left and right $A$-comodules.
+    A \emphi{differential graded Frobenius algebra} is a unital CDGA $A$ together with a coproduct $\Delta\colon A\to A\otimes A$ of possibly nonzero degree, such that $\Delta$ is a coassociative cocommutative chain map, $\Delta$ is counital,  and such that the Frobenius relation holds:
+    \begin{align*}
+        a\Delta(a') = \Delta(aa') = \Delta(a) a'\in A\otimes A\\
+    \end{align*}
 \end{definition}
+The Frobenius relation is equivalent to $\Delta$ being a map of $A$-modules and the multiplication being a map of $A$-comodules.
+
 \begin{proposition}
     The coproduct constructed for a finite dimensional Poincaré duality CDGA makes $A$ into a Frobenius algebra with counit $\epsilon$ given by the orientation.
 \end{proposition}
@@ -1710,7 +1891,74 @@ Since $\Delta(a) = a\Delta(1)$, the coproduct is completely determined by the "d
     \end{align*}
 \end{proposition}
 
+\subsection{Frobenius algebra models}
 
+We begin by stating the main result of this subsection. 
+\begin{theorem}\label{thm:frobenius-model}
+    \begin{enumerate}
+    \item If $M$ is a closed oriented simply connected manifold, there exists a finite dimensional Frobenius algebra $A$ which is quasi-isomorphic to $\Omega^*(M)$ through a zigzag $A\from \dots\to \Omega^*(M)$ of algebra maps, such that this chain of isomorphisms in the derived category takes the coproduct on $A$ to the intersection coproduct $\Delta^!$ on $\Omega^*(M)$. 
+    
+    \item Moreover the graded dual $A^\vee$ is quasi-isomorphic to $C_*(M)$, and the coproduct on $A^\vee$ is identified with the Alexander-Whitney diagonal $C_*(M)\to C_*(M)\otimes C_*(M)$ and the product on $A^\vee$ is identified with the intersection product on $C_*(M)$ in $D(Ch)$.
+    \end{enumerate}
+\end{theorem}
+
+We will call such an $A$ a \emph{Frobenius algebra model} of $M$ in this work, but this terminology is not standard. Given such a model of $\Omega^*(M)$, we can replace $\Omega^*(M)$ in \cref{thm:loop-product-derived} with $A$ and obtain the following:
+
+\begin{theorem}
+    If $M$ is a closed oriented simply connected manifold and $A$ is a Frobenius algebra model of $M$, then in the derived category, the loop product is given under the isomorphism $\Omega^*(LM)\quiso B(A, A, A)\otimes_{A^{\otimes 2}} A$ of \cref{thm:loop-product-derived} by the chain map
+    \begin{align*}
+        B(A, A, A)\otimes_{A^{\otimes 2}} A &\to B(A, A, A)\otimes_{A^{\otimes 2}} A \otimes B(A, A, A)\otimes_{A^{\otimes 2}} A \\
+        a_0\otimes\dots \otimes a_{n+1}\otimes a &\mapsto \sum(-1)^{\deg a'(\deg a_{i+1}+\dots+\deg a_{n+1} - (n-i-1))}\\
+        \qquad& (a_0 \otimes\dots\otimes a_i \otimes 1 \otimes a')\otimes (1\otimes a_{i+1}\otimes\dots\otimes a_{n+1}\otimes a'')
+    \end{align*}
+    where we are using Sweedler's notation for the coproduct $\Delta a = \sum a'\otimes a''$. This is the tensor product of the intersection coproduct on $A$ and the deconcatenation coproduct on $B(A, A, A)$.
+\end{theorem}
+
+\begin{proof}[Proof of \cref{thm:frobenius-model}]
+    \begin{enumerate}
+        \item 
+    $\Omega^*(M)$ is a cdga with orientation $\Omega^n(M)\to \R$ given by the integral $\int_M\omega$. By \cref{thm:lambrechts-stanley-model}, $\Omega^*(M)$ is quasi-isomorphic to a finite dimensional simply connected Poincaré duality algebra $A$ through a zigzag $A\from S\to \Omega^*(M)$. In particular $A$ is a Frobenius algebra. We need to show that the coproduct coincides with the coproduct on $\Omega^*(M)$. 
+
+
+    Consider the zigzag $$A\xfrom{\quiso} S \xto{\quiso} \Omega^*(M)\xto{I_{DR}} C^*_\infty(M) \from C^*(M).\label{eqn:pf-frobenius-model-1}$$ We show that all the maps in zigzag \ref{eqn:pf-frobenius-model-1} preserve the product and pairing up to homotopy. The first two maps preserve the product and orientation map by the remarks after \cref{thm:lambrechts-stanley-model}. The de Rham map $I_{DR}$ preserves the product up to homotopy (in fact it is a map of $A_\infty$ algebras, cf.\ \cite{gugenheim1977chen}) and the map $C^*_\infty(M) \from C^*(M)$ preserves the cup product on the chain level. The orientation map on $C^*(M)$ is given by pairing with a representative of the fundamental class, different representatives yield homotopic orientations. $I_{dR}$ preserves the orientation map on the chain level and $C^*_\infty(M) \from C^*(M)$ preserves it on the chain level if one chooses the same (smooth) representative of the fundamental class in both instances. 
+
+    The coproduct of $A$ by definition fits into the following diagram:
+    \begin{equation}\label{diag:pf-frobenius-model-1}
+        \begin{tikzcd}
+            A \dar["\iso"]\rar["\Delta"] & A\otimes A[n] \dar["\iso"] \\
+            A^\vee[-n] \rar & A^\vee\otimes A^\vee[-n]
+        \end{tikzcd}
+    \end{equation}
+
+    The intersection coproduct is described by the following diagram
+    \begin{equation}\label{diag:pf-frobenius-model-2}
+    \begin{tikzcd}
+    C^*(M) \dar["\capp {[M]}"] \rar["\Delta^!"] & C^{*}(M)\otimes C^*(M)[n] \dar["\capp{[M]}\otimes\capp{[M]}"] \\
+    C_{-*}(M)[-n] \rar & C_{-*}(M)\otimes C_{-*}(M)[-n] &
+    \end{tikzcd}
+    \end{equation}
+
+    We will show that in $D(Ch)$, one can connect the diagrams \ref{diag:pf-frobenius-model-1} and \ref{diag:pf-frobenius-model-2} using the zigzag \ref{eqn:pf-frobenius-model-1} and its graded dual.
+
+    Using the map $A\from S$ and the graded dual $A^\vee\from S^\vee$, we obtain a cube-shaped diagram in $D(Ch)$ with commutative faces with left face given by diagram \ref{diag:pf-frobenius-model-1} and right face given by
+    \begin{equation}
+        \begin{tikzcd}
+            S \dar\rar & S\otimes S[n] \dar \\
+            S^\vee[-n] \rar & S^\vee\otimes S^\vee[-n]
+        \end{tikzcd}
+    \end{equation}
+    Proceeding along the zigzag \ref{eqn:pf-frobenius-model-1}, we obtain a sequence of cubes with commutative faces, connecting diagram \ref{diag:pf-frobenius-model-1} to the diagram 
+    \begin{equation}\label{diag:pf-frobenius-model-3}
+        \begin{tikzcd}
+        C^*(M) \dar \arrow[r] & C^{*}(M)\otimes C^*(M)[n] \dar \\
+        C^*(M)^\vee[-n] \rar & C^{*}(M)^\vee\otimes C^{*}(M)^\vee[-n] &
+        \end{tikzcd}
+    \end{equation}
+    Thus the zigzag \ref{eqn:pf-frobenius-model-1} intertwines the coproduct on $A$ with the top map in this diagram in $D(Ch)$. It remains to show that this map is the intersection map $\Delta^!$. We can relate this to the defining diagram \ref{diag:pf-frobenius-model-2} of $\Delta^!$ through the double dual inclusion $C_*(M)\to C_*(M)^{\vee\vee} = C^*(M)^{\vee}$. Since $C_*(M)$ has finite dimensional cohomology, the double dual inclusion is a quasi-isomorphism, hence an isomorphism in $D(Ch)$ \footnote{In field coefficients we can show this as follows: any complex with finite dimensional cohomology is isomorphic to a direct sum of a finite dimensional complex with zero differential and an acyclic complex. In both of these cases the double dual inclusion is clearly a quasi-isomorphism, hence also for the direct sum. }. Thus we can exhibit one last cube which connects diagram \ref{diag:pf-frobenius-model-3} to diagram \ref{diag:pf-frobenius-model-2} to the claim on the coproducts.
+
+    \item We have already shown that $A^{\vee} \quiso C_*(M)$ and that this sequence of quasi-isomorphisms identifies the coproduct on $A^{\vee}$ with the diagonal on $C_*(M)$. The claim about the intersection product is proven with the same method as the claim on the intersection coproduct in (1). 
+    \end{enumerate}
+\end{proof}
 % \begin{proposition}\label{prop:lambrechts-stanley-model-coproduct}
 %     In the zigzag $A'\xfrom{\quiso} S \xto{\quiso} A$ in theorem \ref{thm:lambrechts-stanley-model}, the diagonal element $\Delta_{A'}\in A'\otimes A'$ has a preimage $\Delta_S\in S\otimes S$. 
 % \end{proposition}
@@ -1718,63 +1966,18 @@ Since $\Delta(a) = a\Delta(1)$, the coproduct is completely determined by the "d
 % It can be shown by a careful inspection of the proof of \ref{thm:lambrechts-stanley-model}.
 
 
-We now return to the setting where $M$ is an oriented closed, simply connected manifold. The ideas from above apply also if $A$ is a graded algebra without a differential. 
-\begin{theorem}
-    If $M$ is oriented and closed, then in  field coefficients the cohomology algebra $H^*(M)$ is a graded finite dimensional Poincaré duality algebra and a Frobenius algebra. The coproduct is given by the umkehr map $\Delta^!$.
-\end{theorem} 
-Everything except for the last part follows algebraically from what was shown in this subsection so far. The last part is proven as part of \cref{thm:pd-model-intersection-product} at the end of this subsection.
-
-
-\cref{thm:lambrechts-stanley-model} yields a Poincaré duality model $A$ via a zigzag $A\xfrom{\quiso} S\xto\quiso \Omega^*(M)$ of quasi-isomorphisms with a minimal Sullivan model $S$ of $\Omega^*(M)$. Let $A^\vee = \Hom(A, k)$, so that we have isomorphisms $A\to A^\vee[-n]$ and $A^\vee\to \Hom(A^\vee, k)[n] \iso A[n]$ given by the orientation map $\epsilon$. Then the coproduct of $A$ by definition fits into the following diagram:
-\begin{center}
-    \begin{tikzcd}
-        A \dar["\iso"]\rar["\Delta"] & A\otimes A[n] \dar["\iso"] \\
-        A^\vee[-n] \rar & A^\vee\otimes A^\vee[-n]
-    \end{tikzcd}
-\end{center}
-
-
-The intersection coproduct is the map on homology $\Delta^!\colon H^*(M)\to H^{*+n}(M\times M)\iso H^*(M)\otimes H^*(M)[n]$ (using field coefficients), that is dual to the intersection product $H_*(M\times M) \to H_{*-n}(M)$. As a map of derived chain complexes, it is described by the following diagram
-\begin{center}
-\begin{tikzcd}
-C^*(M) \dar["\capp {[M]}"] \rar["\Delta^!"] & C^{*}(M)\otimes C^*(M)[n] \dar["\capp{[M]}\otimes\capp{[M]}"] \\
-C_{-*}(M)[-n] \rar & C_{-*}(M)\otimes C_{-*}(M)[-n] &
-\end{tikzcd}
-\end{center}
-
-\begin{theorem}\label{thm:pd-model-intersection-product}
-    Let $M$ be an orientable closed simply connected manifold and let $A$ be a Poincaré duality model of $\Omega^*(M)$ as in theorem \ref{thm:lambrechts-stanley-model}. The coproduct on $A$ is quasi-isomorphic to the intersection coproduct on $C^*(M)$, i.e.\ the chain of quasi-isomorphisms $A\quiso\Omega^*(M)\quiso C^*(M)$ preserves the coproduct as a derived map.
-\end{theorem}
-
-\begin{proof}
-By construction, the maps in the zigzag $A\xfrom{\quiso} S \xto{\quiso} \Omega^*(M)$ preserve the orientation and the product. Consider the zigzag $\Omega^*(M)\xto{I_{DR}} C^*_\infty(M) \from C^*(M)$, where $C^*_{\infty}(M)$ is the complex of smooth singular cochains. The de Rham map $I_{DR}\colon \Omega^*(M)\to C^*_\infty(M)$ preserves the product up to homotopy (in fact it is a map of $A_\infty$ algebras, cf.\ \cite{gugenheim1977chen}) and the map $C^*_\infty(M) \from C^*(M)$ preserves the cup product on the chain level. There is an induced zigzag $A^\vee \to S^\vee\from \Omega^*(M)^\vee \from C^*_\infty(M)^\vee \to C^*(M)^\vee$, where $\blank^\vee$ denotes the graded dual, and the maps are again quasi-isomorphisms by the universal coefficients theorem. Through these quasi-isomorphisms the diagram of the coproduct of $A$ is isomorphic in the derived category to the diagram
-\begin{center}
-    \begin{tikzcd}
-    C^*(M) \dar \arrow[r] & C^{*}(M)\otimes C^*(M)[n] \dar \\
-    C^*(M)^\vee[-n] \rar & C^{*}(M)^\vee\otimes C^{*}(M)^\vee[-n] &
-    \end{tikzcd}
-\end{center}
-where the vertical map is induced by pairing a class in $C^*(M)$ with a representative of the fundamental class in $M$.
-
-Since $C_*(M)$ has finite dimensional cohomology, it is quasi-isomorphic to its double dual $C_*(M)\xto{\quiso} C_*(M)^{\vee\vee} = C^*(M)^\vee$\footnote{In field coefficients we can show this as follows: any complex with finite dimensional cohomology is isomorphic to a direct sum of a finite dimensional complex with zero differential and an acyclic complex. In both of these cases the double dual inclusion is clearly a quasi-isomorphism, hence also for the direct sum. }. Hence the map $C^*(M) \to C^{*}(M)\otimes C^*(M)[n]$ described by the above diagram is the intersection coproduct. 
-\end{proof}
-
-\begin{remark}
-    The proof of the preceding theorem shows that $A^\vee$ is a model of the homology of $M$, where the degree $0$ coproduct models the diagonal map on $M$. In fact, $A^\vee$ also has a degree $-n$ product, which models the intersection product. Thus $A^\vee$ is a chain level version of the (derived) Frobenius algebra structure on $C_*(M)$. 
-\end{remark}
-
 \subsection{The co-BV-algebra structure} \label{subsec:co-bv-alg}
 We have seen that the loop coproduct on $H^*(LM)$ is modeled by the coproduct on $B(A, A, A)\otimes A$. To complete the discussion of the BV algebra structure on $H_*(LM)$, which corresponds to the co-BV structure on $H^*(LM)$, we consider the BV operator $\Delta$. The BV operator on $H_*(LM)$ is given by mapping $$\Delta\colon C_*(LM)\xto{[S^1]\times\blank} C_{*+1}(S^1\times LM)\xto{\rho_*} C_{*+1}(LM)$$
-where $[S^1]$ represents the fundamental class of $S^1$ and $\rho\colon S^1\times LM\to LM$ is the translation action by $\rho(t, \alpha)(s) = \alpha(t+s)$. In cohomology, the co-BV operator is the degree $-1$ operator $$\Delta\colon \Omega^*(LM) \xto{\rho^*} \Omega^*(S^1\times LM) \xto{\int_{S^1}} \Omega^{*-1}(LM)$$.
+where $[S^1]$ represents the fundamental class of $S^1$ and $\rho\colon S^1\times LM\to LM$ is the translation action by $\rho(t, \alpha)(s) = \alpha(t+s)$. In cohomology, the co-BV operator is the degree $-1$ operator $$\Delta^{BV}\colon \Omega^*(LM) \xto{\rho^*} \Omega^*(S^1\times LM) \xto{\int_{S^1}} \Omega^{*-1}(LM)$$.
 
 The co-BV operator on the Hochschild complex $B\otimes_{A\otimes A} A$ is given by $$B(a_0, \dots, a_n) = \sum_{j=0}^n \pm a_j\otimes  a_{j+1}\otimes  \dots\otimes  a_n\otimes  a_0\otimes  \dots \otimes a_{j-1} \otimes 1$$
 
 \begin{theorem}\label{thm:bv-iso}
-    Given the conditions of \cref{thm:loop-product-derived}, the operators $B$ and $\Delta$, as maps of derived chain complexes, are intertwined by the iterated integral map $B\otimes_{A^{\otimes 2}} A \xto{\quiso}\Omega^*(LM)$ . Hence the iterated integral map is an isomorphism of derived co-BV algebras. 
+    Given the conditions of \cref{thm:loop-product-derived}, the operators $B$ and $\Delta^{BV}$, as maps of derived chain complexes, are intertwined by the iterated integral map $B\otimes_{A^{\otimes 2}} A \xto{\quiso}\Omega^*(LM)$ . Hence the iterated integral map is an isomorphism of derived co-BV algebras. 
 \end{theorem}
 
 \begin{proof}
-Following \cite{naef2019string}, we represent the action $\rho$ on $LM = PM\times_{M\times M} M$ using the splitting map $s\colon I \times LM\to\Map(\ocircle_2, M)$ from \cref{thm:path-models-1}. Translating a loop by $t$ is the same as composing its restriction to $[t, 1]$ with its restriction to $[0, t]$. Thus the following commutes up to homotopy (since the paths are reparametrized)
+Following \cite{naef2019string}, we represent the action $\rho$ on $LM = PM\times_{M\times M} M$ using the splitting map $s\colon I \times LM\to\Map(\ocircle_2, M)$ from \cref{thm:model-splitting}. Translating a loop by $t$ is the same as composing its restriction to $[t, 1]$ with its restriction to $[0, t]$. This shows that in the following diagram, the right part commutes up to homtopy (since the paths are reparametrized).
 
 \begin{center}
 \begin{tikzcd}
@@ -1782,7 +1985,7 @@ Following \cite{naef2019string}, we represent the action $\rho$ on $LM = PM\time
     &\ar[ul] S^1\times LM\ar[rrru, bend right=10, "\rho"]
 \end{tikzcd}
 \end{center}
-Here $\tau$ exchanges the two parts of the circle and $c$ is the concatenation map. Using the models we have obtained so far, we can represent this on differential forms. Letting $\gamma\in B, a\in A$ and representing the coproduct as $\sum \gamma'\otimes\gamma''$, we obtain 
+Here $\tau$ exchanges the two parts of the circle and $c$ is the concatenation map. The left part is the projection to $LM$. Using the models we have obtained so far, we can represent this on differential forms. Letting $\gamma\in B, a\in A$ and representing the coproduct as $\sum \gamma'\otimes\gamma''$, we obtain 
 
 \begin{center}
 \begin{tikzcd}
@@ -1792,48 +1995,78 @@ Here $\tau$ exchanges the two parts of the circle and $c$ is the concatenation m
 \end{tikzcd}
 \end{center}
 
-We have used the model of $c$ from \cref{thm:path-models-1}, $\tau$ from \cref{thm:graph-mapping-space} and $s$ from \cref{thm:path-models-1}. The image in $\mathcal I \otimes B\otimes_{A^{\otimes 2}} A$ contains two other summands, which contain $t$ or $(1-t)$ as factors in $\mathcal I$. 
+We have used the model of $c$ from \cref{lem:model-concatenation}, $\tau$ from \cref{thm:graph-mapping-space} and $s$ from \cref{thm:model-splitting}. The image in $\mathcal I \otimes B\otimes_{A^{\otimes 2}} A$ contains two other summands, which contain $t$ or $(1-t)$ as factors in $\mathcal I$. 
 
 To conclude, we have to show that the following diagram commutes in the derived category, where $p\colon I\times LM\to S^1 \times LM$
-\begin{center}
+\begin{equation}\label{diag:pf-bv-iso}
 \begin{tikzcd}
     \Omega^{*-1}(LM) &\lar["\int_I"]\Omega^*(I\times LM) \\
     & \ar[ul, "\int_{S^1}"] \Omega^*(S^1\times LM)\uar["p^*"]
 \end{tikzcd}
-\end{center}
-If it commutes, then we can compute $\Delta$ by taking the fiber integral $\int_{I}\colon\Omega^*(I\times LM)\to \Omega^{*-1}(LM)$ after the chain above, and this corresponds to projecting to the $dt$ summand in $\mathcal I\otimes B\otimes_{A^{\otimes 2}} A$, which shows the claim.
+\end{equation}
+If it commutes, then we can compute $\Delta^{BV}$ by taking the fiber integral $\int_{I}\colon\Omega^*(I\times LM)\to \Omega^{*-1}(LM)$ after the chain above, and this corresponds to projecting to the $dt$ summand in $\mathcal I\otimes B\otimes_{A^{\otimes 2}} A$, which shows the claim.
 
-To show that the diagram commutes, let $\mathcal S = k\langle 1\rangle\oplus k\langle dt\rangle$ be the two dimensional chain complex  with two generators $1$ and $dt$ of degree $0$ resp.\ $1$ and differential $0$. This is quasi-isomorphic to $\Omega^*(S^1)$ and we have a derived isomorphism $\Omega^*(S^1\times LM)\quiso\mathcal S\otimes \Omega^*(LM)$, similar to the interval complex $\mathcal I$ in \cref{thm:path-models-1}, which also has an isomorphism $\Omega^*(I\times LM)\quiso \mathcal I\otimes\Omega^*(LM)$. We can replace the diagram above with the diagram
+To show that the diagram commutes, let $\mathcal S = k\langle 1\rangle\oplus k\langle dt\rangle$ be the two dimensional chain complex  with two generators $1$ and $dt$ of degree $0$ resp.\ $1$ and differential $0$. This is quasi-isomorphic to $\Omega^*(S^1)$ and we there is a quasi-isomorphism $\mathcal S\otimes \Omega^*(LM)\to\Omega^*(S^1\times LM)$. Recall also the interval complex $\mathcal I$ in \cref{thm:model-splitting}, which also has an isomorphism $\mathcal I\otimes\Omega^*(LM) \to \Omega^*(I\times LM) $. We can replace diagram \ref{diag:pf-bv-iso} with the diagram
 \begin{center}
     \begin{tikzcd}
         \Omega^{*-1}(LM) &\lar\mathcal I\otimes \Omega^*(LM) \\
         & \ar[ul] \mathcal S\otimes\Omega^*(LM) \uar
     \end{tikzcd}
 \end{center}
-
-where the maps into $\Omega^*(LM)$ are given by projecting $1\otimes \omega_1+dt\otimes\omega'$ resp.\ $1\otimes\omega_1+t\otimes \omega_2+dt\otimes \omega'$ to $\omega'$. The pullback $\Omega^*(S^1\times LM)\to \Omega^(\mathcal S\times LM)$ is modeled by the inclusion $\mathcal S\to\mathcal I$. This diagram commutes on the chain level, which shows that the diagram above also commutes. 
+where the maps into $\Omega^*(LM)$ are given by projecting $1\otimes \omega_1+dt\otimes\omega'$ resp.\ $1\otimes\omega_1+t\otimes \omega_2+dt\otimes \omega'$ to $\omega'$. The pullback $\Omega^*(S^1\times LM)\to \Omega^(\mathcal S\times LM)$ is modeled by the inclusion $\mathcal S\to\mathcal I$. This diagram commutes on the chain level. The quasi-isomorphisms from this into diagram \ref{diag:pf-bv-iso} give rise to three squares which commute on the chain level. This shows that diagram \ref{diag:pf-bv-iso} commutes in $D(Ch)$.
 \end{proof}
 
 \begin{corollary}
-    Under the conditions of \cref{thm:loop-product-derived}, the loop product and $\Delta$ form a BV-coalgebra on the cohomology $H^*(LM)$.
+    If $M$ is a simply connected closed oriented manifold, the loop coproduct and $\Delta^{BV}$ form a BV-coalgebra on the cohomology $H^*(LM)$.
 \end{corollary}
 \begin{proof}
-    For any Frobenius algebra $A$, one can show algebraically that the Hochschild complex $B(A, A, A)\otimes_{A^{\otimes 2}} A$ has the structure of a co-BV algebra in the derived category, with the operations defined as we have, see theorem 5.4 in \cite{abbaspour2015algebraic} or theorem 1 of \cite{tradler2008bvalg}.
+    For any Frobenius algebra $A$, one can show algebraically that operations $\Delta$ and $B$ on the Hochschild complex $B(A, A, A)\otimes_{A^{\otimes 2}} A$ satisfy the co-BV relations in $D(Ch)$, see theorem 5.4 in \cite{abbaspour2015algebraic} or theorem 1 of \cite{tradler2008bvalg}.
 
-    Taking $A$ to be a Poincaré duality model $A$ of $\Omega^*(M)$ and hence a Frobenius algebra, we thus know that the co-BV relations hold on the chain level. Since the quasi-isomorphism $B\otimes_{A^{\otimes 2}}A\iso \Omega^*(LM)$ preserves the co-BV operations as derived maps, the co-BV relations hold in the cohomology of $LM$. 
+    In particular if we take $A$ to be a Frobenius algebra model of $\Omega^*(M)$, then the homology of the Hochschild complex has the structure of a co-BV algebra. Since the zigzag of quasi-isomorphism $B\otimes_{A^{\otimes 2}}A\xto{\quiso}\dots\xfrom{\quiso} \Omega^*(LM)$ preserves the co-BV operations on cohomology, the co-BV relations hold in the cohomology of $LM$. 
 \end{proof}
 
 
 
 
 
-\section{Further 
-Developments}
+\section{Further Developments}
+\subsection{Loop Coproduct}
+One can perform a analysis similar as in \cref{subsec:loop-product-model} for the loop coproduct (cohomology product). Recall that this is a map $H^*(LM, M)\otimes H^*(LM, M)\to H^*(LM, M)$. If $A$ is quasi-isomorphic to $\Omega^*(M)$, then there is a quasi-isomorphism $\Omega^*(LM, M) = \cone(\Omega^*(LM)\to \Omega^*(M))\quiso \cone(B(A, A, A)\otimes_{A^{\otimes 2}} A \xto{\alpha\otimes \id} A)$ where $\alpha$ is the model of the constant path inclusion map from \cref{thm:path-models-0}. The latter is quasi-isomorphic to the reduced Hochschild complex
+\begin{align*}
+\bar C(A) \defeq \bigoplus_{k\geq 1} (A[1])^{\otimes  k} \otimes A = B(A, A, A)\otimes_{A^{\otimes 2}} A / A
+\end{align*}
+If $A$ is a Frobenius algebra model of $\Omega^*(M)$, one can define a degree $n-1$ product on $\bar C(A)$ by mapping $\alpha\in A[1]^{\otimes k}, x\in A, \beta\in A[1]^{\otimes l}, y\in A$ to 
+\begin{align*}
+    \alpha\otimes x\otimes \beta\otimes y  \mapsto  \pm (\alpha \otimes (xy)_{(1)}\otimes\beta)\otimes (xy)_{(2)}
+\end{align*}
+where in Sweedler's notation, the coproduct $\Delta(xy) = \sum (xy)_{(1)} \otimes (xy)_{(2)} = (xy)_{(1)} \otimes (xy)_{(2)}$.
 
-TODO
 
+\begin{theorem}{\cite[Thm. 1.3]{naef2019string}}
+    If $A$ is a Frobenius algebra model of $\Omega^*(M)$, then there is a chain of quasi-isomorphisms $\bar C(A)\quiso \Omega^*(LM, M)$ which intertwines the product on $H^*(LM, M)$ from \cref{subsec:loop-coproduct} with the product on $H^*(\bar C(A))$.
+\end{theorem}
+The proof of this is very similar to the proof of \cref{thm:loop-product-derived}, using the models of the splitting, concatenation and intersection maps that we have shown. It is more technical, because $H^*(LM, M)$ is modeled by mapping cones from the outset and hence the construction of the intersection map in \cref{subsec:loop-coproduct} involves taking mapping cones of mapping cones. For details of the proof we refer to \cite[Sec. 6]{naef2019string}
+% We only consider the $\chi=0$ case, where we have the following commutative diagram:
+% \begin{center}
+% \begin{tikzcd}
+%     H^*(LM\times LM) \dar["\quiso"] \rar & H^*(LM\times_M LM) \rar& H^{*+n}(\Map(\ocircle_2, M)) \rar & H^{*+n}(LM\times I) \rar & H^{*+n+1}(LM)\\
+%     (B\otimes B)\otimes_{A^4} A^2 & (B\otimes B)\otimes_{A^4} A & (B\otimes B)\otimes_{A^4} A^2 & B\otimes_{A^2} A\otimes \mathcal I & B\otimes_{A^2} A
+% \end{tikzcd}
+% \end{center}
 
+\subsection{Cyclic Homology}
+The cyclic group $\Z/n\Z$ acts on $A^{\otimes n}$ via the generator
+\begin{align*}
+    t=t_{n-1}\colon A^{\otimes n}\to A^{\otimes n} \\
+    a_1, \dots, a_n \mapsto \pm a_n\otimes a_0\otimes\dots\otimes a_{n-1}
+\end{align*}
+Let $N = \id+t+\dots+t^{n-1}$. One checks that $t$ and thus $N$ induce chain maps on $\hat B\otimes_{A^{\otimes 2}} A = \hat C(A)$, where $\hat B$ is the unnormalized bar construction, hence $\hat C(A)$ is the unnormalized Hochschild complex. 
 
+The \emph{cyclic complex} $Cyc(A)$ of $A$ is the image of $N$ in $\hat C(A)$, which is a subcomplex.  Equivalently, it is the total complex of $A^{\otimes n} / (\id-t)$, with differential induced by the differential of the Hochschild complex. 
+Thus we have the following sequence
+\begin{align*}
+    \hat C(A) \to Cyc(A) \to \hat C(A) \xto{\id-t} C(A)
+\end{align*}
 
 
 \section{Configuration Spaces}
@@ -1996,12 +2229,12 @@ There is an equivalence between $\coGraphs_M$ and $\mathcal A_{PL}(\cConf_M)$ wh
 
 \section{Elements of Singular Cohomology}
 
-In this section, we state classical results of singular homology and cohomology for reference and comparison with the main part of the thesis. Specifically, we consider Poincaré duality, the intersection product, the Thom isomorphism and the slant product. All of these provide examples of umkehr maps. Umkehr maps occur in the main part of the thesis during the construction of the iterated integral map and of the string topology operations.
+In this section, we state classical results of singular homology and cohomology for reference and comparison with the main part of the thesis. Specifically, we consider Poincaré duality, the intersection product, the Thom isomorphism and the slant product. All of these provide examples of umkehr maps and we are interested in them from this viewpoint. 
 
-Umkehr maps are a phenomenon where a continuous map $f\colon X\to Y$ induces not only a covariant map $f_*\colon H_*(X)\to H_*(Y)$ but also a contravariant map $f_!\colon H_*(Y)\to H_*(X)$, possibly of nonzero degree. One can informally think of a homology class as represented by a subspace, and the map $f_*$ takes the image, while the adjoint $f^!$ can be thought of as taking the preimage. While the construction of $f_*$ on the singular chain complex $C_*(X)$ is easy, one cannot easily represent the preimage of a singular simplex in $Y$ using singular simplices in $X$, thus there is some technical burden in the construction of $f^!$. Similarly in cohomology, if one thinks of a degree $k$ cohomology class as represented by a subspace of codimension $k$, then one may think of $f^*$ as taking the preimage, while $f^!$ takes the image along $f$. 
+Umkehr maps are a phenomenon where a continuous map $f\colon X\to Y$ induces not only a covariant map $f_*\colon H_*(X)\to H_*(Y)$ but also a contravariant map $f_!\colon H_*(Y)\to H_*(X)$, possibly of nonzero degree. One can informally think of a homology class as represented by a subspace, and the map $f_*$ takes the image, while $f^!$ can be thought of as taking the preimage. For example, the umkehr map of the diagonal $\Delta\colon X\to X\times X$ is the intersection with the diagonal and the umkehr map $\Delta_!$ called the intersection product. While the construction of $f_*$ on the singular chain complex $C_*(X)$ is easy, one cannot easily represent the preimage of a singular simplex in $Y$ using singular simplices in $X$ and in general there is some technical burden to the construction of $f^!$. Similarly in cohomology, if one thinks of a degree $k$ cohomology class as represented by a subspace of codimension $k$, then one may think of $f^*$ as taking the preimage, while the covariant $f^!$ takes the image along $f$. 
 
 
-We define umkehr maps via Poincaré duality in the case of closed oriented manifolds in \cref{subsec:umkehr_maps_via_pd} (a more general definition of umkehr maps is given in \cite{cohen2009umkehr}, but we do not use it in this work). A special role is taken by the intersection product, which is the umkehr map of the diagonal. In \cref{subsec:intersection-product-via-pd}, we construct the intersection product and show some of its algebraic properties. The Thom isomorphism is a classical construction of an oriented vector bundle $E\to B$, which induces an isomorphism on homology $H_{*+n}(E, E_0) \xto{\quiso} H^{*}(B)$, where $E_0$ is $E$ minus the zero section. In \cref{subsec:thom-iso} we show that it is the umkehr map of the zero section map $B\to (E, E_0)$, in the case where we have a definition of umkehr maps. There is another well known construction of the intersection product using the Thom isomorphism and tubular neighborhoods. In this construction, using tubular neighborhoods, the diagonal of a manifold is identified with the zero section of a bundle, so that the Thom isomorphism provides an umkehr map. In \cref{subsec:intersection-via-tubular} we show that this construction of the intersection product yields the same map. Finally, in \cref{subsec:slant_product} we review formal properties of the slant product. The slant product can be used to construct umkehr maps $Y\times X\to Y$ if $X$ has a fundamental class and it is a version of fiber integration in singular chains. 
+We define umkehr maps via Poincaré duality in the case of closed oriented manifolds in \cref{subsec:umkehr_maps_via_pd}. A more general definitions of umkehr maps is given in \cite{cohen2009umkehr}, but we do not use it in this work. A special role is taken by the intersection product, which is the umkehr map of the diagonal. In \cref{subsec:intersection-product-via-pd}, we construct the intersection product and show some of its algebraic properties. The Thom isomorphism is a classical construction of an oriented vector bundle $E\to B$, which induces an isomorphism on homology $H_{*+n}(E, E_0) \xto{\quiso} H^{*}(B)$, where $E_0$ is $E$ minus the zero section. In \cref{subsec:thom-iso} we show that it is the umkehr map of the zero section map $B\to (E, E_0)$, in the case where our definition of umkehr maps applies. There is another well known construction of the intersection product using the Thom isomorphism and tubular neighborhoods. In this construction, using tubular neighborhoods, the diagonal of a manifold is identified with the zero section of a bundle, so that the Thom isomorphism provides an umkehr map. In \cref{subsec:intersection-via-tubular} we show that this construction of the intersection product yields the same map. Finally, in \cref{subsec:slant_product} we review formal properties of the slant product. The slant product can be used to construct umkehr maps $Y\times X\to Y$ if $X$ has a fundamental class and it is a version of fiber integration in singular chains. 
 
 We use singular chains and cochains with $\Z$-coefficients in this section, unless stated otherwise, but other coefficient systems may be used.
 
@@ -2039,7 +2272,7 @@ Let $f\colon M\to  N$ be a map of smooth closed oriented manifolds. Then there i
         H^{n-*}(N) \uar["\iso"]\rar["f^*"] & H^{n-*}(M) \uar["\iso"]
     \end{tikzcd}
 \end{equation}
-More generally, the same diagram on derived chain complexes yields a derived umkehr map $f_! \colon C_*(N) \to C_{*+m-n}(M)$.
+More generally, the analogous diagram in the derived category of chain complexes $D(Ch(\Z))$ yields a derived umkehr map $f_! \colon C_*(N) \to C_{*+m-n}(M)$.
 \end{definition}
 
 \begin{remark}
@@ -2056,36 +2289,36 @@ If $(M, \partial M = A\union B)$ and $(N, \partial N = C \union D)$ are as requi
 \end{equation}
 \end{definition}
 
-If $M$ is a closed oriented manifold, denote by $\mu_M$ its orientation pairing:
+If $M$ is a closed oriented manifold, denote by $\mu_M$ its Poincaré duality pairing:
 \begin{align*}
     \mu_M\colon & C^*(M)\otimes C^*(M)\to k \\
     &a\otimes b \mapsto \langle a\cupp b, [M]\rangle
 \end{align*}
 
 \begin{proposition}
-    The umkehr map $f^!$ of a map $f\colon M\to N$ of closed oriented manifolds is adjoint to $f^*$ in the sense that on derived chain complexes,
+    The umkehr map $f^!$ of a map $f\colon M\to N$ of closed oriented manifolds is adjoint to $f^*$ with respect to the Poincaré duality pairings in the sense that
     \begin{align*}
         \mu_N\comp (f^!\otimes\id) = \mu_M\comp(\id\otimes f^*)
     \end{align*}
 \end{proposition}
-This follows from a routine computation using properties of the cap product.
+This follows from a routine computation using properties of the cap product. Similarly, one can define a pairing on homology with coefficients in a field $k$ by $H^*(M)\otimes H^*(M) \to H^{*-n}(M)\to k$ using the intersection product and the map $C_*(M)\to k$. There are also copairings, e.g. on homology given by $k\to H_n(M)\to H_*(M)\otimes H_*(M)[n]$ by mapping $1$ to the fundamental class $[M]$ and then using the diagonal map.
 
 \subsection{Intersection Product} \label{subsec:intersection-product-via-pd}
 
-We use field coefficients in this section, so that $H_*(C_*(M)\otimes C_*(M)) \iso H_*(M)\otimes H_*(M)$. This is just to ease the notation, one may instead work in the derived category, using $C_*(M)\otimes C_*(M)$ in place of $H_*(M)\otimes H_*(M)$ etc.
+We use field coefficients in this section, so that $H_*(C_*(M)\otimes C_*(M)) \iso H_*(M)\otimes H_*(M)$. %This is just to ease the notation, one may instead work in the derived category, using $C_*(M)\otimes C_*(M)$ in place of $H_*(M)\otimes H_*(M)$ etc.
 
-\begin{definition}
+\begin{definition}\label{def:loop-product-classical}
 The intersection product $\cdot\colon H_*(M)\otimes H_*(M)\to H_{*-n}(M)$ is the Poincaré dual of the cup product. This means it is the upper map in the following commutative square, where the vertical maps are given by Poincaré duality and the lower map is the cup product.
 \begin{equation}
     \begin{tikzcd}
-        H_*(M) \otimes H_*(M) \dar["\iso"] \rar["\cdot"] & H_{*-m}(M) \dar["\iso"] \\
-        H^{m-*}(M)\otimes H^{m-*}(M) \rar["\cupp"] &  H^{2m-*}(M)
+        H_*(M) \otimes H_*(M)  \rar["\cdot"] & H_{*-m}(M)  \\
+        H^{m-*}(M)\otimes H^{m-*}(M) \uar["\quiso"] \rar["\cupp"] &  H^{2m-*}(M) \uar["\quiso"]
     \end{tikzcd}
 \end{equation}
-More abstractly, we can regard it as a map of derived chain complexes given as the dashed map in the diagram
+More abstractly, we can regard it as a map in the derived category $D(Ch(k))$ given as the top map in the diagram
 \begin{equation}
     \begin{tikzcd}
-        C_*(M) \otimes C_*(M)  \rar[dashed, "\cdot"] & C_{*-m}(M)  \\
+        C_*(M) \otimes C_*(M)  \rar["\cdot"] & C_{*-m}(M)  \\
         C^{m-*}(M)\otimes C^{m-*}(M) \uar["\quiso"]\rar["\cupp"] &  C^{2m-*}(M) \uar["\quiso"]
     \end{tikzcd}
 \end{equation}
@@ -2101,6 +2334,7 @@ Since under the isomorphism $H_*(M\times M) \iso H_*(M)\otimes H_*(M)$, the cup 
 where the left vertical morphism is the Poincaré Duality of $M\times M$. Thus up to the isomorphism $H_*(M\times M) \iso H_*(M)\otimes H_*(M)$, the intersection product $\cdot$ is the umkehr map $\Delta_!$
 \end{remark}
 
+We state some computational rules for the intersection product, in relation to the cap product $\capp$.
 \begin{proposition}\label{prop:isect-naturality}
     \begin{enumerate}
         \item For any $b, c \in H_*(M), \alpha\in H^*(M)$, $(b\cdot c)\capp \alpha = b\cdot (c\capp \alpha)$.
@@ -2130,7 +2364,7 @@ where the left vertical morphism is the Poincaré Duality of $M\times M$. Thus u
 There is a dual construction on cohomology, which yields a degree $m$ coproduct map $H^{*-n}(M)\to H^*(M)\otimes H^*(M)$, given by 
 \begin{equation}
     \begin{tikzcd}
-        C^*(M) \dar["\quiso"]\rar[dashed, "\Delta^!"] & C^*(M)\otimes C^*(M)[m] \dar["\quiso"]\\
+        C^*(M) \dar["\quiso"]\rar["\Delta^!"] & C^*(M)\otimes C^*(M)[m] \dar["\quiso"]\\
         C_{m-*}(M)  \rar["\Delta"] & C_{-*}(M)\otimes C_{-*}(M)[m]
     \end{tikzcd}
 \end{equation}
@@ -2271,7 +2505,7 @@ The second map is an excision isomorphism and the last map is the Thom isomorphi
 \end{construction}
 
 \begin{theorem}\label{thm:intersection_product_tubular}
-    The intersection product $\Delta_!$ as defined in \cref{subsec:intersection-product-via-pd} is equal to the map defined above
+    The intersection product $\Delta_!$ as defined in \cref{def:loop-product-classical} is equal to the map defined above
 \end{theorem}
 \begin{proof}
     \begin{enumerate}
@@ -2524,7 +2758,7 @@ For a more explicit argument, we show injectivity explicitly. Let $a\in B(M, A, 
 
 
 % \begin{theorem}
-%     Given a degreewise surjective map $p \colon C\to D$ and a map $ f\colon B(A, A, A)\to D$ of $A^e = A\otimes A^{op}$-modules, there exists a lift $\tilde f\colon B(A, A, A) \to C$ such that $\tilde f\comp p = f$. That is, $B(A, A, A)$ is cofibrant in the projective model category of dg $A^e$-modules.
+%     Given a degreewise surjective map $p \colon C\to D$ and a map $ f\colon B(A, A, A)\to D$ of $A^{\otimes 2} = A\otimes A^{op}$-modules, there exists a lift $\tilde f\colon B(A, A, A) \to C$ such that $\tilde f\comp p = f$. That is, $B(A, A, A)$ is cofibrant in the projective model category of dg $A^{\otimes 2}$-modules.
 % \end{theorem}
 % \begin{proof}
 %     The complex $A\otimes A\from A^{\otimes 3}\from \dots$ is split exact (as seen above) and a complex of projective (free) $A\otimes A^{op}$ modules TODO
@@ -2695,7 +2929,7 @@ The same proof applies on suitable subcategories of $\mathcal{Top}$.
 
 % The second idea is to make homotopies between maps, and higher homotopies part of the structure of the category, which leads to the notion of $\infty$-categories~\cite{lurie2009higher},\ \cite{lurie2017higher} (TODO other references) (also known as quasicategories or $(\infty, 1)$-categories). In an $\infty$-category, composition of morphisms is only defined up to homotopy. Much of the language and theorems of regular categories translate to $\infty$-categories. A notion of limits and colimits in $\infty$-categories exists and it agrees with homotopy limits resp.~colimits in the examples. We briefly unpack what this means for pullbacks. Recall that in a normal pullback, to every cone, the pullback assigns a universal arrow to the pullback cone, which makes certain triangles commute. In homotopy, these triangles commute only up to homotopy and we consider homotopies part of the data. Hence a cone consists not only of natural morphisms, but also of explicit homotopies that make the relevant triangles commute up to homotopy. The pullback is a universal cone and the universal property assigns to each cone not only a universal arrow, but also homotopies which make the relevant diagrams commute. As this assignment depends on the cone, it depends not only on the morphisms of the cone, but also on the homotopies. This assignment is no longer unique, instead one requires that the space of suitable data is contractible, which is where higher homotopies appear. 
 
-There is a homology version of the theorem, this is the Eilenberg-Moore spectral sequence~\cite{eilenberg1966homology} of homology. Here any space should have the homotopy type of a cw complex.
+There is a homology version of the theorem, this is the Eilenberg-Moore spectral sequence~\cite{eilenberg1966homology} of homology. Here any space should have the homotopy type of a CW complex.
 
 \begin{theorem}
     Consider a pullback of topological spaces as above, again with $p$ a fibration, $B$ pathwise connected and simply connected. Then for any commutative ring $K$, the natural map
