@@ -286,10 +286,20 @@ String topology studies algebraic structures on the homology of the free loop sp
 
 \subsection{Background and Motivation}
 
-By a result due to Quillen \cite{quillen1969rational}, the study of the homotopy of simply connected topological spaces is equivalent to the study of the homotopy properties of simply connected differential graded commutative algebras. Given a specific simply connected manifold $M$, one may construct other spaces from $M$, such as the free loop space $LM = C^0(S^1, M)$ and the configuration spaces $\Conf_M(n)$ of $n$ ordered distinct points in $M$. Given a differential graded algebra $A$ which computes the cohomology of a simply connected manifold $M$, such as the de Rham algebra $\Omega^*(M)$ or the algebra of polynomial forms $\APL^*(M)$, one may ask if it is possible to construct differential graded algebras which compute the cohomology of spaces such as $LM$ and $\Conf_M(n)$. In addition, one may ask to translate maps between spaces to these algebras. Early examples of this are Adams' work on the based loop space $\Omega M$ and the cobar construction \cite{adams1956cobar} and Chen's work \cite{chen1977iterated} on the bar construction and the free loop space $LM$. In the 1980s, Jones showed that there is an isomorphism between the cohomology of the loop space and the Hochschild cohomology of $C^*(M)$. 
+By a result due to Quillen \cite{quillen1969rational}, the study of the homotopy of simply connected topological spaces is equivalent to the study of the homotopy properties of simply connected differential graded commutative algebras. Given a specific simply connected manifold $M$, one may construct other spaces from $M$, such as the free loop space $LM = C^0(S^1, M)$ and the configuration spaces $\Conf_M(n)$ of $n$ ordered distinct points in $M$. Given a differential graded algebra $A$ which computes the cohomology of $M$, such as the de Rham algebra $\Omega^*(M)$ or the singular cochain algebra $C^*(M)$, one may ask if it is possible to construct differential graded algebras which compute the cohomology of spaces such as $LM$ and $\Conf_M(n)$. In addition, one may ask to translate maps between spaces to maps of algebras. Early examples of this are Adams' work on the based loop space $\Omega M$ and the cobar construction \cite{adams1956cobar} and Chen's work \cite{chen1977iterated} on the bar construction and the free loop space $LM$. In the 1980s, Jones showed that there is an isomorphism between the cohomology of the loop space and the Hochschild cohomology of $C^*(M)$. 
 
-We will apply such algebraic models in the context of String Topology. String Topology was initiated by Moira Chas and Dennis Sullivan in \cite{chas1999string} and it is concerned with the study of algebraic operations on the homology of the free loop space $LM=C^0(S^1, M)$ of a closed oriented manifold $M$. They introduced a product operation $$\cdot\colon H_*(LM)\otimes H_*(LM)\to H_{*-\dim M}(LM)$$ and a rotation operator $\Delta\colon H_*(LM)\to H_{*+1}(LM)$. Since then, further operations have been introduced on $H_*(LM)$, such as the loop coproduct \cite{Goresky_2009} and higher string operations \cite{godin2007higher}.
+We will apply such algebraic models in the context of String Topology. String Topology was initiated by Moira Chas and Dennis Sullivan in \cite{chas1999string} and it is concerned with the study of algebraic operations on the homology of the free loop space $LM=C^0(S^1, M)$ of a closed oriented manifold $M$. They introduced a product operation $$\cdot\colon H_*(LM)\otimes H_*(LM)\to H_{*-\dim M}(LM)$$ and a rotation operator $\Delta\colon H_*(LM)\to H_{*+1}(LM)$. Another well known operation of String Topology is the loop coproduct $H_{*-n+1}(LM)\to H_*(LM)\otimes H_*(LM)$, a degree $n-1$ coproduct.
 
+
+
+According to \cite[Sec. 1]{naef2022string}, String Topology is at the intersection of several fields of mathematics, including the following: 
+\begin{itemize}
+    \item There is an interpretation in Symplectic Geometry, the simplest instance of this is that the Floer homology of the cotangent bundle $T^*M$ is isomorphic to $H_*(LM)$ and the loop product has an interpretation in Floer homology, cf.~\cite{abbondandolo2010floer},~\cite{cieliebak2009role}. 
+    \item The homology of $LM$ and string operations can be used to study closed geodesics on Riemannian manifolds via Morse theory on the energy functional. Gromoll and Meyer \cite{gromoll1969periodic} showed for a closed simply connected manifold $M$, if the sequence of Betti numbers of $LM$ is unbounded, then there exist infinitely many geometrically distinct periodic geodesics in $M$. More recently, the loop product has been used to study closed geodesics as well, compare \cite{Goresky_2009}. 
+    \item Families of higher operations have been introduced on $H_*(LM)$. This leads to the study of properads and 2-dimensional field theories, cf.~\cite{godin2007higher}, \cite[I.2, I.3]{cohen2006string}.
+\end{itemize}
+
+%TODO: Image of Chas-Sullivan Product here
 The Chas Sullivan product is constructed from the maps $$LM\times LM \xfrom{i} LM\times_M LM \xto{c} LM$$
 where $LM\times_M LM\subset LM\times LM$ is the space of pairs of loops with the same base point, $i$ is the inclusion map and $c$ is the composition of loops. One can construct a pullback map $$i_!\colon H_*(LM\times LM)\to H_{*-n}(LM\times_M LM)$$
 \cite{chas1999string} suggest the following intuition: if a homology class $a$ in $LM\times LM$ is represented by a manifold $A$ which is transverse to the submanifold $LM\times_M LM\subset LM\times LM$, then $i_!(a) = [A\isect LM\times_M LM]$. The Chas-Sullivan product is then the map $$c_*\comp i_!\colon H_*(LM)\otimes H_*(LM)\iso H_*(LM\times LM)\to H_{*-\dim M}(LM)$$
@@ -297,33 +307,95 @@ Chas and Sullivan exhibit another operator on $H_*(LM)$. Denote by $\rho\colon S
 $$\Delta\colon H_*(LM)\xto{[S^1]\times \blank} H_{*+1}(S^{1}\to LM)\xto{\rho_*} H_{*+1}(LM)$$
 Together with the loop product this forms a BV algebra on $H_*(LM)$. 
 
-The construction of $i^!$ is involved and there are several approaches, for example using the Thom isomorphism \cite{cohen2006string}, \cite{hingston2017product} or via transversality \cite{chataur2005bordism}.
+The construction of $i_!$ is involved and there are several approaches, for example using the Thom isomorphism \cite{cohen2006string}, \cite{hingston2017product} or via transversality \cite{chataur2005bordism}.
 
 \subsection{Results and Outline}
+We follow \cite{naef2019string}. Our main goal is to give a clean presentation of the proof that the loop product and BV operator induce a co-BV algebra on the cohomology $H^*(LM)$. 
 
-Let $G$ be a finite graph and $M$ a simply connected closed manifold. Then there is a space associated to $G$ which we also denote by $G$ and we can consider the mapping space $\Map(G, M)$. Let $A$ be a differential graded algebra which models $M$, such as $C^*(M)$ or $\Omega^*(M)$. In \cref{sec:cochain-models} we construct a chain complex $A^{\otimes G}$ whose cohomology is isomorphic to the cohomology of $\Map(G, M)$. We also describe maps between such mapping spaces. This construction will be functorial in $G$ and it will allow us to model certain maps between mapping spaces algebraically. This construction generalizes the isomorphism between the Hochschild cohomology and the loop space cohomology $$HH_*(A, A)\iso H^*(LM)$$ and the bar construction $\BC(A, A, A)$, which is quasi-isomorphic to $C^*(PM)$. 
+
+Let $G$ be a finite graph and $M$ a simply connected closed manifold. Then there is a space associated to $G$ which we also denote by $G$ and we can consider the mapping space $\Map(G, M) = C^0(G, M)$, with the topology of uniform convergence along the edges of $G$. Let $A$ be a differential graded algebra which models $M$, such as $C^*(M)$ or $\Omega^*(M)$. In \cref{sec:cochain-models} we construct a chain complex $A^{\otimes G}$. % whose cohomology is isomorphic to the cohomology of $\Map(G, M)$.
+We will show the following in \cref{subsec:graph-models}: 
+\begin{theorem}\label{thm:intro-graph-model}
+    \begin{enumerate}
+        \item The assignment $(A, G)\mapsto A^{\otimes G}$ yields a contravariant functor in $A$ which preserves quasi-isomorphisms and a covariant functor in $G$ 
+        \item Let $M$ be a closed simply connected manifold.
+        \begin{enumerate}
+            \item There is a natural quasi-isomorphism $$I\colon \Omega^*(M)^{\otimes G}\to \Omega^*(\Map(G, M))$$
+            \item In coefficients in a field of characteristic $0$, there exists a natural zigzag of quasi-isomorphisms $$C^*(M)^{\otimes G}\to\dots\from C^*(\Map(G, M))$$
+        \end{enumerate}
+    \end{enumerate}
+\end{theorem}
+This construction generalizes the isomorphism between the Hochschild cohomology and the loop space cohomology $$HH_*(A, A)\iso H^*(LM)$$ and the bar construction $\BC(A, A, A) \quiso C^*(PM)$. The map $I$ is a generalization of the iterated integral map due to Chen~\cite{chen1977iterated}. The main tool for this construction is the derived tensor product $M\otimes^L_A N$ of two differential graded modules over a differential graded algebra $A$. This can be computed by the two sided bar construction $B(M, A, N)$, which we introduce in \cref{subsec:bar_construction} and \cref{subsec:bar-constr-derived}. 
 % The main building block is the two sided bar construction $\BC(M, A, N)$ of modules $M$ and $N$ over $A$, due to two reasons: For one, the bar construction $\BC(A, A, A)$ yields a particularly nice model of the path space $PM =\Map(I, M)$. On the other hand, the two sided bar construction allows us to compute the cohomology of certain pullbacks of topological spaces. 
 % Using the two sided bar construction $B(M, A, N)$ and the left derived tensor product $M\oplus_A^L N$ of modules over a differential graded algebra $A$, one  
 
 
-In \cref{sec:string-ops-via-cfg-spaces} we introduce a construction of the umkehr map $i_!\colon H_*(LM\times LM)\to H_{*-n}(LM\times_M LM)$ due to \cite{naef2019string}. This construction relies on the compactification of configuration spaces. We justify that this construction yields the same umkehr map as the classical construction using tubular neighborhoods and the Thom isomorphism. 
+In \cref{sec:string-ops-via-cfg-spaces} we introduce a construction of the umkehr map $i_!\colon H_*(LM\times LM)\to H_{*-n}(LM\times_M LM)$ due to \cite{naef2019string}, and the cohomlogical analogue $i^!_{LM}\colon H^{*-n}(LM\times_M LM)\to H^*(LM\times LM)$. This construction relies on the compactification of configuration spaces. We justify that this construction yields the same umkehr map as the classical construction using tubular neighborhoods and the Thom isomorphism. An additional result is the following lemma, cf~\cref{lem:loop-intersection-map-product}, which shows that the umkehr map $i^!_{LM}$ can be constructed algebraically from the corresponding umkehr map $i^!\colon H^{*-n}(M)\to H^*(M\times M)$. 
+\begin{lemma}
+    If $M$ is simply connected, then the following diagram commutes in $D(Ch)$ and the vertical maps are quasi-isomorphisms:
+    \begin{center}
+    \begin{tikzcd}
+        C^*(LM\times LM) & \ar[l, swap, "i^!_{LM}"] C^{*}(LM\times_M LM)[-n]  \\
+        \uar[swap, "\quiso"] C^*(LM\times LM) \otimes^L_{C^*(M\times M)} C^*(M\times M) & \uar[swap, "\quiso"]\lar[swap, "\id\otimes i^!"] C^*(LM\times LM) \otimes^L_{C^*(M\times M)} C^*(M)[-n]
+    \end{tikzcd}
+    \end{center}
+\end{lemma}
 
-It is well known that there is the structure of a co-BV algebra on the Hochschild homology $HH_*(A, A)$ if $A$ is a Frobenius algebra. In \cref{subsubsec:frobenius-algebra-models} we recall that, by \cite{lambrechts2008poincare}, for a simply connected oriented closed manifold $M$, there is a Frobenius algebra $A$ which is quasi-isomorphic to $\Omega^*(M)$. We then show that the isomorphism $HH_*(A, A)\iso H^*(LM)$ preserves the co-BV operations. In particular we prove that the loop product and the BV operator form a co-BV algebra on $H^*(LM)$, which is the cohomological analog of the BV algebra structure on $H_*(LM)$. 
 
-Naef and Willacher frame their results using the de Rham complex in \cite{naef2019string}, even on infinite dimensional spaces such as the path space $PM$ and loop space $LM$. In \cref{sec:diffeological} we explain the framework of diffeological spaces, which allows us to define de Rham forms on more general spaces than manifolds. In the main part of the thesis, we develop both the results of \cite{naef2019string} on de Rham forms, as well as an analogue on the singular cochain complex. With de Rham forms we can often construct maps on the chain level which we cannot construct on the singular complex. On the singular complex we fill these gaps by working on cohomology or in the setting of derived categories instead. 
-%TODO: BV Operator einführen. 
+
+In \cref{sec:loop-models} we give models of the loop operations which only depend on a differential graded algebra $A$ which computes the cohomology of $M$. In \cref{subsubsec:frobenius-algebra-models} we recall that, by \cite{lambrechts2008poincare}, for a simply connected oriented closed manifold $M$, there is a Frobenius algebra $A$ which is quasi-isomorphic to $\Omega^*(M)$. The product of $A$ takes the role of the wedge product, while the degree $n$ coproduct is the umkehr map of the diagonal. It is well known that there is the structure of a co-BV algebra on the Hochschild homology $HH_*(A, A)$ if $A$ is a Frobenius algebra. We will prove the cohomological analogue of the statement that the loop product and BV operator form a BV algebra. In cohomology one has a coproduct and the so called co-BV operator, which satisfy analogues of the BV relations. The following is shown in \cref{thm:bv-iso}
+\begin{theorem*}
+    The isomorphism $HH_*(A, A)\iso H^*(LM)$ preserves the loop product and the (co-)BV operator. In particular the loop product and the co-BV operator form a co-BV algebra on $H^*(LM)$. 
+\end{theorem*}
+
+Naef and Willacher frame their results using the de Rham complex in \cite{naef2019string}, even on infinite dimensional spaces such as the path space $PM$ and loop space $LM$. In \cref{sec:diffeological} we explain the framework of diffeological spaces, which allows us to define de Rham forms on more general spaces than manifolds. The arguments in \cite{naef2019string} are possible because the de Rham complex $\Omega^*(X)$ of a diffeological space $X$ has the following properties: 
+\begin{itemize}
+    \item Its product is graded commutative on the chain level.
+    \item It has umkehr maps on the chain level for projections $\Delta^n \times X\to X$, given by the fiber integral. 
+    \item It is quasi-isomorphic to $C^*(X)$ for nice spaces (though not in general). 
+\end{itemize}
+The singular cochain complex almost satisfies these requirements as well, as the analog of the fiber integral is the slant product, see \cref{subsec:slant_product}, but the product is only homotopy commutative. 
+In the main part of the thesis, we develop the results of \cite{naef2019string} on de Rham forms, as well as an analogue on the singular cochain complex. With de Rham forms we can often construct maps on the chain level which we cannot construct as easily on the singular complex. On the singular complex we fill these gaps by working on cohomology or in the setting of derived categories instead; this often leads to shorter proofs, but we do not have the benefit of working at the chain level.
+
+\section{Preliminaries}
+
+\subsection{Derived Category of Chain Complexes}\label{subsec:derived}
+
+We will use the language of derived categories, specifically in the case of derived chain complexes. The following is a very elementary introduction, readers versed in derived categories should skip this subsection. For a pedagogical introduction we refer to \cite{thomas2001derived}. For a formal treatment, see \cite{gelfand2013methods} or \cite{weibel1994introduction}. 
+
+The motivation for us to use derived categories is the following: We regularly come across maps on the homology of chain complexes $\cdot\to\cdot\from\dots\to\cdot$ which are induced by zigzags of chain maps, with the reverse maps being quasi-isomorphisms. By considering only the induced maps on homology, we lose the information that these maps were originally induced by chain maps. Using derived categories allows us to consider such zigzags as morphisms and thus allows us to put them into commutative diagrams, as we would on homology. At the same time we retain the information that these maps were induced by chain maps to a greater degree.
+
+Let $Ch=Ch(R)$ be the category of chain complexes of modules over a ring $R$. 
+The derived category $D(Ch)$ of $Ch$ is the localization of the category $Ch$ at the collection of quasi-isomorphisms, this means that it is the category that one obtains from $Ch$ by formally adjoining two-sided inverses to quasi-isomorphisms.
+
+\begin{theorem}[Universal Property of $D(Ch)$]\label{thm:derived-universal-prop}
+    There exists a category $D(Ch)$ and a functor $D\colon Ch\to D(Ch)$ which maps quasi-isomorphisms to isomorphisms, such that any functor $F\colon Ch\to C$ which maps quasi-isomorphisms to isomorphisms, factors through $D$, i.e.\ there exists a functor $\bar F\colon D(Ch)\to C$ and a natural isomorphism between $F$ and $\bar F D$. 
+\end{theorem}
+This is \cite[Thm III.2.1]{gelfand2013methods}.
+
+Any two categories satisfying this property are equivalent and for our purposes we may use this as a definition. 
+
+\begin{proposition}
+    \begin{enumerate}[(1)]
+        \item If a chain map $f\colon A\to B$ is a quasi-isomorphism and has a one-sided inverse $g$, then $D(f)D(g) = \id_{D(B)}\in D(Ch)$ and $D(g)D(f)=\id_{D(A)}\in D(Ch)$, i.e.\ the maps $D(f)$ and $D(g)$ are two-sided inverses in the derived category.
+        \item If $f, g\colon A\to B$ in $Ch$ are chain homotopic, then $D(f) = D(g)$.  
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    (1) is trivial. We show (2). Define a complex $C$, which as a graded vector space is $A\oplus A[1]\oplus A$, with differential $(a, a', a'')\mapsto (da+a', da', da''+a')$. Let $\iota_{0}, \iota_1\colon A\to C$ be the inclusions into the first resp.\ third direct summand. Then $\iota_0$ and $\iota_1$ are both quasi-isomorphisms with the same one-sided inverse, namely the chain map $C\to A$ given by $(a, a', a'')\mapsto a-a''$. Hence $D(\iota_1) = D(\iota_2)$ by (1). Let $P$ be a homotopy between $f$ and $g$, then there is a chain map $\gamma_P\colon C\to B$ given by $f + P+ g$. Now $\gamma_P\iota_1 = f$ and $\gamma_P\iota_2=g$ and we conclude $D(f) = D(g)$.
+\end{proof}
+
+\begin{remark}\label{rmk:derived-notation}
+    We often omit the explicit mention of the functor $D$. If we say that a map or a diagram in $Ch$ has a certain property in $D(Ch)$, we mean that its image under the functor $D$ has said property. Any zigzag of maps with quasi-isomorphisms in the reverse direction induces a map in $D(Ch)$, hence we may arrive at diagrams of which one cannot ask to commute at the chain level, but which can commute in $D(Ch)$.
+\end{remark}
 
 \begin{remark}
-    We use the de Rham complex because in addition to being a contravariant functor that computes the cohomology of the spaces we are interested in, it has the following properties: 
-    \begin{itemize}
-        \item Its product is graded commutative on the chain level.
-        \item It has umkehr maps on the chain level for projections $\Delta^n \times X\to X$, given by the fiber integral. 
-    \end{itemize}
-    Since the product is commutative, we can use the framework of rational homotopy theory to it, in particular the pullback pushout lemma \cref{thm:pullback-pushout} which computes the cochain algebra of a pullback space in terms of the cochain algebras of the diagram. The umkehr maps allow us to construct the iterated integral map on the chain level.
-
-    The singular cochain complex almost satisfies these requirements, the umkehr map is given by the slant product, cf.\ \cref{subsec:slant_product}, but the product is only homotopy commutative. One can still give a version of \cref{thm:pullback-pushout} on the singular cochain complex, see \cite{toen2020probl}, 
-    but the algebra required is much more involved. 
+    By \cref{thm:derived-universal-prop}, the cohomology functor $H^*$ factors through $D(Ch)$. Thus if two chain maps are equal in $D(Ch)$, they are also equal on cohomology and if two chain complexes are isomorphic in $D(Ch)$ then they have isomorphic cohomology. The converse is not necessarily true.
 \end{remark}
+
+\begin{example}
+    Let $R=k$ be a field and $C$ a chain complex, then the tensor product functor $\blank\otimes C\colon Ch\to Ch$ preserves quasi-isomorphisms, since $C$ is degreewise free, (cf.\ the proof of \cref{thm:bar-quiso}). This means that $D(\blank\otimes C)\colon Ch\to D(Ch)$ maps quasi-isomorphisms to isomorphisms, so by \cref{thm:derived-universal-prop} it factors as $Ch \xto{D} D(Ch)\xto{\blank\otimes C} D(Ch)$ through a functor which we also denote by $\blank\otimes C$. Given morphisms $f, g\colon A\to B$ in $Ch$, which are equal in $D(Ch)$, we find $f\otimes \id_C, g\otimes\id_C\colon A\otimes C\to B\otimes C$ are equal in $D(Ch)$.
+\end{example}
 
 
 \subsection{Loop Product}\label{subsec:loop-product-classical}
@@ -447,84 +519,33 @@ Here $[1-n]$ is the shift operator: for a graded vector space $V$, denote by $V[
 Similarly one constructs a product on homology $$H_*(LM, M) \from H_{*}(LM, M)\otimes H_*(LM, M)[1-n].$$
 
 
-\subsection{String Bracket and Cobracket}
-The main ingredient for the definition of the string bracket and cobracket on the equivariant cohomology of $LM$ are the loop product and coproduct. Thus our definition is no different from the standard definition, except that we have defined the loop product using configuration spaces. In the following we present the standard definition of the string bracket and cobracket.
+% \subsection{String Bracket and Cobracket}
+% The main ingredient for the definition of the string bracket and cobracket on the equivariant cohomology of $LM$ are the loop product and coproduct. Thus our definition is no different from the standard definition, except that we have defined the loop product using configuration spaces. In the following we present the standard definition of the string bracket and cobracket.
 
-The main object of string topology is the quotient $LM$ modulo $S^1$, where $S^1$ acts on loops via $\gamma\mapsto \gamma(\cdot + t)$. Note that this action is not free, e.g. on constant loops or loops which are periodic with period smaller $1$. A free action is desirable, so we replace $LM$ with a different space on which $S^1$ acts freely.
+% The main object of string topology is the quotient $LM$ modulo $S^1$, where $S^1$ acts on loops via $\gamma\mapsto \gamma(\cdot + t)$. Note that this action is not free, e.g. on constant loops or loops which are periodic with period smaller $1$. A free action is desirable, so we replace $LM$ with a different space on which $S^1$ acts freely.
 
-\paragraph{Classifying Space and homotopy orbit space} For a topological group $G$ recall that the classifying space $BG$ is the quotient of a weakly contractible space $EG$ by a proper free action of $G$. For the special case $G=S^1$ this is the bundle $S^1\to S^\infty\to \C P^\infty$, where $BG = \C P^\infty$, the direct limit of the complex projective spaces, and $S^\infty = ES^1$ is the direct limit of the unit spheres. $S^\infty$ is contractible. TODO: References, Elaborate on classifying spaces
+% \paragraph{Classifying Space and homotopy orbit space} For a topological group $G$ recall that the classifying space $BG$ is the quotient of a weakly contractible space $EG$ by a proper free action of $G$. For the special case $G=S^1$ this is the bundle $S^1\to S^\infty\to \C P^\infty$, where $BG = \C P^\infty$, the direct limit of the complex projective spaces, and $S^\infty = ES^1$ is the direct limit of the unit spheres. $S^\infty$ is contractible. TODO: References, Elaborate on classifying spaces
 
-Using the classifying space, one can construct the homotopy quotient space, which is the ``homotopically correct'' version of the orbit space. Given a space $X$ with a $G$-action, the homotopy quotient is the space $EG\times_G X = EG\times X / G$. 
+% Using the classifying space, one can construct the homotopy quotient space, which is the ``homotopically correct'' version of the orbit space. Given a space $X$ with a $G$-action, the homotopy quotient is the space $EG\times_G X = EG\times X / G$. 
 
-Consider the $S^1$-bundle $\pi\colon LM\simeq LM\times ES^1\to LM_{S^1} = LM\times_{S^1} ES^1$. We denote by $H^*_{S^1}(LM) = H^*(LM\times_{S^1} ES^1)$ the cohomology of the homotopy quotient of $LM$ by $S^1$. 
+% Consider the $S^1$-bundle $\pi\colon LM\simeq LM\times ES^1\to LM_{S^1} = LM\times_{S^1} ES^1$. We denote by $H^*_{S^1}(LM) = H^*(LM\times_{S^1} ES^1)$ the cohomology of the homotopy quotient of $LM$ by $S^1$. 
 
-TODO: To use the Gysin sequence we need to show that the associated disk bundle is orientable.
-
-\paragraph{The umkehr map of $\pi$} We are interested in the umkehr map in homology of the projection $\pi$. As this is a map with sphere fiber, the umkehr map can be constructed via the Gysin sequence. The Gysin sequence (see subsection \ref{subsec:gysin_sequence}) of this bundle is 
-\begin{align*}
-    \dots \to H^*(LM)\xrightarrow{\pi^*} H_{S^1}(LM) \to H^{*+2}_{S^1}(LM) \xrightarrow{\pi_!} H^{*+1}(LM) \to \dots
-\end{align*}
-and there is a similar sequence for reduced cohomology. 
-
-In cohomology, the umkehr map $\pi^!\colon H^{*+1}(LM)\to H^{*+2}_{S^1}(LM)$ can be thought of as the preimage map, which maps a string to the family of all its possible rotations. TODO: Justify this.
-
-\begin{construction}
-    Now the \emphi{string bracket} is defined (up to sign) as the composition
-\begin{align*}
-    \bar H_{S^1}^*(LM) \xto{\pi^*} \bar H^*(LM)\to (\bar H^*(LM) \otimes \bar H^*(LM))[n] \xto{\pi_!\otimes\pi_!} (\bar H^*_{S^1}(LM)\otimes\bar H^*_{S^1}(LM))[n-2]
-\end{align*}
-% The \emphi{string cobracket} is defined (up to sign) as the composition
+% \paragraph{The umkehr map of $\pi$} We are interested in the umkehr map in homology of the projection $\pi$. As this is a map with sphere fiber, the umkehr map can be constructed via the Gysin sequence. The Gysin sequence (see subsection \ref{subsec:gysin_sequence}) of this bundle is 
 % \begin{align*}
-%     \bar H_{S^n}
+%     \dots \to H^*(LM)\xrightarrow{\pi^*} H_{S^1}(LM) \to H^{*+2}_{S^1}(LM) \xrightarrow{\pi_!} H^{*+1}(LM) \to \dots
 % \end{align*}
-\end{construction}
+% and there is a similar sequence for reduced cohomology. 
+
+% \begin{construction}
+%     Now the \emphi{string bracket} is defined (up to sign) as the composition
 % \begin{align*}
-%     \bar H^*_{S^1}(LM)\otimes \bar H^*_{S^1}(LM) \xrightarrow{\pi^*\otimes\pi^*} \bar H^*(LM) \otimes \bar H^*(LM) \to 
+%     \bar H_{S^1}^*(LM) \xto{\pi^*} \bar H^*(LM)\to (\bar H^*(LM) \otimes \bar H^*(LM))[n] \xto{\pi_!\otimes\pi_!} (\bar H^*_{S^1}(LM)\otimes\bar H^*_{S^1}(LM))[n-2]
 % \end{align*}
+% \end{construction}
+% Similarly, using the loop coproduct one can construct the string cobracket. 
 
-TODO: String cobracket
 
-\subsection{Remarks on Notation}
 
-\subsubsection{Derived Category of Chain Complexes}
-
-We will use the language of derived categories, specifically in the case of derived chain complexes. The following is a very elementary introduction, readers versed in derived categories should skip this subsection. For a pedagogical introduction we refer to \cite{thomas2001derived}. For a formal treatment, see \cite{gelfand2013methods} or \cite{weibel1994introduction}. 
-
-The motivation for us to use derived categories is the following: We regularly come across maps on the homology of chain complexes $\cdot\to\cdot\from\dots\to\cdot$ which are induced by zigzags of chain maps, with the reverse maps being quasi-isomorphisms. By considering only the induced maps on homology, we lose the information that these maps were originally induced by chain maps. Using derived categories allows us to consider such zigzags as morphisms and thus allows us to put them into commutative diagrams, as we would on homology. At the same time we retain the information that these maps were induced by chain maps to a greater degree.
-
-Let $Ch=Ch(R)$ be the category of chain complexes of modules over a ring $R$. 
-The derived category $D(Ch)$ of $Ch$ is the localization of the category $Ch$ at the collection of quasi-isomorphisms, this means that it is the category that one obtains from $Ch$ by formally adjoining two-sided inverses to quasi-isomorphisms.
-
-\begin{theorem}[Universal Property of $D(Ch)$]\label{thm:derived-universal-prop}
-    There exists a category $D(Ch)$ and a functor $D\colon Ch\to D(Ch)$ which maps quasi-isomorphisms to isomorphisms, such that any functor $F\colon Ch\to C$ which maps quasi-isomorphisms to isomorphisms, factors through $D$, i.e.\ there exists a functor $\bar F\colon D(Ch)\to C$ and a natural isomorphism between $F$ and $\bar F D$. 
-\end{theorem}
-This is \cite[Thm III.2.1]{gelfand2013methods}.
-
-Any two categories satisfying this property are equivalent and for our purposes we may use this as a definition. 
-
-\begin{proposition}
-    \begin{enumerate}[(1)]
-        \item If a chain map $f\colon A\to B$ is a quasi-isomorphism and has a one-sided inverse $g$, then $D(f)D(g) = \id_{D(B)}\in D(Ch)$ and $D(g)D(f)=\id_{D(A)}\in D(Ch)$, i.e.\ the maps $D(f)$ and $D(g)$ are two-sided inverses in the derived category.
-        \item If $f, g\colon A\to B$ in $Ch$ are chain homotopic, then $D(f) = D(g)$.  
-    \end{enumerate}
-\end{proposition}
-\begin{proof}
-    (1) is trivial. We show (2). Define a complex $C$, which as a graded vector space is $A\oplus A[1]\oplus A$, with differential $(a, a', a'')\mapsto (da+a', da', da''+a')$. Let $\iota_{0}, \iota_1\colon A\to C$ be the inclusions into the first resp.\ third direct summand. Then $\iota_0$ and $\iota_1$ are both quasi-isomorphisms with the same one-sided inverse, namely the chain map $C\to A$ given by $(a, a', a'')\mapsto a-a''$. Hence $D(\iota_1) = D(\iota_2)$ by (1). Let $P$ be a homotopy between $f$ and $g$, then there is a chain map $\gamma_P\colon C\to B$ given by $f + P+ g$. Now $\gamma_P\iota_1 = f$ and $\gamma_P\iota_2=g$ and we conclude $D(f) = D(g)$.
-\end{proof}
-
-\begin{remark}
-    We often omit the explicit mention of the functor $D$. If we say that a map or a diagram in $Ch$ has a certain property in $D(Ch)$, we mean that its image under the functor $D$ has said property. Any zigzag of maps with quasi-isomorphisms in the reverse direction induces a map in $D(Ch)$, hence we may arrive at diagrams of which one cannot ask to commute at the chain level, but which can commute in $D(Ch)$.
-\end{remark}
-
-\begin{remark}
-    By \cref{thm:derived-universal-prop}, the cohomology functor $H^*$ factors through $D(Ch)$. Thus if two chain maps are equal in $D(Ch)$, they are also equal on cohomology and if two chain complexes are isomorphic in $D(Ch)$ then they have isomorphic cohomology. The converse is not necessarily true.
-\end{remark}
-
-\begin{example}
-    Let $R=k$ be a field and $C$ a chain complex, then the tensor product functor $\blank\otimes C\colon Ch\to Ch$ preserves quasi-isomorphisms, since $C$ is degreewise free, (cf.\ the proof of \cref{thm:bar-quiso}). This means that $D(\blank\otimes C)\colon Ch\to D(Ch)$ maps quasi-isomorphisms to isomorphisms, so by \cref{thm:derived-universal-prop} it factors as $Ch \xto{D} D(Ch)\xto{\blank\otimes C} D(Ch)$ through a functor which we also denote by $\blank\otimes C$. Given morphisms $f, g\colon A\to B$ in $Ch$, which are equal in $D(Ch)$, we find $f\otimes \id_C, g\otimes\id_C\colon A\otimes C\to B\otimes C$ are equal in $D(Ch)$.
-
-    TODO: Talk about derived functors
-\end{example}
 
 \section{Diffeological Spaces and Cohomology}\label{sec:diffeological}
 
@@ -1526,7 +1547,7 @@ We obtain similar results using the singular chain complex. Denote by $A_s = C^*
 The quasi-isomorphisms $C^*(\Map(E\times I, M)) \to C^*(\Map(M))^{\otimes E}$ are a generalization of the quasi-isomorphism $C^*(PM)\to C^*(M)$. 
 
 We can construct a complex $A_s^{\otimes G} = B_s^{\otimes E} \otimes_{A_s^{\otimes 2E}} A_s^{\otimes V}$ as above and with a similar argument as in \cref{thm:graph-mapping-space} we conclude the following:
-\begin{theorem}
+\begin{theorem}\label{thm:graph-mapping-space-singular}
     There is a zigzag of quasi-isomorphisms which are maps of two-sided $A_s$-modules.
     $$A_s^{\otimes G} \xfrom{\quiso} \dots \xto{\quiso} C^*(\Map(G, M))$$
     which is natural with respect to maps in $G$. In detail, this is
@@ -2012,7 +2033,7 @@ The following statement is implicit in \cite{naef2019string}, but not explicitly
     % The lower and center left maps are the tensor product of two isomorphisms. The commutativity of the diagram is due to the naturality of the cap product. Now we chase $[M\times M]\otimes u_\Delta^c\in H_{2n}(M\times M) \otimes H^n(M\times M, \cConf_M(2))$ through the diagram, starting in the upper left and ending in the center right $H_n(M\times M)$. The path through the top right maps it to $[M\times M]\capp r(u_\Delta^c)$. 
     % \begin{lemma}\label{lem:intersection-product-via-cfg-spc-aid-2}
     %     The fundamental class $[M\times M]$ is mapped via $H_{2n}(M\times M)\to H_{2n}(M\times M, \cConf_M(2))\to H_{2n}(M, UTM) \iso H_{2n}(DTM, UTM)$ to the fundamental class $[DTM, UTM]$. 
-    % \end{lemma}TODO: Actually give a proof of this.
+    % \end{lemma}
     
     % Assuming \cref{lem:intersection-product-via-cfg-spc-aid-2}, we see that $[M\times M]\otimes u_\Delta^c$ is mapped to $[DTM, UTM] \otimes u\in H_{2n}(DTM, UTM\otimes H^n(DTM, UTM))$. By theorem \ref{thm:thom_class_dual}, $[DTM, UTM] \capp u = [M]$ and we have shown $\Delta_*[M] = [M\times M]\capp r(u^c_\Delta)$. This shows \cref{lem:intersection-product-via-cfg-spc-aid} and hence \cref{thm:intersection-product-via-cfg-spc}. 
 
@@ -2048,7 +2069,7 @@ extends at $t=0$ continuously via the identity $UTM\to UTM\subset \cConf_M(2)$ a
 \subsection{Loop Product (Cohomology Coproduct) using Configuration Spaces}\label{subsec:loop-product}
 Recall from \cref{constr:loop-product-classical} that the loop product $H^*(LM)\otimes H^*(LM)\from H^{*-n}(LM)$ is a composition of three maps, one of which is the intersection map $i^! \colon H^*(LM\times_M LM)\to H^{*+n}(LM\times LM)$. Naef and Willacher propose in \cite{naef2019string} an alternative construction of this intersection map, which we outline here.
 
-The free loop space $LM$ is the pullback of the path space fibration $PM \to M\times M$ and the diagonal map $M\to M\times M$. As the first map is a fibration, this is in fact a homotopy pullback. %TODO Reference
+The free loop space $LM$ is the pullback of the path space fibration $PM \to M\times M$ and the diagonal map $M\to M\times M$. As the first map is a fibration, this is in fact a homotopy pullback, cf.~\cref{thm:homotopy-pushout-properties}. 
 
 More generally, consider a fibration $E\to M\times M$. We can pull back the diagram 
 \begin{equation}\label{M_pushout}
@@ -2152,7 +2173,7 @@ here the last map is induced by the concatenation map $c\colon LM\times LM|_M \t
     If $M$ is simply connected, then the following diagram commutes in $D(Ch)$ and the vertical maps are quasi-isomorphisms:
     \begin{center}
     \begin{tikzcd}
-        C^*(LM\times LM) & \ar[l, swap, "i^!_{LM\times_M LM}"] C^{*}(LM\times_M LM)[-n]  \\
+        C^*(LM\times LM) & \ar[l, swap, "i^!_{LM}"] C^{*}(LM\times_M LM)[-n]  \\
         \uar[swap, "\quiso"] C^*(LM\times LM) \otimes^L_{C^*(M\times M)} C^*(M\times M) & \uar[swap, "\quiso"]\lar[swap, "\id\otimes i^!"] C^*(LM\times LM) \otimes^L_{C^*(M\times M)} C^*(M)[-n]
     \end{tikzcd}
     \end{center}
@@ -2166,7 +2187,7 @@ With a similar argument one can show \cref{lem:loop-intersection-map-product} fo
 \begin{corollary}\label{thm:loop-products-identity}
     Let $M$ be a closed oriented, simply connected manifold. Let $A = C^*(M)$.
 
-    The two constructions of the derived intersection map $i^!_{LM\times_M LM}\colon C^*(LM\times LM) \from C^{*}(LM\times_M LM)[-n]$ from \cref{subsec:loop-product-classical} and \cref{constr:loop-intersection-via-configuration} are equal as maps in $D(Ch(\R))$. In particular they are the same on cohomology.
+    The two constructions of the derived intersection map $i^!_{LM}\colon C^*(LM\times LM) \from C^{*}(LM\times_M LM)[-n]$ from \cref{subsec:loop-product-classical} and \cref{constr:loop-intersection-via-configuration} are equal as maps in $D(Ch(\R))$. In particular they are the same on cohomology.
 \end{corollary}
 
 
@@ -2226,7 +2247,7 @@ We combine \cref{lem:loop-intersection-map-product} and the models from \cref{se
     The following diagram in $D(Ch)$ commutes:
     \begin{center}
     \begin{tikzcd}
-        C^*(LM)\otimes C^*(LM) & \lar[swap, "i^!_{LM\times_M LM}"] C^*(LM\times_M LM)[-n] & \lar[swap, "c"] C^*(LM)[-n] \\
+        C^*(LM)\otimes C^*(LM) & \lar[swap, "i^!_{LM}"] C^*(LM\times_M LM)[-n] & \lar[swap, "c"] C^*(LM)[-n] \\
         B\otimes_{A^{\otimes 2}} A\otimes B\otimes_{A^{\otimes 2}} A \uar[swap, "\quiso"] & \lar[swap, "\id\otimes\Delta^!"] B^{\otimes 2}\otimes_{A^{\otimes 4}} A\uar[swap, "\quiso"] & B\otimes_{A^{\otimes 2}} A \lar[swap, "\bar c"]\uar[swap, "\quiso"]
     \end{tikzcd}
     \end{center}
@@ -2630,7 +2651,7 @@ $\coGra_D$ is a cooperad and $\coGra_M$ is a comodule of $\coGra_D$.
 
 There is a similar construction for the $M=\R^D$ case for $\coGraphs_D(n)$, the difference is that all internal vertices of graphs are required to be at least trivalent (and no decorations are required). This has a cooperad structure which is induced by the dual of contracting a subgraph: for the coaction on a graph $\Gamma$ one sums over tuples $\Gamma', \Gamma_1, \dots, \Gamma_k)$ such that when each graph $\Gamma_i$ is inserted at the vertex $i$ of $\Gamma'$, one can reconnect the loose edges such that one obtains $\Gamma$.  
 
-TODO: Image
+%TODO: Image
 
 \begin{theorem}
 There is a quasi-isomorphism between $\coGraphs_D$ and $\Omega_{PA}(\cConf_D)$ (which is equivalent to $\APL(\cConf_D)$), which is compatible with the cooperad structures (in an appropriate sense).
@@ -3323,7 +3344,6 @@ This is \cite[3.2]{hinich1997homological}. Due to this, one can construct a deri
 \end{proof}
 
 
-% TODO: Generalize this to hold for cofibrant $P$. 
 % \begin{theorem}\label{thm:bar-resolution-sullivan}
 %     If $A\to P = A\otimes \Lambda V$ is a relative Sullivan algebra, then the map $\BC(M, A, P) \to M\otimes_A P$ is a quasi-isomorphism.
 % \end{theorem}
@@ -3380,7 +3400,7 @@ This is \cite[3.2]{hinich1997homological}. Due to this, one can construct a deri
 %             D^n \ar[r, phantom, ":"] & \big[\; \cdots & \ar[l] 0  & \ar[l] 0 & \ar[l] \underset{ \mathclap{ \raisebox{-3pt}{ \scalebox{.7}{ $\mathrm{deg} = n$ } } } }{ K } &  \ar[l, "{ \mathrm{id} }"]K & 0 \ar[l] & \cdots \ar[l] \;\big] 
 %         \end{tikzcd}
 %     \end{center}
-%     The generating cofibrations of the projective model category of dg $A$-modules are the images of this under the functor $A\otimes \blank$ by \cref{thm:proj}. TODO: Reference here. 
+%     The generating cofibrations of the projective model category of dg $A$-modules are the images of this under the functor $A\otimes \blank$ by \cref{thm:proj}.  Reference here. 
 %     There are isomorphisms of chain complexes $M\otimes_A A\otimes S^{n-1} = M\otimes S^{n-1}$, $M\otimes_A A\otimes D^n = M\otimes D^n$ and also $\BC(M, A, A\otimes S^{n-1}) = \BC(M, A, A)\otimes S^{n-1}$ and $\BC(M, A, A\otimes D^n) = \BC(M, A, A)\otimes D^n$. Under these isomorphisms, the left vertical map in Diagram \ref{diag:bar-relative-tensor-comparison} is the map $\BC(M, A, A)\otimes S^{n-1}\to M\otimes S^{n-1}$. The map $\BC(M, A, A)\to M$ is a quasi-isomorphism, hence the vertical mapping cone is acyclic. Similarly the right mapping cone is acyclic and hence the double mapping cone $T(p)$ is acyclic. 
 %     \item We show that $J$ is closed with respect to retracts. Recall that $p\colon P'\to P$ is a retract of $s\colon S'\to S$ if there is a commutative diagram as follows: 
 %     \[\begin{tikzcd}
@@ -4034,7 +4054,7 @@ This is a theorem from \cite{mather1976pull}.
 %     \end{tikzcd}
 %     \end{center}
 %     \end{theorem}
-% For a proof of the properness and the cofibrant generation, see theorems 23, 24 \cite{strickland2020model}. TODO: Monoidal model category - check if this is needed.
+% For a proof of the properness and the cofibrant generation, see theorems 23, 24 \cite{strickland2020model}. 
 
 % \begin{theorem}
 %     For $R$ a commutative ring, the category of unbounded chain complexes $Ch_* = Ch_*(R-Mod)$ of $R$-modules admits the structure of a proper, cofibrantly generated, combinatorial model category with 
@@ -4046,7 +4066,7 @@ This is a theorem from \cite{mather1976pull}.
 %     where the generating cofibrations and acyclic cofibrations are $i_n$, $j_n$ defined as above, for $n\in\Z$.
 % \end{theorem}
 
-% See \cite[Subsection 2.3]{hovey2007model} for a proof that this is a cofibrantly generated model category. TODO: Reference for properness.
+% See \cite[Subsection 2.3]{hovey2007model} for a proof that this is a cofibrantly generated model category. 
 % If $R=K$ is a field, any complex of $K$-vector spaces is a possibly infinite direct sum of complexes of the form $0\to K\xto{\sim} K\to 0$ and $0\to K \to 0$. For these complexes one can verify directly the left lifting property with respect to fibrations, hence they are cofibrant. Thus any complex is cofibrant and hence any monomorphism is a cofibration. 
 % % \begin{proof}
 % %     Properness means that the pushout of any weak equivalence along any cofibration is still a weak equivalence and that the pullback of any weak equivalence along any fibration is again a weak equivalence. We show the first part only, consider a pushout square
