@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+\usepackage{geometry}
 
 \usepackage{imakeidx} % index
 \usepackage{enumerate}
@@ -10,6 +11,13 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{tabu}
+
+% Pakete für Titelseiten-Vorlage
+%\usepackage{fixltx2e} % Schickere Ausgabe
+\usepackage{lmodern} % ordentliche Schriften
+\usepackage{tabularx} % für Elemente der Titelseite
+\usepackage[draft=false,babel,kerning=true,spacing=true]{microtype} % optischer Randausgleich etc.
+% \usepackage{setspace}
 
 
 % Math 
@@ -225,11 +233,85 @@
 
 
 
+\input{vorlage_informatik}
+\titel{Algebraic Models for Loop Spaces and Configuration Spaces}
+\typ{Masterarbeit}
+\gradd{Master of Science (M. Sc.)}
+\autor{Matthias Görg}
+\gebdatum{26.02.1995}
+\gebort{Berlin}
+\gutachter{Dr. Thibaut Mazuir}{Prof. Dr. Klaus Mohnke}
+\einreichungsDatum{6.3.2024}
+
+
+
+
 \begin{document}
+
+
+\pagestyle{plain}
+\pagenumbering{gobble}
+\makeTitel
+
+\newpage
+
+
+
+\newgeometry{left=5cm,right=5cm}
+
+\section*{Abstract}
+String topology studies algebraic structures on the homology of the free loop space and related spaces. This thesis aims to understand some of the operations of the string topology of a manifold $M$ through algebraic techniques. We aim to give an algebraic proof that the cohomology of the free loop space has the structure of a co-Batalin-Vilkovisky (co-BV) algebra. Starting with a DGA model $A$ of $M$, we construct chain complexes which model mapping spaces from graphs into $M$ such as the path space, the free loop space and the figure eight space of $M$. As a special case, we obtain the well known result that the loop space homology $H^*(LM)$ is isomorphic to the Hochschild homology $HH^*(A)$. The main tool is a theorem known as the pullback-pushout lemma, originally due to Eilenberg and Moore, which shows how one can compute the cohomology of a pullback of spaces. By also modeling maps between mapping spaces on our chain models, we can show that the isomorphism $HH_*(A)\iso H^*(LM)$ preserves the co-BV operations, which shows that the co-BV relations hold on $H^*(LM)$.
+
+\restoregeometry
+
+\newpage
+
+
+
+\pagenumbering{roman}
+
+%\pagestyle{useheadings}
 \tableofcontents
 
+\newpage~
+\cleardoublepage
+
+
+\pagenumbering{arabic}
+
+\newpage
+
+
 \section{Introduction}
-TODO
+
+\subsection{Background and Motivation}
+
+By a result due to Quillen \cite{quillen1969rational}, the study of the homotopy of simply connected topological spaces is equivalent to the study of the homotopy properties of simply connected differential graded commutative algebras. Given a specific simply connected manifold $M$, one may construct other spaces from $M$, such as the free loop space $LM = C^0(S^1, M)$ and the configuration spaces $\Conf_M(n)$ of $n$ ordered distinct points in $M$. Given a differential graded algebra $A$ which computes the cohomology of a simply connected manifold $M$, such as the de Rham algebra $\Omega^*(M)$ or the algebra of polynomial forms $\APL^*(M)$, one may ask if it is possible to construct differential graded algebras which compute the cohomology of spaces such as $LM$ and $\Conf_M(n)$. In addition, one may ask to translate maps between spaces to these algebras. Early examples of this are Adams' work on the based loop space $\Omega M$ and the cobar construction \cite{adams1956cobar} and Chen's work \cite{chen1977iterated} on the bar construction and the free loop space $LM$. In the 1980s, Jones showed that there is an isomorphism between the cohomology of the loop space and the Hochschild cohomology of $C^*(M)$. 
+
+We will apply such algebraic models in the context of String Topology. String Topology was initiated by Moira Chas and Dennis Sullivan in \cite{chas1999string} and it is concerned with the study of algebraic operations on the homology of the free loop space $LM=C^0(S^1, M)$ of a closed oriented manifold $M$. They introduced a product operation $$\cdot\colon H_*(LM)\otimes H_*(LM)\to H_{*-\dim M}(LM)$$ and a rotation operator $\Delta\colon H_*(LM)\to H_{*+1}(LM)$. Since then, further operations have been introduced on $H_*(LM)$, such as the loop coproduct \cite{Goresky_2009} and higher string operations \cite{godin2007higher}.
+
+The Chas Sullivan product is constructed from the maps $$LM\times LM \xfrom{i} LM\times_M LM \xto{c} LM$$
+where $LM\times_M LM\subset LM\times LM$ is the space of pairs of loops with the same base point, $i$ is the inclusion map and $c$ is the composition of loops. One can construct a pullback map $$i_!\colon H_*(LM\times LM)\to H_{*-n}(LM\times_M LM)$$
+\cite{chas1999string} suggest the following intuition: if a homology class $a$ in $LM\times LM$ is represented by a manifold $A$ which is transverse to the submanifold $LM\times_M LM\subset LM\times LM$, then $i_!(a) = [A\isect LM\times_M LM]$. The Chas-Sullivan product is then the map $$c_*\comp i_!\colon H_*(LM)\otimes H_*(LM)\iso H_*(LM\times LM)\to H_{*-\dim M}(LM)$$
+Chas and Sullivan exhibit another operator on $H_*(LM)$. Denote by $\rho\colon S^1\times LM\to LM$ the $S^1$-action on $LM$, given by $(t,\gamma)\mapsto \gamma(\blank+t)$. Let $[S^1]\in H_1(S^1)$ be the fundamental class of $S^1$. The so called BV operator on $H_*(LM)$ is the composition 
+$$\Delta\colon H_*(LM)\xto{[S^1]\times \blank} H_{*+1}(S^{1}\to LM)\xto{\rho_*} H_{*+1}(LM)$$
+Together with the loop product this forms a BV algebra on $H_*(LM)$. 
+
+The construction of $i^!$ is involved and there are several approaches, for example using the Thom isomorphism \cite{cohen2006string}, \cite{hingston2017product} or via transversality \cite{chataur2005bordism}.
+
+\subsection{Results and Outline}
+
+Let $G$ be a finite graph and $M$ a simply connected closed manifold. Then there is a space associated to $G$ which we also denote by $G$ and we can consider the mapping space $\Map(G, M)$. Let $A$ be a differential graded algebra which models $M$, such as $C^*(M)$ or $\Omega^*(M)$. In \cref{sec:cochain-models} we construct a chain complex $A^{\otimes G}$ whose cohomology is isomorphic to the cohomology of $\Map(G, M)$. We also describe maps between such mapping spaces. This construction will be functorial in $G$ and it will allow us to model certain maps between mapping spaces algebraically. This construction generalizes the isomorphism between the Hochschild cohomology and the loop space cohomology $$HH_*(A, A)\iso H^*(LM)$$ and the bar construction $\BC(A, A, A)$, which is quasi-isomorphic to $C^*(PM)$. 
+% The main building block is the two sided bar construction $\BC(M, A, N)$ of modules $M$ and $N$ over $A$, due to two reasons: For one, the bar construction $\BC(A, A, A)$ yields a particularly nice model of the path space $PM =\Map(I, M)$. On the other hand, the two sided bar construction allows us to compute the cohomology of certain pullbacks of topological spaces. 
+% Using the two sided bar construction $B(M, A, N)$ and the left derived tensor product $M\oplus_A^L N$ of modules over a differential graded algebra $A$, one  
+
+
+In \cref{sec:string-ops-via-cfg-spaces} we introduce a construction of the umkehr map $i_!\colon H_*(LM\times LM)\to H_{*-n}(LM\times_M LM)$ due to \cite{naef2019string}. This construction relies on the compactification of configuration spaces. We justify that this construction yields the same umkehr map as the classical construction using tubular neighborhoods and the Thom isomorphism. 
+
+It is well known that there is the structure of a co-BV algebra on the Hochschild homology $HH_*(A, A)$ if $A$ is a Frobenius algebra. In \cref{subsubsec:frobenius-algebra-models} we recall that, by \cite{lambrechts2008poincare}, for a simply connected oriented closed manifold $M$, there is a Frobenius algebra $A$ which is quasi-isomorphic to $\Omega^*(M)$. We then show that the isomorphism $HH_*(A, A)\iso H^*(LM)$ preserves the co-BV operations. In particular we prove that the loop product and the BV operator form a co-BV algebra on $H^*(LM)$, which is the cohomological analog of the BV algebra structure on $H_*(LM)$. 
+
+Naef and Willacher frame their results using the de Rham complex in \cite{naef2019string}, even on infinite dimensional spaces such as the path space $PM$ and loop space $LM$. In \cref{sec:diffeological} we explain the framework of diffeological spaces, which allows us to define de Rham forms on more general spaces than manifolds. In the main part of the thesis, we develop both the results of \cite{naef2019string} on de Rham forms, as well as an analogue on the singular cochain complex. With de Rham forms we can often construct maps on the chain level which we cannot construct on the singular complex. On the singular complex we fill these gaps by working on cohomology or in the setting of derived categories instead. 
+%TODO: BV Operator einführen. 
 
 \begin{remark}
     We use the de Rham complex because in addition to being a contravariant functor that computes the cohomology of the spaces we are interested in, it has the following properties: 
@@ -1671,7 +1753,7 @@ For spaces $X, Y$ and forms $\omega_1\in\Omega^*(X), \omega_2\in\Omega^*(Y)$, we
 
 
 
-\section{String Topology Operations via Configuration Spaces}
+\section{String Topology Operations via Configuration Spaces}\label{sec:string-ops-via-cfg-spaces}
 
 In this section we introduce the construction of the loop product and coproduct from \cite{naef2019string}. The difference lies in the construction of the intersection operation. Classically, the intersection maps in these operations are constructed via tubular neighborhoods and the Thom isomorphism. One can instead construct the intersection map using the compactified configuration space of two points $\cConf_M(2)$. The main observation that allows this is that the homotopy cofiber of the map $\cConf_M(2)\to M\times M$ is a version of the Thom space of $M$, hence one may factor the Thom isomorphism through it. We begin by recalling the compactification of configuration spaces over a manifold $M$ in \cref{subsec:compactificatified-configuration-space}. In \cref{subsec:intersection-in-M-via-conf} we construct the intersection product on a closed manifold $M$ using configuration spaces. We then give an analogous construction of the loop product in \cref{subsec:loop-product}. We will show in \ref{subsec:loop-product-model} that on homology this construction is equal to the classical construction \ref{subsec:loop-product-classical}. 
 
@@ -2226,12 +2308,12 @@ Since $\Delta(a) = a\Delta(1)$, the coproduct is completely determined by the "d
     \end{align*}
 \end{proposition}
 
-\subsection{Frobenius algebra models}
+\subsubsection{Frobenius algebra models}\label{subsubsec:frobenius-algebra-models}
 
 We begin by stating the main result of this subsection. 
 \begin{theorem}\label{thm:frobenius-model}
     \begin{enumerate}
-    \item If $M$ is a closed oriented simply connected manifold, there exists a finite dimensional Frobenius algebra $A$ which is quasi-isomorphic to $\APL^*(M)$ through a zigzag $A\from \dots\to \APL^*(M)$ of algebra maps, such that this chain of isomorphisms in the derived category takes the coproduct on $A$ to the intersection coproduct $\Delta^!$ on $\APL^*(M)$. 
+    \item If $M$ is a closed oriented simply connected manifold, there exists a finite dimensional Frobenius algebra $A$ which is quasi-isomorphic to $C^*(M)$ through a zigzag $A\from \dots\to \Omega^*(M)\from\dots\to C^*(M)$, such that this chain of quasi-isomorphisms takes the coproduct on $A$ to the intersection coproduct $\Delta^!$ on $C^*(M)$, seen as maps in $D(Ch(k))$. 
     
     \item Moreover the graded dual $A^\vee$ is quasi-isomorphic to $C_*(M)$, and the coproduct on $A^\vee$ is identified with the Alexander-Whitney diagonal $C_*(M)\to C_*(M)\otimes C_*(M)$ and the product on $A^\vee$ is identified with the intersection product on $C_*(M)$ in $D(Ch)$.
     \end{enumerate}
@@ -2252,10 +2334,12 @@ We will call such an $A$ a \emph{Frobenius algebra model} of $M$ in this work, b
 \begin{proof}[Proof of \cref{thm:frobenius-model}]
     \begin{enumerate}
         \item 
-    $\Omega^*(M)$ is a cdga with orientation $\Omega^n(M)\to \R$ given by the integral $\int_M\omega$. By \cref{thm:lambrechts-stanley-model}, $\Omega^*(M)$ is quasi-isomorphic to a finite dimensional simply connected Poincaré duality algebra $A$ through a zigzag $A\from S\to \Omega^*(M)$. In particular $A$ is a Frobenius algebra. We need to show that the coproduct coincides with the coproduct on $\Omega^*(M)$. 
+    $\Omega^*(M)$ is a CDGA with orientation $\Omega^n(M)\to \R$ given by the integral $\int_M\omega$. By \cref{thm:lambrechts-stanley-model}, $\Omega^*(M)$ is quasi-isomorphic to a finite dimensional simply connected Poincaré duality algebra $A$ through a zigzag $A\from S\to \Omega^*(M)$. In particular $A$ is a Frobenius algebra. We need to show that the coproduct coincides with the coproduct on $\Omega^*(M)$. 
 
 
-    Consider the zigzag $$A\xfrom{\quiso} S \xto{\quiso} \Omega^*(M)\xto{I_{DR}} C^*_\infty(M) \from C^*(M).\label{eqn:pf-frobenius-model-1}$$ We show that all the maps in zigzag \ref{eqn:pf-frobenius-model-1} preserve the product and pairing up to homotopy. The first two maps preserve the product and orientation map by the remarks after \cref{thm:lambrechts-stanley-model}. The de Rham map $I_{DR}$ preserves the product up to homotopy (in fact it is a map of $A_\infty$ algebras, cf.\ \cite{gugenheim1977chen}) and the map $C^*_\infty(M) \from C^*(M)$ preserves the cup product on the chain level. The orientation map on $C^*(M)$ is given by pairing with a representative of the fundamental class, different representatives yield homotopic orientations. $I_{dR}$ preserves the orientation map on the chain level and $C^*_\infty(M) \from C^*(M)$ preserves it on the chain level if one chooses the same (smooth) representative of the fundamental class in both instances. 
+    Consider the zigzag 
+    \begin{equation}A\xfrom{\quiso} S \xto{\quiso} \Omega^*(M)\xto{I_{DR}} C^*_\infty(M) \from C^*(M).\label{eqn:pf-frobenius-model-1}\end{equation} 
+    We show that all the maps in zigzag \ref{eqn:pf-frobenius-model-1} preserve the product and pairing up to homotopy. The first two maps preserve the product and orientation map by the remarks after \cref{thm:lambrechts-stanley-model}. The de Rham map $I_{DR}$ preserves the product up to homotopy (in fact it is a map of $A_\infty$ algebras, cf.\ \cite{gugenheim1977chen}) and the map $C^*_\infty(M) \from C^*(M)$ preserves the cup product on the chain level. The orientation map on $C^*(M)$ is given by pairing with a representative of the fundamental class, different representatives yield homotopic orientations. $I_{dR}$ preserves the orientation map on the chain level and $C^*_\infty(M) \from C^*(M)$ preserves it on the chain level if one chooses the same (smooth) representative of the fundamental class in both instances. 
 
     The coproduct of $A$ by definition fits into the following diagram:
     \begin{equation}\label{diag:pf-frobenius-model-1}
@@ -2275,7 +2359,16 @@ We will call such an $A$ a \emph{Frobenius algebra model} of $M$ in this work, b
 
     We will show that in $D(Ch)$, one can connect the diagrams \ref{diag:pf-frobenius-model-1} and \ref{diag:pf-frobenius-model-2} using the zigzag \ref{eqn:pf-frobenius-model-1} and its graded dual.
 
-    Using the map $A\from S$ and the graded dual $A^\vee\from S^\vee$, we obtain a cube-shaped diagram in $D(Ch)$ with commutative faces with left face given by Diagram \ref{diag:pf-frobenius-model-1} and right face given by
+    Using the map $A\from S$ and the graded dual $A^\vee\to S^\vee$, we obtain a cube-shaped diagram which commutes in $D(Ch)$
+    \[
+        \begin{tikzcd}
+            & A\otimes A[n] \ar[dd, "\quiso" {yshift=18pt}]  &&  \ar[ll, swap, "\quiso"]  S\otimes S[n]\ar[dd, "\quiso"] \\
+            A \ar[dd, "\quiso"] \ar[ur, "\Delta"]  && \ar[ll, crossing over, swap, "\quiso" {xshift=18pt}] S \ar[ur] \ar[dd, crossing over, "\quiso" {yshift=12pt}] & \\
+            & A^\vee\otimes A^\vee[-n] \ar[rr, "\quiso" {xshift=18pt}] &&  S^\vee\otimes S^\vee \ar[ld] \\
+            A^\vee[-n] \ar[ur] \ar[rr, "\quiso" ] &&  S^\vee[-n] 
+        \end{tikzcd}
+    \]
+    This connects Diagram \ref{diag:pf-frobenius-model-1} to the Diagram 
     \begin{equation}
         \begin{tikzcd}
             S \dar\rar & S\otimes S[n] \dar \\
@@ -2289,11 +2382,15 @@ We will call such an $A$ a \emph{Frobenius algebra model} of $M$ in this work, b
         C^*(M)^\vee[-n] \rar & C^{*}(M)^\vee\otimes C^{*}(M)^\vee[-n] &
         \end{tikzcd}
     \end{equation}
-    Thus the zigzag \ref{eqn:pf-frobenius-model-1} intertwines the coproduct on $A$ with the top map in this diagram in $D(Ch)$. It remains to show that this map is the intersection map $\Delta^!$. We can relate this to the defining Diagram \ref{diag:pf-frobenius-model-2} of $\Delta^!$ through the double dual inclusion $C_*(M)\to C_*(M)^{\vee\vee} = C^*(M)^{\vee}$. Since $C_*(M)$ has finite dimensional cohomology, the double dual inclusion is a quasi-isomorphism, hence an isomorphism in $D(Ch)$ \footnote{In field coefficients we can show this as follows: any complex with finite dimensional cohomology is isomorphic to a direct sum of a finite dimensional complex with zero differential and an acyclic complex. In both of these cases the double dual inclusion is clearly a quasi-isomorphism, hence also for the direct sum. }. Thus we can exhibit one last cube which connects Diagram \ref{diag:pf-frobenius-model-3} to Diagram \ref{diag:pf-frobenius-model-2} to the claim on the coproducts.
+    Thus the zigzag \ref{eqn:pf-frobenius-model-1} intertwines the coproduct on $A$ with the top map in this diagram in $D(Ch)$. It remains to show that this map is the intersection map $\Delta^!$. We can relate this to the defining Diagram \ref{diag:pf-frobenius-model-2} of $\Delta^!$ through the double dual inclusion $C_*(M)\to C_*(M)^{\vee\vee} = C^*(M)^{\vee}$. Since $C_*(M)$ has finite dimensional cohomology, the double dual inclusion is a quasi-isomorphism, hence an isomorphism in $D(Ch)$ \footnote{In field coefficients we can show this as follows: any complex with finite dimensional cohomology is isomorphic to a direct sum of a finite dimensional complex with zero differential and an acyclic complex. In both of these cases the double dual inclusion is clearly a quasi-isomorphism, hence also for the direct sum. }. Thus we can exhibit one last cube which connects Diagram \ref{diag:pf-frobenius-model-3} to Diagram \ref{diag:pf-frobenius-model-2}. This shows the claim on the coproducts. 
 
     \item We have already shown that $A^{\vee} \quiso C_*(M)$ and that this sequence of quasi-isomorphisms identifies the coproduct on $A^{\vee}$ with the diagonal on $C_*(M)$. The claim about the intersection product is proven with the same method as the claim on the intersection coproduct in (1). 
     \end{enumerate}
 \end{proof}
+
+% \begin{remark}
+%     We could also formulate the theorem with Sullivan's polynomial forms $\APL$ in place of $\Omega^*$ and thus extend the theorem to more general coefficients.
+% \end{remark}
 % \begin{proposition}\label{prop:lambrechts-stanley-model-coproduct}
 %     In the zigzag $A'\xfrom{\quiso} S \xto{\quiso} A$ in theorem \ref{thm:lambrechts-stanley-model}, the diagonal element $\Delta_{A'}\in A'\otimes A'$ has a preimage $\Delta_S\in S\otimes S$. 
 % \end{proposition}
@@ -2402,7 +2499,6 @@ Thus we have the following sequence
 \begin{align*}
     \hat C(A) \to Cyc(A) \to \hat C(A) \xto{\id-t} C(A)
 \end{align*}
-
 
 \section{Configuration Spaces}
 
