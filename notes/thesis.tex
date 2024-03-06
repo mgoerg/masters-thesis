@@ -253,6 +253,7 @@
 \pagenumbering{gobble}
 \makeTitel
 
+\newpage~
 \newpage
 
 
@@ -265,7 +266,6 @@ String topology is the study algebraic structures on the homology of the free lo
 \restoregeometry
 
 \newpage
-
 
 
 \pagenumbering{roman}
@@ -303,16 +303,16 @@ Following \cite[Sec. 1]{naef2022string}, String Topology is at the intersection 
 The Chas-Sullivan product is constructed as follows. Consider the following maps: $$LM\times LM \xfrom{i} LM\times_M LM \xto{c} LM$$
 where $LM\times_M LM\subset LM\times LM$ is the space of pairs of loops with the same base point, $i$ is the inclusion map and $c$ is the composition of loops. One can construct a pullback map $$i_!^{LM}\colon H_*(LM\times LM)\to H_{*-n}(LM\times_M LM)$$
 The construction of $i_!^{LM}$ is involved and there are several approaches, for example using the Thom isomorphism \cite{cohen2006string}, \cite{hingston2017product} or via transversality \cite{chataur2005bordism}. \cite{chas1999string} interpret this map as follows: if a homology class $a$ in $LM\times LM$ is represented by a manifold $A$ which is transverse to the submanifold $LM\times_M LM\subset LM\times LM$, then $$i_!^{LM}(a) = [A\isect LM\times_M LM].$$ The Chas-Sullivan product is then defined as the composition $$c_*\comp i_!^{LM}\colon H_*(LM)\otimes H_*(LM)\iso H_*(LM\times LM)\to H_{*-\dim M}(LM)$$
-Chas and Sullivan exhibit another operator on $H_*(LM)$. Denote by $\rho\colon S^1\times LM\to LM$ the $S^1$-action on $LM$, given by $(t,\gamma)\mapsto \gamma(\blank+t)$. Let $[S^1]\in H_1(S^1)$ be the fundamental class of $S^1$. The so called BV operator on $H_*(LM)$ is the composition 
-$$\Delta\colon H_*(LM)\xto{[S^1]\times \blank} H_{*+1}(S^{1}\to LM)\xto{\rho_*} H_{*+1}(LM)$$
-Together with the loop product this forms a Batalin-Vilkovisky (BV) algebra on $H_*(LM)$. 
+Chas and Sullivan exhibit another operator on $H_*(LM)$. Denote by $\rho\colon S^1\times LM\to LM$ the $S^1$-action on $LM$, given by $(t,\gamma)\mapsto \gamma(\blank+t)$. Let $[S^1]\in H_1(S^1)$ be the fundamental class of $S^1$. The BV operator on $H_*(LM)$ is the composition 
+$$\Delta\colon H_*(LM)\xto{[S^1]\times \blank} H_{*+1}(S^{1}\times LM)\xto{\rho_*} H_{*+1}(LM)$$
+Together with the loop product this forms a Batalin-Vilkovisky (BV) algebra (see \cref{def:bv-alg}) on $H_*(LM)$. 
 
 
 \subsection{Results and Outline}
 The main goal of this thesis is to give a clean presentation of the construction of the loop product and BV operator in \cite{naef2019string} and to show that these operations yield a co-BV algebra on cohomology.
 
 We work in cohomology throughout the thesis, this means that the loop product $$H_*(LM)\otimes H_*(LM)\to H_{*-\dim M}(LM)$$ on homology turns into a coproduct $$H^*(LM)\otimes H^*(LM)\from H^{*-\dim M}(LM)$$ on cohomology. Following \cite{naef2019string} we occasionally write maps on cohomology from right to left. The homological BV algebra structure is turned into the structure of a co-BV algebra on cohomology.
-\begin{definition}
+\begin{definition}\label{def:bv-alg}
     Let $V$ be a graded vector space.
     \begin{enumerate}
         \item A \emph{Batalin-Vilkovisky (BV) algebra}\index{BV algebra} on $V$ is given by a degree $0$ product $V\otimes V\to V$ and a degree $-1$ operator $\Delta\colon V\to V$, such that 
@@ -751,14 +751,14 @@ This is theorem 2.2.14 in \cite{gurer2014topologie}, to prove this one shows tha
 
 In this subsection we consider the diffeology on path spaces and similar constructions of a smooth manifold $M$. \cite{naef2019string} do not explain the diffeological structure on the path space which one should use for their argument. We propose a diffeological structure on the path space that is suitable for our computations and discuss the relation between its de Rham cohomology and singular cohomology. 
 
-A first attempt for a diffeology on the path space $PM$ of $M$ is to use the mapping space diffeology of maps from $I\to M$, as in \cref{prop:diffeology-mapping-space}. The smooth maps from $I$ to $M$ in the diffeological sense are the smooth maps in the classical sense. In this sense, a map $U\to PM$ is a plot if the adjoint map $U\times I\to M$ is smooth. However we want to model the concatenation of paths $c\colon PM\times_M PM\to PM$, and in general the concatenation of two smooth paths is not smooth. Similarly we want to model the splitting map $s\colon I\times LM\to C^0(\ocircle_2, M)$ from \cref{subsec:loop-coproduct-classical}. Thus we need to equip the path and loop space with a diffeological structure such that these maps are smooth. We are unaware of a construction in the literature which provides this. The original construction by Chen \cite{chen1977iterated} is in terms of the diffeological mapping space. There is a another construction due to Gugenheim \cite{gugenheim1977chen}, but with this construction the splitting map is not smooth.
+A first attempt for a diffeology on the path space $PM$ of $M$ is to use the mapping space diffeology of maps from $I\to M$, as in \cref{prop:diffeology-mapping-space}. The smooth maps from $I$ to $M$ in the diffeological sense are the smooth maps in the classical sense. In this sense, a map $U\to PM$ is a plot if the adjoint map $U\times I\to M$ is smooth. However we want to model the concatenation of paths $c\colon PM\times_M PM\to PM$, and in general the concatenation of two smooth paths is not smooth. Similarly we want to model the splitting map $s\colon I\times LM\to C^0(\ocircle_2, M)$ from \cref{subsec:loop-coproduct-classical}. Thus we need to equip the path and loop space with a diffeological structure such that these maps are smooth. We are unaware of a construction in the literature which provides this. The original construction by Chen \cite{chen1977iterated} is in terms of the diffeological mapping space. The construction due to Gugenheim \cite{gugenheim1977chen}, which uses piecewise smooth paths, does not yield a smooth splitting map.
 
 We use piecewise smooth paths, following \cite{stacey2017smooth}. 
 \begin{definition}
     We denote by $C^\infty_{ps}(I, M)$ the space of piecewise smooth paths in $M$. We denote by $C^\infty_{ps, b}(I, M)$ be the spaces of piecewise smooth paths in $M$ resp.~piecewise smooth paths with bounded derivatives in $M$, that is, each derivative is a bounded function on its domain of definition.
 \end{definition}
 In \cite{stacey2017smooth}, these spaces are equipped with natural topologies and it is shown that there is a homotopy equivalence between $C^\infty_{ps, b}(I, M)$ and $C^0(I, M)$. Similarly, one can define a topology and diffeology on the loop space.
-\begin{remark}
+\begin{remark}\label{rmk:noncts-s1-action}
     Following \cite{stacey2017smooth}, we warn that the circle action $LM\times S^1\to LM$ and reparametrization maps $PM\to PM$ via piecewise smooth maps $I\to I$ do not induce continuous maps on the spaces of piecewise paths resp.~loops with respect to the topology that we have chosen. 
 \end{remark}
 
@@ -844,11 +844,11 @@ We are unaware of a proof in the literature that the space $\Map(G, M)$ is homot
     is a quasi-isomorphism. 
 \end{assumption}
 \begin{remark}
-Note that this assumption is only required in \cref{sec:cochain-models} and \cref{sec:loop-models} for statements involving the de Rham complex. We develop parallel results for the singular cochain complex, these do not require this assumption. 
+Note that this assumption is only required for statements involving the de Rham complex. We develop parallel results for the singular cochain complex, these do not require this assumption. 
 \end{remark}
 
 \begin{enumerate}[(1)]
-    \item In general, the de Rham map $$\Omega^*(X) \to C_\infty^*(X)$$ is not a quasi-isomorphism. Recall that the proof of the de Rham theorem in the case of smooth manifolds depends on structure of the manifold that is not available in the case of diffeological spaces, e.g.\ a locally finite covering with contractible spaces and contractible intersections. It appears to be folklore that the de Rham map is an isomorphism in the case of $LM$. 
+    \item In general, the de Rham map $$\Omega^*(X) \to C_\infty^*(X)$$ is not a quasi-isomorphism. Recall that the proof of the de Rham theorem in the case of smooth manifolds depends on structure of the manifold that is not available in the case of diffeological spaces, e.g.\ a locally finite covering with contractible spaces and contractible intersections. It appears to be folklore that the de Rham map is an isomorphism in the case of $LM$ with its mapping space diffeology. 
 
 Recall from \cref{thm:diffeological-de-rham-cw} that if $X$ is homotopy equivalent to a smooth CW complex, then the de Rham theorem map is an isomorphism. In particular this is the first part of \cref{thm:diffeological-quiso-singular}.
 
@@ -1023,7 +1023,7 @@ Let $I_{dR}\colon \Omega^*(F)\to C_\infty^*(F)$ be the de Rham map as in \cref{s
 \begin{proof}
     Let $\beta\in C^\infty_p(B)$, then
     \begin{align*}
-        \langle I_{dR}(\omega) / \alpha, \beta\rangle = \langle I_{dR}(\omega), \alpha\times \beta\rangle = \int_{\alpha\times \beta} \omega = \int_\beta \int_\alpha\omega = \langle I_{dR}\left(\int_{\alpha}\omega\right), \beta\rangle
+        \langle I_{dR}(\omega) / \alpha, \beta\rangle = \langle I_{dR}(\omega), \alpha\times \beta\rangle = \int_{\alpha\times \beta} \omega = \int_\beta \int_\alpha\omega = \left\langle I_{dR}\left(\int_{\alpha}\omega\right), \beta\right\rangle
     \end{align*}
 \end{proof}
 
@@ -1070,7 +1070,7 @@ With this we can easily show that the de Rham cohomology of diffeological spaces
 
 We are interested in the cohomology of the path space $PM$ of a manifold $M$ and more generally the mapping spaces from a graph into $M$. Here, $PM$ denotes the space of piecewise smooth paths in $M$, topologized by uniform convergence. More generally, for a finite graph $G$, the space $\Map(G, M)$ consists of maps from the associated topological space $G$ to $M$ which are piecewise smooth along the edges. This has the structure of a topological diffeological space (cf.\ \cref{subsec:diffeological}) and we can define the complex of de Rham forms $\Omega^*(\Map(G, M))$. By the discussion in \cref{subsec:diffeological-path-spaces} and \cref{assumption}, we will assume that $\Omega^*(\Map(G, M))$ is quasi-isomorphic to $C^*(C^0(G, M))$, the singular cochain complex of the space of continuous maps from $G$ to $M$. 
 
-Classically, a differential graded commutative algebra (DGCA) $A$ is called a DGCA model of another DGCA $A'$ if there exists a sequence of quasi-isomorphisms $A\to\dots\from A'$ such that each map is a map of DGCAs. A DGCA model of a space $X$ is defined to be a DGCA model of $\APL(X)$, the DGCA of polynomial forms on $X$, cf. \cite[ch. 10]{felix2012rational}. In this work we will call a model of a chain complex $C$ any chain complex $C'$ together with an isomorphism $C\quiso C'$ in the derived category of chain complexes $D(Ch(k))$. Similarly a model of a map $C\to C'$ is a commutative square in $D(Ch(k))$
+Classically, a differential graded commutative algebra (DGCA) $A$ is called a DGCA model of another DGCA $A'$ if there exists a sequence of quasi-isomorphisms $A\to\dots\from A'$ such that each map is a map of DGCAs. A DGCA model of a space $X$ is defined to be a DGCA model of $\APL(X)$, the DGCA of polynomial forms on $X$, cf. \cite[Ch. 10]{felix2012rational}. In this work we will call a model of a chain complex $C$ any chain complex $C'$ together with an isomorphism $C\quiso C'$ in the derived category of chain complexes $D(Ch(k))$. Similarly a model of a map $C\to C'$ is a commutative square in $D(Ch(k))$
 \begin{center}
 \begin{tikzcd}
     C \dar["\quiso"]\rar& C'\dar["\quiso"]\\
@@ -1760,7 +1760,7 @@ In particular there are quasi-isomorphisms as in \cref{lem:model-quasi-iso-examp
 
 
 \subsection{Concatenation and Splitting map}\label{subsec:model-concatenation} 
-Concatenating and splitting up paths is not modeled by the theory of the previous subsection. 
+Concatenating and splitting up paths is not modeled by the theory of the previous subsection. We model them algebraically in the following.
 
 The \emph{concatenation of paths} is defined as the map 
 \begin{align*}
@@ -1837,16 +1837,20 @@ The left hand side is the upper path of the square, the right hand side is the l
 \end{enumerate}
 \end{proof}
 
-The analogue for the simplicial cochain complex is the following diagram, which evidently commutes:
+The analogue for the simplicial cochain complex is the following
+\begin{proposition}
+    The following diagram commutes:
 \begin{center}
 \begin{tikzcd}
     B_s \dar["\bar c"]\rar["\alpha"] & C^*(M)\dar[equal] & \lar["const^*"] C^*(PM)\dar["c^*"] \\
     B_s\otimes_A B_s \rar & C^*(M) & \lar["const^*"] C^*(PM\times_M PM)
 \end{tikzcd}
 \end{center}
+\end{proposition}
 
+\ \\[0.5cm]
 
-Recall that the splitting of paths map is defined as
+Recall that the \emph{splitting map} is defined as
 \begin{align*} 
     s\colon I\times PM &\to PM\times_M PM\\
     s(t, \gamma)&=\left(r(\gamma|_{[0, t]}) , r(\gamma|_{[t, 1]})\right)
@@ -1856,14 +1860,15 @@ where $r$ is the reparametrization map which maps a path defined on any interval
 % \begin{remark}Recall that in order to even define $\Omega^*(LM)$, we have to use the smooth loop space. The concatenation of smooth loops $LM\times_M LM\to LM$ will generally not yield smooth loops. To fix this, we replace the smooth loop space with the subspace of smooth loops which are constant near $0\in S^1=\R/\Z$. One can show that this subspace is homotopy equivalent to the original smooth loop space, using a homotopy between the identity of $S^1$ and a map $S^1\to S^1$ which is constant near $0$. Similarly we replace $LM\times_M LM$ by the subspace of maps $S^1\vee S^1\to M$ which are constant near $0$ and similar replacements apply to $LM$. 
 % \end{remark}
 
-We introduce a model of the interval $\mathcal I = \R (1-t) \oplus \R t \oplus \R dt\subset \Omega^*(I)$, the space of Whitney forms on the interval. There is a projection 
+We introduce a model of the interval $\mathcal I = \R (1-t) \oplus \R t \oplus \R dt\subset \Omega^*(I)$, the cochain complex of \emph{Whitney forms on the interval}. There is a projection 
 \begin{align*}
     \Omega^*(I) &\to \mathcal I\\
     f&\mapsto f(0)(1-t) + f(1) t + \left(\int_I f\right) dt
 \end{align*}
 which is a quasi-isomorphism with quasi-inverse given by the inclusion $$\iota_{\mathcal I}\colon \mathcal I \subset \Omega^*(I).$$ 
 
-Recall from \cref{thm:path-models-0} that $\alpha\colon B\to A$ is given the direct summands of $B$ by the product for $n=0$ and $0$ for $n>0$.
+Recall from \cref{thm:path-models-0} that $\alpha\colon B\to A$ is given the direct summands of $B$ by the product for $n=0$ and $0$ for $n>0$. Similarly we can define a map $\alpha'\colon B\otimes_A B\to A$ which is induced by the composition $$B\otimes B\xto{\alpha\otimes \alpha} A\otimes A \to A,$$
+where the second map is the product on $A$.
 
 We model the splitting map $s$ by the map 
 \begin{align*}
@@ -1874,21 +1879,24 @@ We model the splitting map $s$ by the map
 \end{align*}
 for $a_i\in A, \gamma_1\in A[1]^{\otimes k}, \gamma_2\in A[1]^{\otimes l}$.
 
+For spaces $X, Y$ and forms $\omega_1\in\Omega^*(X), \omega_2\in\Omega^*(Y)$, we write $\omega_1\times\omega_2 = p_1^*\omega_1 \wedge p_2\omega_2\in\Omega^*(X\times Y)$, where $p_1\colon X\times Y\to X$ and $p_2\colon X\times Y\to Y$ are the projections. Similarly for $\omega_1\in C^*(X), \omega_2\in C^*(Y)$ we write $\omega_1\times\omega_2 = p_1^*\omega_1 \wedge p_2\omega_2\in C^*(X\times Y)$.
 
-We first consider the singular cochain complex. There we have the following diagram:
+We first consider the singular cochain complex. 
+\begin{proposition}\label{prop:splitting-model-singular}
+    Let $A=C^*(M)$. The following diagram commutes:
 \begin{center}
 \begin{tikzcd}
-    \mathcal I\otimes B \rar & C^*(I\times M) & \lar C^*(I\times PM) \\
-    B\otimes_A B \uar["\bar s"] \rar & C^*(M) \uar & \lar C^*(PM\times_M PM)\uar["s^*"] 
+    \mathcal I\otimes B_s \rar["\iota\times\alpha"] & C^*(I\times M) & \lar["(\id\times const)^*"] C^*(I\times PM) \\
+    B_s\otimes_A B_s \uar["\bar s"] \rar["\alpha'"] & C^*(M) \uar & \lar["const^*"] C^*(PM\times_M PM)\uar["s^*"]
 \end{tikzcd}
 \end{center}
-It is easy to see that this commutes and thus $s^*$ is modeled by $\bar s$ on the bar construction. 
+\end{proposition}
+Thus $s^*$ is modeled by $\bar s$ on the bar construction. 
 
-For spaces $X, Y$ and forms $\omega_1\in\Omega^*(X), \omega_2\in\Omega^*(Y)$, we write $\omega_1\times\omega_2 = p_1^*\omega_1 \wedge p_2\omega_2\in\Omega^*(X\times Y)$, where $p_1\colon X\times Y\to X$ and $p_2\colon X\times Y\to Y$ are the projections.
 
 The following theorem is adapted from \cite[Prop. 4.2]{naef2019string}. It shows that the splitting map is modeled by the map $\bar s$. 
 \begin{theorem}\label{thm:model-splitting}
-    The following diagrams commute in the derived category of chain complexes $D(Ch_\R)$:
+    Let $A=\Omega^*(M)$. The following diagrams commute in the derived category of chain complexes $D(Ch_\R)$:
 
     \begin{tikzcd}
         \mathcal I \otimes B \rar["\iota_{\mathcal I} \times I"] & \Omega^*(I\times PM) \\
@@ -1903,77 +1911,88 @@ The following theorem is adapted from \cite[Prop. 4.2]{naef2019string}. It shows
 All the horizontal maps are quasi-isomorphisms from \cref{thm:graph-mapping-space}.
 
 \begin{proof}
-    %This is stated in \cite{naef2019string} without proof. We give a detailed proof here. 
-    The second diagram follows from the first diagram, by a similar argument as in the proof of \cref{lem:model-concatenation}. Thus we only consider the first diagram.
-
-    We factor $s^*$ through $\mathcal I\otimes \Omega^*(PM)$. There is a quasi-isomorphism $\mathcal I\otimes\Omega^*(PM)\to \Omega^*(I\times PM)$ given by $\iota_{\mathcal I}\times\id$ with quasi-inverse and left inverse given by 
-    \begin{align*}
-        k\colon\Omega^*(I\times PM) &\to \mathcal I \otimes \Omega^*(PM) \\
-        \omega & \mapsto (1-t)\omega|_{t=0} + t\ \omega|_{t=1} + dt \int_I \omega
-    \end{align*}
-    where $\omega|_{t=0,1}$ is the image of $\omega$ under the pullback of the inclusion $PM\to I\times PM$ at $t=0$ resp.\ $t=1$.
-
-    Denote by $\epsilon_{0}$ resp.\ $\epsilon_1\colon PM\to PM\times_M PM$ the maps $\gamma\mapsto \mathrm{const}(\gamma(0))\times \gamma$ resp.\ $\gamma\mapsto \gamma\times \mathrm{const}(\gamma(1))$. The composition $\hat s = k\comp s^*$ is
-    \begin{align*}
-        \hat s\colon \Omega^*(PM\times_M PM)\to \mathcal I\otimes\Omega^*(PM)\\
-        \omega \mapsto (1-t)\ \epsilon_0^*(\omega) + t\ \epsilon_1^*(\omega) + dt \int_I s^*\omega
-    \end{align*}
-
-    In $D(Ch_{\R})$, the maps $k$ and $\iota_{\mathcal I}\times \id$ are inverses and hence $(\iota_{\mathcal I}\times \id)\comp \hat s = s^*$. Hence in $D(Ch_{\R})$, the map $s^*$ is  equal to the map
-    \begin{align*}
-        \hat s\colon \Omega^*(PM\times_M PM)\to \Omega^*(I\times PM)\\
-        \omega \mapsto (1-t)\ \epsilon_0^*(\omega) + t\ \epsilon_1^*(\omega) + dt \int_I s^*\omega
-    \end{align*}
-
-    Since the constant map $M\to PM$ is modeled by $\alpha$ from \cref{thm:path-models-0}, the maps $\epsilon_i$ are modeled by $\alpha\otimes\id$ resp.\ $\id\otimes\alpha\colon B\otimes_A B\to B$.
-    
-    It remains to give an algebraic model of the map $\omega\mapsto \int_I s^*\omega$. Let $r\colon \Delta^k\times\Delta^l\times I\to \Delta^{n+1}$, mapping $(s_1,\dots, s_k), (t_1,\dots, t_k), t\mapsto (ts_1, \dots, ts_k, t+(1-t)t_1, \dots, t+(1-t)t_l)$ and similarly $r'\colon \Delta^k\times I\times\Delta^l\to \Delta^{n+1}$, equal to $r$ up to swapping the factors. We consider the following diagram in the derived category, where $k+l=n$:
-    \[
-    \begin{tikzcd}[center picture]
-        \Omega^{*}(PM\times_M PM)\dar["s^*"] & \lar[swap, "\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times_M PM\times \Delta^k\times \Delta^l )\dar["(\id\times s)^*"] & \lar[swap, "ev_{k,l}"]  \Omega^{*+k+l}(M^{1+k+1+l+1})\dar[equal] \\
-        \Omega^{*}(PM\times I) \dar["\int_I"] &\lar[swap, "\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) \dar[equal] & \lar[swap, "(ev\comp (\id\times r)^*"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar[equal] \\
-        \Omega^{*-1}(PM) \dar["\pm\id"] & \lar[swap, "\int_{\Delta^k\times\Delta^l\times I}"] \dar \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) &\lar[swap, "(ev\comp (\id\times r)^*"]\dar \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
-        \Omega^{*-1}(PM) \dar[equal] & \lar[swap, "\int_{\Delta^k\times I\times \Delta^l}"] \dar["(\id\times r')^!"] \Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l) &\lar[swap, "(ev\comp (\id\times r')^*"]\dar["\id"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
-        \Omega^{*-1}(PM) & \lar[swap, "\int_{\Delta^{n+1}}"] \Omega^{*+n}(PM \times \Delta^{n+1}) &\lar[swap, "ev_{n+1}^*"] \Omega^{*+n}(M\times M^{n+1}\times M)
-    \end{tikzcd}
-    \]
-   
-    Everything except for the lower two squares commutes on the chain level. We cannot construct the umkehr map $(\id\times r')^!\colon\Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l)\to \Omega^{*+n}(PM\times \Delta^{n+1})$ via a fiber integral on the chain level, as we have done for other umkehr maps so far: $r'$ has finite fiber almost everywhere, but we have restricted ourselves to de Rham forms that are smooth and defined everywhere. We work in the derived category instead and pass to the singular cochain complex. 
-    
-    Let $p_{\Delta^k\times I\times\Delta^l}\colon M\times\Delta^k\times\Delta^l\times I \to M$ and $p_{\Delta^{n+1}}\colon M\times \Delta^{n+1}\to M$ be the projections. We replace the lower two squares with the quasi-isomorphic diagram
-    \begin{center}
-    \begin{tikzcd}
-        C^{*-1}(M) \dar[equal] & \lar[swap, "p_{\Delta^k\times I\times\Delta^l}^!"] C^{*+k+l}(M\times \Delta^k\times I\times\Delta^l) \dar["(\id\times r)^!"] & \lar[swap, "(\Delta\comp(\id\times r))^*"] C^{*+k+l}(M^{1+k+1+l+1}) \dar["\pm\id"]\\
-        C^{*-1}(M) & \lar[swap, "p_{\Delta^{n+1}}^!"] C^{*+n}(M\times \Delta^{n+1}) &\lar[swap, "\Delta^*"] C^{*+n}(M^{1+(n+1)+1})
-    \end{tikzcd}
-    \end{center}
-    The umkehr map in the center can be constructed in $D(Ch_\R)$, because both spaces satisfy Poincaré duality relative to their boundary, compare \cref{subsec:umkehr_maps_via_pd}. 
-    We then construct the map $\Omega^{*+k+l}(\Delta^k\times I\times \Delta^l\times PM)\to \Omega^{*+n}(\Delta^{n+1}\times PM)$ in $D(Ch(\R))$ as the map in the center, taken through the isomorphisms between the diagrams. Since umkehr maps compose, the left square commutes. To compute the umkehr map $r'^!$, since the map $r'\colon (\Delta^k\times I\times \Delta^l, \partial \Delta^k\times I\times \Delta^l)\to (\Delta^{n+1}, \Delta^{n+1})$ preserves the orientation, the fundamental class is preserved by $r_*$. So $r^!$ maps $1$ to $1$ and since both spaces are contractible, this determines $r^!$ uniquely in the derived category. On the other hand, $r^*$ maps $1$ to $1$, hence the composition is $r'^! r'^* = \id$. Taking the umkehr map commutes with the cross product up to sign (cf.~\cite[Prop. 14.3]{bredon2013topology} and one can show $(\id\times r')^!(\id\times r')^* = \id$. This shows that the right diagram commutes. 
-
-    Thus we have shown that the following commutes in $D(Ch(k))$: 
-
+    The analogous version of Diagram \ref{prop:splitting-model-singular} for the de Rham complex also commutes:
     \begin{center}
         \begin{tikzcd}
-        \Omega^*(PM\times_M PM)\dar["\int_I s^*\omega"] &\lar B\otimes_A B \dar \\
-        \Omega^{*-1}(PM) & \lar B[-1]
-    \end{tikzcd}
+            \mathcal I\otimes B \rar["\iota\times\alpha"] & \Omega^*(I\times M) & \lar["(\id\times const)^*"] \Omega^*(I\times PM) \\
+            B\otimes_A B \uar["\bar s"] \rar["\alpha'"] & \Omega^*(M) \uar & \lar["const^*"] \Omega^*(PM\times_M PM)\uar["s^*"] 
+        \end{tikzcd}
     \end{center}
-    where the right vertical map is $a_1(\gamma_1)a_2(\gamma_2)a_3 \mapsto (-1)^{\abs{a_1\gamma_1a_2}} a_1(\gamma_1|a_2|\gamma_2)a_3$. Hence we are done.
+    Since the vertical composition is given by $I$ in the derived category, this shows the first part. 
+
+    The second diagram follows from the first diagram, by a similar argument as in the proof of \cref{lem:model-concatenation}. 
+    
+    % Thus we only consider the first diagram.
+
+    % We factor $s^*$ through $\mathcal I\otimes \Omega^*(PM)$. There is a quasi-isomorphism $\mathcal I\otimes\Omega^*(PM)\to \Omega^*(I\times PM)$ given by $\iota_{\mathcal I}\times\id$ with quasi-inverse and left inverse given by 
+    % \begin{align*}
+    %     k\colon\Omega^*(I\times PM) &\to \mathcal I \otimes \Omega^*(PM) \\
+    %     \omega & \mapsto (1-t)\omega|_{t=0} + t\ \omega|_{t=1} + dt \int_I \omega
+    % \end{align*}
+    % where $\omega|_{t=0,1}$ is the image of $\omega$ under the pullback of the inclusion $PM\to I\times PM$ at $t=0$ resp.\ $t=1$.
+
+    % Denote by $\epsilon_{0}$ resp.\ $\epsilon_1\colon PM\to PM\times_M PM$ the maps $\gamma\mapsto \mathrm{const}(\gamma(0))\times \gamma$ resp.\ $\gamma\mapsto \gamma\times \mathrm{const}(\gamma(1))$. The composition $\hat s = k\comp s^*$ is
+    % \begin{align*}
+    %     \hat s\colon \Omega^*(PM\times_M PM)\to \mathcal I\otimes\Omega^*(PM)\\
+    %     \omega \mapsto (1-t)\ \epsilon_0^*(\omega) + t\ \epsilon_1^*(\omega) + dt \int_I s^*\omega
+    % \end{align*}
+
+    % In $D(Ch_{\R})$, the maps $k$ and $\iota_{\mathcal I}\times \id$ are inverses and hence $(\iota_{\mathcal I}\times \id)\comp \hat s = s^*$. Hence in $D(Ch_{\R})$, the map $s^*$ is  equal to the map
+    % \begin{align*}
+    %     \hat s\colon \Omega^*(PM\times_M PM)\to \Omega^*(I\times PM)\\
+    %     \omega \mapsto (1-t)\ \epsilon_0^*(\omega) + t\ \epsilon_1^*(\omega) + dt \int_I s^*\omega
+    % \end{align*}
+
+    % Since the constant map $M\to PM$ is modeled by $\alpha$ from \cref{thm:path-models-0}, the maps $\epsilon_i$ are modeled by $\alpha\otimes\id$ resp.\ $\id\otimes\alpha\colon B\otimes_A B\to B$.
+    
+    % It remains to give an algebraic model of the map $\omega\mapsto \int_I s^*\omega$. Let $r\colon \Delta^k\times\Delta^l\times I\to \Delta^{n+1}$, mapping $(s_1,\dots, s_k), (t_1,\dots, t_k), t\mapsto (ts_1, \dots, ts_k, t+(1-t)t_1, \dots, t+(1-t)t_l)$ and similarly $r'\colon \Delta^k\times I\times\Delta^l\to \Delta^{n+1}$, equal to $r$ up to swapping the factors. We consider the following diagram in the derived category, where $k+l=n$:
     % \[
     % \begin{tikzcd}[center picture]
-    %     \Omega^*(PM\times_M PM) \dar & \lar \Omega^{*+k+l}((\Delta^k\times PM) \times_M(\Delta^k\times PM)) \dar & \lar \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar \\
-    %     \Omega^{*}(PM\times_M PM)\dar & \lar[swap, "\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(\Delta^k\times \Delta^l \times PM\times_M PM)\dar & \lar  \Omega^{*+k+l}(M^{1+k+1+l+1})\dar \\
-    %     \Omega^{*}(I\times PM) \dar["\id"] &\lar[swap, "\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(\Delta^k\times\Delta^l\times I\times PM) \dar["\wedge dt"] & \lar \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar["\wedge dt"] \\
-    %     \Omega^{*}(I\times PM) \dar["\id"] & \lar[swap, "\int_{\Delta^k\times\Delta^l\times I}"] \dar \Omega^{*+k+l+1}(\Delta^{k}\times\Delta^l\times I\times I \times PM) &\lar\dar \Omega^{*+k+l+1}(I\times M^{1+k+1+l+1}) \\
-    %     \Omega^{*}(I\times PM) & \lar[swap, "\int_{\Delta^{n+1}}"] \Omega^{*+n+1}(\Delta^{n+1} \times I\times PM) &\lar \Omega^{*+n+1}(I\times M\times M^{n+1}\times M)
+    %     \Omega^{*}(PM\times_M PM)\dar["s^*"] & \lar[swap, "\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times_M PM\times \Delta^k\times \Delta^l )\dar["(\id\times s)^*"] & \lar[swap, "ev_{k,l}"]  \Omega^{*+k+l}(M^{1+k+1+l+1})\dar[equal] \\
+    %     \Omega^{*}(PM\times I) \dar["\int_I"] &\lar[swap, "\int_{\Delta^k\times\Delta^l}"] \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) \dar[equal] & \lar[swap, "(ev\comp (\id\times r)^*"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \dar[equal] \\
+    %     \Omega^{*-1}(PM) \dar["\pm\id"] & \lar[swap, "\int_{\Delta^k\times\Delta^l\times I}"] \dar \Omega^{*+k+l}(PM\times I\times \Delta^k\times\Delta^l) &\lar[swap, "(ev\comp (\id\times r)^*"]\dar \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
+    %     \Omega^{*-1}(PM) \dar[equal] & \lar[swap, "\int_{\Delta^k\times I\times \Delta^l}"] \dar["(\id\times r')^!"] \Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l) &\lar[swap, "(ev\comp (\id\times r')^*"]\dar["\id"] \Omega^{*+k+l}(M^{1+k+1+l+1}) \\
+    %     \Omega^{*-1}(PM) & \lar[swap, "\int_{\Delta^{n+1}}"] \Omega^{*+n}(PM \times \Delta^{n+1}) &\lar[swap, "ev_{n+1}^*"] \Omega^{*+n}(M\times M^{n+1}\times M)
     % \end{tikzcd}
     % \]
+   
+    % Everything except for the lower two squares commutes on the chain level. We cannot construct the umkehr map $(\id\times r')^!\colon\Omega^{*+k+l}(PM\times \Delta^k\times I\times\Delta^l)\to \Omega^{*+n}(PM\times \Delta^{n+1})$ via a fiber integral on the chain level, as we have done for other umkehr maps so far: $r'$ has finite fiber almost everywhere, but we have restricted ourselves to de Rham forms that are smooth and defined everywhere. We work in the derived category instead and pass to the singular cochain complex. 
+    
+    % Let $p_{\Delta^k\times I\times\Delta^l}\colon M\times\Delta^k\times\Delta^l\times I \to M$ and $p_{\Delta^{n+1}}\colon M\times \Delta^{n+1}\to M$ be the projections. We replace the lower two squares with the quasi-isomorphic diagram
+    % \begin{center}
     % \begin{tikzcd}
-    %     \Omega^{*+1}(PM\times_M PM) \dar & \lar\dar B\otimes_A B\\
-    %     \Omega^{*+1}(I\times PM) \dar & \lar\dar  \mathcal I \otimes B \\
-    %     \Omega^*(PM) & \lar B
+    %     C^{*-1}(M) \dar[equal] & \lar[swap, "p_{\Delta^k\times I\times\Delta^l}^!"] C^{*+k+l}(M\times \Delta^k\times I\times\Delta^l) \dar["(\id\times r)^!"] & \lar[swap, "(\Delta\comp(\id\times r))^*"] C^{*+k+l}(M^{1+k+1+l+1}) \dar["\pm\id"]\\
+    %     C^{*-1}(M) & \lar[swap, "p_{\Delta^{n+1}}^!"] C^{*+n}(M\times \Delta^{n+1}) &\lar[swap, "\Delta^*"] C^{*+n}(M^{1+(n+1)+1})
     % \end{tikzcd}
+    % \end{center}
+    % The umkehr map in the center can be constructed in $D(Ch_\R)$, because both spaces satisfy Poincaré duality relative to their boundary, compare \cref{subsec:umkehr_maps_via_pd}. 
+    % We then construct the map $\Omega^{*+k+l}(\Delta^k\times I\times \Delta^l\times PM)\to \Omega^{*+n}(\Delta^{n+1}\times PM)$ in $D(Ch(\R))$ as the map in the center, taken through the isomorphisms between the diagrams. Since umkehr maps compose, the left square commutes. To compute the umkehr map $r'^!$, since the map $r'\colon (\Delta^k\times I\times \Delta^l, \partial \Delta^k\times I\times \Delta^l)\to (\Delta^{n+1}, \Delta^{n+1})$ preserves the orientation, the fundamental class is preserved by $r_*$. So $r^!$ maps $1$ to $1$ and since both spaces are contractible, this determines $r^!$ uniquely in the derived category. On the other hand, $r^*$ maps $1$ to $1$, hence the composition is $r'^! r'^* = \id$. Taking the umkehr map commutes with the cross product up to sign (cf.~\cite[Prop. 14.3]{bredon2013topology} and one can show $(\id\times r')^!(\id\times r')^* = \id$. This shows that the right diagram commutes. 
+
+    % Thus we have shown that the following commutes in $D(Ch(k))$: 
+
+    % \begin{center}
+    %     \begin{tikzcd}
+    %     \Omega^*(PM\times_M PM)\dar["\int_I s^*\omega"] &\lar B\otimes_A B \dar \\
+    %     \Omega^{*-1}(PM) & \lar B[-1]
+    % \end{tikzcd}
+    % \end{center}
+    % where the right vertical map is $a_1(\gamma_1)a_2(\gamma_2)a_3 \mapsto (-1)^{\abs{a_1\gamma_1a_2}} a_1(\gamma_1|a_2|\gamma_2)a_3$. Hence we are done.
 \end{proof}
+\begin{remark}
+    In \cite{naef2019string} it is stated without proof that one can obtain a chain level commutative diagram 
+    \begin{center}
+    \begin{tikzcd}
+        \mathcal I \otimes B \rar & \mathcal I \otimes \Omega^*(PM) \\
+        B\otimes_A B \rar["I"] \uar[swap, "\bar s"] &\Omega^*(PM\times_M PM) \uar[swap, "s^*"]
+    \end{tikzcd}
+    \end{center}
+    We caution that if one attempts a similar proof as in \cref{lem:model-concatenation}, one is lead to taking the umkehr map of the map 
+    \begin{align*}
+        r\colon &\Delta^k\times I\times\Delta^l\to \Delta^{n+1}\\
+        &(s_1,\dots, s_k), t, (t_1,\dots, t_k)\mapsto (ts_1, \dots, ts_k, t, t+(1-t)t_1, \dots, t+(1-t)t_l).
+    \end{align*}
+    for $k$ and $l$ with $k+l=n$. This map has finite fiber outside the boundary, hence its fiber integral is almost everywhere given by a finite sum. However we are restricted to differential forms which are defined everywhere, including the boundary. The statement on derived chain complexes is good enough for our purposes. 
+\end{remark}
 
 \begin{remark}
     In \cite{naef2019string} it is also stated that the wedge product on $\Omega^*(PM)$ corresponds to the shuffle product $\shuffle$ on $\BC(\Omega^*(M), \Omega^*(M), \Omega^*(M))$:
@@ -2739,14 +2758,22 @@ where $[S^1]$ represents the fundamental class of $S^1$ and $\rho\colon S^1\time
 
 The co-BV operator on the Hochschild complex $CH_*(A, A) = B\otimes_{A\otimes A} A$ is given by $$\BC(a_0, \dots, a_n) = \sum_{j=0}^n \pm a_j\otimes  a_{j+1}\otimes  \dots\otimes  a_n\otimes  a_0\otimes  \dots \otimes a_{j-1} \otimes 1$$
 
+\begin{remark}
+    We recall that in \cref{rmk:noncts-s1-action} we cautioned that the map $\rho$ is neither smooth nor continuous using our definition of the piecewise smooth path space. For the first part of \cref{thm:bv-iso} we optimistically assume that one can give a better definition of this space which fixes the issues from \cref{rmk:noncts-s1-action}. The statement on the singular cochain complex is true regardless of this discussion. 
+\end{remark}
+
 \begin{theorem}\label{thm:bv-iso}
-    If $M$ is simply connected and $A$ is a Frobenius algebra model of $M$, the operators $B$ and $\Delta^{BV}$, as maps of derived chain complexes, are intertwined by the iterated integral map $B\otimes_{A^{\otimes 2}} A \xto{\quiso}\Omega^*(LM)$. Similarly the operators $B$ and $\Delta^{BV}$ on $C^*(LM)$ are intertwined by the zigzag of quasi-isomorphisms $B\otimes_{A^{\otimes 2}} A \quiso C^*(LM)$. 
+    Let $M$ be a closed oriented simply connected manifold.
+    \begin{enumerate}
+    \item The operators $B$ on $B\otimes_{A^{\otimes 2}} A$ and $\Delta^{BV}$ on $\Omega^*(LM)$ on $B\otimes_{A\otimes A} A$, as maps of derived chain complexes, are intertwined  by the iterated integral map $B\otimes_{A^{\otimes 2}} A \xto{\quiso}\Omega^*(LM)$. 
+    \item Similarly the operators $B$ and $\Delta^{BV}$ on $C^*(LM)$ are intertwined by the zigzag of quasi-isomorphisms $B\otimes_{A^{\otimes 2}} A \quiso C^*(LM)$. 
+    \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-    We only show this for $\Omega^*$, for $C^*$ the proof is similar. 
+    We only show this for $\Omega^*$, for $C^*$ the proof is similar: the fiber integral is replaced with the slant product with the fundamental class and the iterated integral map $I$ is replaced by the zigzags of \cref{thm:graph-mapping-space-singular}.
 
-Following \cite{naef2019string}, we represent the action $\rho$ on $LM$ using the splitting map $s\colon I \times LM\to\Map(\ocircle_2, M)$ from \cref{thm:model-splitting}. Translating a loop by $t$ is the same as composing its restriction to $[t, 1]$ with its restriction to $[0, t]$. This shows that in the following diagram, the right part commutes up to homotopy (since the paths are reparametrized).
+Following \cite[4.3]{naef2019string}, we represent the action $\rho$ on $LM$ using the splitting map $s\colon I \times LM\to\Map(\ocircle_2, M)$ from \cref{thm:model-splitting}. Translating a loop by $t$ is the same as composing its restriction to $[t, 1]$ with its restriction to $[0, t]$. This shows that in the following diagram, the right part commutes up to homotopy (since the paths are reparametrized).
 
 \begin{center}
 \begin{tikzcd}
@@ -2754,7 +2781,7 @@ Following \cite{naef2019string}, we represent the action $\rho$ on $LM$ using th
     &\ar[ul] S^1\times LM\ar[rrru, bend right=10, "\rho"]
 \end{tikzcd}
 \end{center}
-Here $\tau$ exchanges the two parts of the circle and $c$ is the concatenation map. The left part is the projection to $LM$. Using the models we have obtained so far, we can represent this on differential forms. Letting $\gamma\in B, a\in A$ and representing the coproduct as $\sum \gamma'\otimes\gamma''$, we obtain 
+Here $\tau$ exchanges the two parts of the circle and $c$ is the concatenation map. The left part is the projection to $LM$. Using the models we have obtained so far, we can represent the upper horizontal composition on differential forms. Letting $\gamma\in B, a\in A$ and representing the deconcatenation coproduct on $B$ as $\sum \gamma'\otimes\gamma''$, we obtain 
 
 \begin{center}
 \begin{tikzcd}
@@ -2785,6 +2812,7 @@ To show that the diagram commutes, let $\mathcal S = k\langle 1\rangle\oplus k\l
 where the maps into $\Omega^*(LM)$ are given by projecting $1\otimes \omega_1+dt\otimes\omega'$ resp.\ $1\otimes\omega_1+t\otimes \omega_2+dt\otimes \omega'$ to $\omega'$. The pullback $\Omega^*(S^1\times LM)\to \Omega^(\mathcal S\times LM)$ is modeled by the inclusion $\mathcal S\to\mathcal I$. This diagram commutes on the chain level. The quasi-isomorphisms from this into Diagram \ref{diag:pf-bv-iso} give rise to three squares which commute on the chain level. This shows that Diagram \ref{diag:pf-bv-iso} commutes in $D(Ch)$.
 \end{proof}
 
+
 \begin{corollary}
     If $M$ is a simply connected closed oriented manifold, the loop coproduct and $\Delta^{BV}$ form a co-BV algebra on $H^*(LM)$.
 \end{corollary}
@@ -2797,15 +2825,15 @@ where the maps into $\Omega^*(LM)$ are given by projecting $1\otimes \omega_1+dt
 
 \subsection[Example: The three-dimensional Sphere]{Example: $S^3$}
 
-For $S^3$, the explicit Frobenius algebra model $A$ is as graded vector spaces generated by an element $1$ of degree $0$ and $e$ of degree $n=3$, with zero differential. The product is determined by noting that $1$ is the unit and the coproduct is given by $1\mapsto 1\otimes e + (-1)^n e\otimes 1$. 
+For $S^3$, the explicit Frobenius algebra model $A$ is as graded vector spaces generated by an element $1$ of degree $0$ and $e$ of degree $n=3$, with zero differential. The product is determined by noting that $1$ is the unit and the coproduct is given by $1\mapsto 1\otimes e + (-1)^n e\otimes 1$ and $e\mapsto e\otimes e$. 
 
 To compute the Hochschild complex, we can replace $\BC(A, A, A)$ with the normalized bar construction $$\hat B = \nBC(A, A, A) = \bigoplus_{n\geq 0} A\otimes \bar A^{\otimes n} \otimes A$$
-where $\bar A = A/\langle 1\rangle$. Thus to compute the cohomology of $LS^n$ for $n=2,3$ we can compute the cohomology of $\hat B\otimes_{A^{\otimes 2}} A$. This is generated as a graded vector space by the $(k+3)$-fold product $1 \otimes e\otimes\dots\otimes e\otimes 1 \otimes e \eqdef e^{k-1} e\in (A\otimes \bar A^{k}\otimes A)\otimes_{A^2} A$ of degree $k(n-1)+n$ and the $k+3$-fold product $1\otimes e\otimes\dots\otimes e\otimes 1 \otimes 1 \eqdef e^{k} 1$ of degree $k(n-1)$ for $k\geq 1$. The differential maps 
+where $\bar A = A/\langle 1\rangle$. Thus to compute the cohomology of $LS^n$ for $n=2,3$ we can compute the cohomology of $\hat B\otimes_{A^{\otimes 2}} A$. This is generated as a graded vector space by the $(k+3)$-fold product $1 \otimes e\otimes\dots\otimes e\otimes 1 \otimes e \eqdef e^{k} e\in (A\otimes \bar A^{k}\otimes A)\otimes_{A^2} A$ of degree $k(n-1)+n$ and the $k+3$-fold product $1\otimes e\otimes\dots\otimes e\otimes 1 \otimes 1 \eqdef e^{k} 1$ of degree $k(n-1)$ for $k\geq 1$. The differential maps 
 \begin{align*}
     e^k e &\mapsto 0 \\
     e^k 1 &\mapsto (-1)^{nk} e^{k} e + (-1)^{k} e^{k-1} e
 \end{align*}
-For odd $n$ this is $0$. Thus the cohomology of $LS^3$ has dimension $1$ in the dimensions $(k-1)(n-1)$ and $(k-1)(n-1)+n$ for $k\geq 1$ and $0$ in other degrees. The coproduct maps 
+For odd $n$ this is $0$. Thus the cohomology of $LS^3$ has dimension $1$ in the dimensions $(k-1)(n-1)$ and $(k-1)(n-1)+n$ for $k\geq 1$ and $0$ in other degrees. The coproduct which corresponds to the loop product is given by 
 \begin{align*}
     e^{k} e &\mapsto \sum_{l=0}^k \pm e^{l} e \otimes e^{k-l} e \\
     e^{k} 1 &\mapsto \sum_{l=0}^k \pm e^{l} 1 \otimes e^{k-l} e \pm e^{l} e \otimes e^{k-l} 1
@@ -4587,7 +4615,9 @@ This is \cite[14.1]{Strom2011ModernCH}.
 % \newpage
 % \printindex
 
-\cleardoublepage
+\newpage~
+\thispagestyle{empty}
+\newpage
 \thispagestyle{empty}
 
 \section*{Selbstständigkeitserklärung}
